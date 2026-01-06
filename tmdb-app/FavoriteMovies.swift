@@ -30,5 +30,6 @@ struct FavoriteMovies: Codable {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
+    //tests
 }
 
