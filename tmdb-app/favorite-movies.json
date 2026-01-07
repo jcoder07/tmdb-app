@@ -1,87 +1,87 @@
-{
-    "page": 1,
-    "results": [
-        {
-            "adult": false,
-            "backdrop_path": "/gxSVZCUlDd8upT1G2wdrUdz2hxG.jpg",
-            "genre_ids": [
-                28,
-                80,
-                35
-            ],
-            "id": 8961,
-            "original_language": "en",
-            "original_title": "Bad Boys II",
-            "overview": "Detectives Marcus Burnett and Mike Lowrey of the Miami Narcotics Task Force are tasked with stopping the flow of the drug Ecstasy into Miami. They track the drugs to the whacked-out Cuban drug lord Johnny Tapia, who is also involved in a bloody war with Russian and Haitian mobsters. If that isn't bad enough, there's tension between the two detectives when Marcus discovers that playboy Mike is secretly romancing Marcus’ sister, Syd.",
-            "popularity": 7.7837,
-            "poster_path": "/yCvB5fG5aEPqa1St7ihY6KEAsHD.jpg",
-            "release_date": "2003-07-18",
-            "title": "Bad Boys II",
-            "video": false,
-            "vote_average": 6.655,
-            "vote_count": 5772
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/piXBj3FKEGNb6XCfAM7w5s4BI7O.jpg",
-            "genre_ids": [
-                18,
-                28,
-                10752
-            ],
-            "id": 616,
-            "original_language": "en",
-            "original_title": "The Last Samurai",
-            "overview": "Nathan Algren is an American hired to instruct the Japanese army in the ways of modern warfare, which finds him learning to respect the samurai and the honorable principles that rule them. Pressed to destroy the samurai's way of life in the name of modernization and open trade, Algren decides to become an ultimate warrior himself and to fight for their right to exist.",
-            "popularity": 9.8719,
-            "poster_path": "/a8jmJPs5eZBARmnuEEvZwbjwyz4.jpg",
-            "release_date": "2003-12-05",
-            "title": "The Last Samurai",
-            "video": false,
-            "vote_average": 7.597,
-            "vote_count": 7303
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
-            "genre_ids": [
-                28,
-                878,
-                12
-            ],
-            "id": 1726,
-            "original_language": "en",
-            "original_title": "Iron Man",
-            "overview": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
-            "popularity": 19.9054,
-            "poster_path": "/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
-            "release_date": "2008-04-30",
-            "title": "Iron Man",
-            "video": false,
-            "vote_average": 7.655,
-            "vote_count": 27604
-        },
-        {
-            "adult": false,
-            "backdrop_path": "/jhk6D8pim3yaByu1801kMoxXFaX.jpg",
-            "genre_ids": [
-                28,
-                18,
-                12
-            ],
-            "id": 98,
-            "original_language": "en",
-            "original_title": "Gladiator",
-            "overview": "After the death of Emperor Marcus Aurelius, his devious son takes power and demotes Maximus, one of Rome's most capable generals who Marcus preferred. Eventually, Maximus is forced to become a gladiator and battle to the death against other men for the amusement of paying audiences.",
-            "popularity": 18.732,
-            "poster_path": "/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
-            "release_date": "2000-05-04",
-            "title": "Gladiator",
-            "video": false,
-            "vote_average": 8.2,
-            "vote_count": 20361
-        }
-    ],
-    "total_pages": 1,
-    "total_results": 4
-}
+//{
+//    "page": 1,
+//    "results": [
+//        {
+//            "adult": false,
+//            "backdrop_path": "/gxSVZCUlDd8upT1G2wdrUdz2hxG.jpg",
+//            "genre_ids": [
+//                28,
+//                80,
+//                35
+//            ],
+//            "id": 8961,
+//            "original_language": "en",
+//            "original_title": "Bad Boys II",
+//            "overview": "Detectives Marcus Burnett and Mike Lowrey of the Miami Narcotics Task Force are tasked with stopping the flow of the drug Ecstasy into Miami. They track the drugs to the whacked-out Cuban drug lord Johnny Tapia, who is also involved in a bloody war with Russian and Haitian mobsters. If that isn't bad enough, there's tension between the two detectives when Marcus discovers that playboy Mike is secretly romancing Marcus’ sister, Syd.",
+//            "popularity": 7.7837,
+//            "poster_path": "/yCvB5fG5aEPqa1St7ihY6KEAsHD.jpg",
+//            "release_date": "2003-07-18",
+//            "title": "Bad Boys II",
+//            "video": false,
+//            "vote_average": 6.655,
+//            "vote_count": 5772
+//        },
+//        {
+//            "adult": false,
+//            "backdrop_path": "/piXBj3FKEGNb6XCfAM7w5s4BI7O.jpg",
+//            "genre_ids": [
+//                18,
+//                28,
+//                10752
+//            ],
+//            "id": 616,
+//            "original_language": "en",
+//            "original_title": "The Last Samurai",
+//            "overview": "Nathan Algren is an American hired to instruct the Japanese army in the ways of modern warfare, which finds him learning to respect the samurai and the honorable principles that rule them. Pressed to destroy the samurai's way of life in the name of modernization and open trade, Algren decides to become an ultimate warrior himself and to fight for their right to exist.",
+//            "popularity": 9.8719,
+//            "poster_path": "/a8jmJPs5eZBARmnuEEvZwbjwyz4.jpg",
+//            "release_date": "2003-12-05",
+//            "title": "The Last Samurai",
+//            "video": false,
+//            "vote_average": 7.597,
+//            "vote_count": 7303
+//        },
+//        {
+//            "adult": false,
+//            "backdrop_path": "/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
+//            "genre_ids": [
+//                28,
+//                878,
+//                12
+//            ],
+//            "id": 1726,
+//            "original_language": "en",
+//            "original_title": "Iron Man",
+//            "overview": "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
+//            "popularity": 19.9054,
+//            "poster_path": "/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+//            "release_date": "2008-04-30",
+//            "title": "Iron Man",
+//            "video": false,
+//            "vote_average": 7.655,
+//            "vote_count": 27604
+//        },
+//        {
+//            "adult": false,
+//            "backdrop_path": "/jhk6D8pim3yaByu1801kMoxXFaX.jpg",
+//            "genre_ids": [
+//                28,
+//                18,
+//                12
+//            ],
+//            "id": 98,
+//            "original_language": "en",
+//            "original_title": "Gladiator",
+//            "overview": "After the death of Emperor Marcus Aurelius, his devious son takes power and demotes Maximus, one of Rome's most capable generals who Marcus preferred. Eventually, Maximus is forced to become a gladiator and battle to the death against other men for the amusement of paying audiences.",
+//            "popularity": 18.732,
+//            "poster_path": "/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
+//            "release_date": "2000-05-04",
+//            "title": "Gladiator",
+//            "video": false,
+//            "vote_average": 8.2,
+//            "vote_count": 20361
+//        }
+//    ],
+//    "total_pages": 1,
+//    "total_results": 4
+//}

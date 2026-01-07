@@ -1,15 +1,15 @@
-{
-  "results": [
-    {
-      "id": 1,
-      "title": "Inception",
-      "vote_average": 8.8,
-      "genres": ["horror", "thiller"]
-    },
-    {
-      "id": 2,
-      "title": "Interstellar",
-      "vote_average": 8.6
-    }
-  ],
-}
+//{
+//  "results": [
+//    {
+//      "id": 1,
+//      "title": "Inception",
+//      "vote_average": 8.8,
+//      "genres": ["horror", "thiller"]
+//    },
+//    {
+//      "id": 2,
+//      "title": "Interstellar",
+//      "vote_average": 8.6
+//    }
+//  ],
+//}

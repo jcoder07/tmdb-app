@@ -1,78 +1,78 @@
-{
-  "id": 12345,
-  "uuid": "A3F1B9E2-7C44-4C1A-A91D-2A0C9A2C6B11",
-  "name": "Sample Response",
-  "is_active": true,
-  "created_at": "2025-01-01T12:30:45Z",
-
-  "rating": 4.75,
-  "views": 120034,
-  "optional_field": null,
-
-  "status": "approved",
-
-  "priority": 2,
-
-  "tags": ["swift", "decodable", "json", "exercise"],
-
-  "metadata": {
-    "source": "local",
-    "version": "1.0.0",
-    "debug": false
-  },
-
-  "statistics": {
-    "likes": 120,
-    "dislikes": 4,
-    "ratios": {
-      "like_ratio": 0.967,
-      "dislike_ratio": 0.033
-    }
-  },
-
-  "users": [
-    {
-      "id": 1,
-      "username": "alice",
-      "role": "admin",
-      "last_login": "2024-12-31T22:10:00Z",
-      "preferences": {
-        "notifications": 1,
-        "theme": "dark"
-      }
-    },
-    {
-      "id": 2,
-      "username": "bob",
-      "role": "user",
-      "last_login": null,
-      "preferences": {
-        "notifications": "false",
-        "theme": "light"
-      }
-    }
-  ],
-
-  "settings_map": {
-    "feature_a": true,
-    "feature_b": false,
-    "feature_c": true
-  },
-
-  "dynamic_values": {
-    "string_value": "hello",
-    "int_value": 42,
-    "double_value": 3.14,
-    "bool_value": false,
-    "null_value": null
-  },
-
-  "empty_array": [],
-  "empty_object": {},
-
-  "coordinates": [40.7128, -74.0060],
-
-  "extra_field_not_used": "this should be ignored"
-}
+//{
+//  "id": 12345,
+//  "uuid": "A3F1B9E2-7C44-4C1A-A91D-2A0C9A2C6B11",
+//  "name": "Sample Response",
+//  "is_active": true,
+//  "created_at": "2025-01-01T12:30:45Z",
+//
+//  "rating": 4.75,
+//  "views": 120034,
+//  "optional_field": null,
+//
+//  "status": "approved",
+//
+//  "priority": 2,
+//
+//  "tags": ["swift", "decodable", "json", "exercise"],
+//
+//  "metadata": {
+//    "source": "local",
+//    "version": "1.0.0",
+//    "debug": false
+//  },
+//
+//  "statistics": {
+//    "likes": 120,
+//    "dislikes": 4,
+//    "ratios": {
+//      "like_ratio": 0.967,
+//      "dislike_ratio": 0.033
+//    }
+//  },
+//
+//  "users": [
+//    {
+//      "id": 1,
+//      "username": "alice",
+//      "role": "admin",
+//      "last_login": "2024-12-31T22:10:00Z",
+//      "preferences": {
+//        "notifications": 1,
+//        "theme": "dark"
+//      }
+//    },
+//    {
+//      "id": 2,
+//      "username": "bob",
+//      "role": "user",
+//      "last_login": null,
+//      "preferences": {
+//        "notifications": "false",
+//        "theme": "light"
+//      }
+//    }
+//  ],
+//
+//  "settings_map": {
+//    "feature_a": true,
+//    "feature_b": false,
+//    "feature_c": true
+//  },
+//
+//  "dynamic_values": {
+//    "string_value": "hello",
+//    "int_value": 42,
+//    "double_value": 3.14,
+//    "bool_value": false,
+//    "null_value": null
+//  },
+//
+//  "empty_array": [],
+//  "empty_object": {},
+//
+//  "coordinates": [40.7128, -74.0060],
+//
+//  "extra_field_not_used": "this should be ignored"
+//}
 
 
