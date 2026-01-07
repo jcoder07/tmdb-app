@@ -109,7 +109,7 @@ final class TMDBAuthService {
 
     func createSession(
         requestToken: String,
-        completion: @escaping (Result<SessionResponse, Error>) -> Void
+        completion: @escaping (Result<CreateSessionResponse, Error>) -> Void
     ) {
 
         let urlString = "\(baseURL)/authentication/session/new?api_key=\(apiKey)"
@@ -143,7 +143,7 @@ final class TMDBAuthService {
             print(String(data: data, encoding: .utf8) ?? "No data")
 
             do {
-                let decoded = try JSONDecoder().decode(SessionResponse.self, from: data)
+                let decoded = try JSONDecoder().decode(CreateSessionResponse.self, from: data)
                 completion(.success(decoded))
             } catch {
                 completion(.failure(error))
@@ -151,42 +151,4 @@ final class TMDBAuthService {
 
         }.resume()
     }
-
-    // MARK: - Step 4: Create Session
-    
-    func createSession(
-        requestToken: String,
-        completion: @escaping (Result<CreateSessionResponse, Error>) -> Void
-    ) {
-
-        let urlString = "\(baseURL)/authentication/session/new?api_key=\(apiKey)"
-        guard let url = URL(string: urlString) else { return }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body: [String: Any] = [
-            "request_token": requestToken
-        ]
-
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else { return }
-
-            do {
-                let response = try JSONDecoder().decode(CreateSessionResponse.self, from: data)
-                completion(.success(response))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
-    }
-
 }

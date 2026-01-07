@@ -30,3 +30,4 @@ final class SessionManager {
         return getSession() != nil
     }
 }
+
