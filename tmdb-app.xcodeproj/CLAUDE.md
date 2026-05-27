@@ -13,7 +13,7 @@ Use the Xcode MCP tools for all build and test operations:
 
 ## Architecture
 
-UIKit-based iOS app with programmatic UI (no Storyboards for screens). All layout uses `NSLayoutConstraint` / `UIStackView`.
+Hybrid UIKit/SwiftUI app. UIKit owns navigation (`UINavigationController`, `SceneDelegate`), while each screen is a SwiftUI view embedded via `UIHostingController`. No Storyboards for screens.
 
 ### Authentication Flow
 
@@ -41,6 +41,6 @@ All three steps use completion-handler-based `URLSession.dataTask` calls (not as
 ## Known Issues / Notes
 
 - The TMDB API key is hardcoded in `TMDBAuthService`. Move it to a config file or environment variable before shipping.
-- `ITunesSearchResponse` and `Song` structs are currently defined inside `LoginControllerView.swift` — they belong in their own file.
+- `TMDBAuthService` is instantiated inline inside `loginTapped()`, not held as a property or injected.
 - UI strings are in Spanish (placeholders, button titles).
 - The login flow uses deeply nested completion handlers; consider refactoring to async/await.

@@ -1,5 +1,5 @@
 //
-//  Login.swift
+//  SessionManager.swift
 //  tmdb-app
 //
 //  Created by Juan Fernandez on 07-01-26.
@@ -7,10 +7,14 @@
 
 import Foundation
 
-final class SessionManager {
+protocol SessionManagerProtocol {
+    func saveSession(id: String)
+    func getSession() -> String?
+    func clearSession()
+    var isLoggedIn: Bool { get }
+}
 
-    static let shared = SessionManager()
-    private init() {}
+final class SessionManager: SessionManagerProtocol {
 
     private let sessionKey = "tmdb_session_id"
 
@@ -27,7 +31,6 @@ final class SessionManager {
     }
 
     var isLoggedIn: Bool {
-        return getSession() != nil
+        getSession() != nil
     }
 }
-

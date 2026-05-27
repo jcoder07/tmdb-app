@@ -9,6 +9,19 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
+    // MARK: - Dependencies
+
+    private let sessionManager: SessionManagerProtocol
+
+    init(sessionManager: SessionManagerProtocol) {
+        self.sessionManager = sessionManager
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: - UI Elements
 
     private let logoutButton: UIButton = {
@@ -64,9 +77,13 @@ final class HomeViewController: UIViewController {
     // MARK: - Actions
 
     @objc private func logoutTapped() {
-        SessionManager.shared.clearSession()
+        sessionManager.clearSession()
 
-        let loginVC = LoginViewController()
+        let loginVC = LoginViewController(sessionManager: sessionManager)
         navigationController?.setViewControllers([loginVC], animated: true)
+    }
+    
+    deinit {
+        print("HomeViewController deinit")
     }
 }
