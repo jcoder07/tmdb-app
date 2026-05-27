@@ -60,3 +60,6 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# API keys — copy Config.xcconfig.example → Config.xcconfig and fill in your key
+tmdb-app/Config.xcconfig

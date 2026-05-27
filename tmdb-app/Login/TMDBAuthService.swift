@@ -11,7 +11,7 @@ final class TMDBAuthService {
 
     // MARK: - Constants
 
-    private let apiKey = "TMDB_API_KEY_REDACTED"
+    private let apiKey = Bundle.main.infoDictionary?["TMDB_API_KEY"] as? String ?? ""
     private let baseURL = "https://api.themoviedb.org/3"
 
     // MARK: - Step 1: Create Request Token
