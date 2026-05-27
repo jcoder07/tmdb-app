@@ -123,17 +123,3 @@ final class LoginViewController: UIViewController {
     }
 }
 
-
-struct ITunesSearchResponse: Decodable {
-    let resultCount: Int
-    let results: [Song]
-}
-
-struct Song: Decodable {
-    let trackId: Int
-    let trackName: String
-    let artistName: String
-    let collectionName: String?
-    let previewUrl: URL?
-}
-
