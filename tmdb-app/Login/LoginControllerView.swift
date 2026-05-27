@@ -42,29 +42,6 @@ final class LoginViewController: UIViewController {
         
         setupUI()
         setupActions()
-        
-        Task {
-            let urlSession = URLSession(configuration: .ephemeral, delegate: nil, delegateQueue: .main)
-            
-            guard let url = URL(string: "https://itunes.apple.com/search?term=metallica&entity=song") else {
-                return
-            }
-            do {
-                let (data, httpResponse) = try await urlSession.data(from: url)
-                
-                let decoder = JSONDecoder()
-                
-                let jsonResponse = try decoder.decode(ITunesSearchResponse.self, from: data)
-
-                print("Songs count:", jsonResponse.resultCount)
-
-                for song in jsonResponse.results {
-                    print("🎵 \(song.trackName) - \(song.artistName)")
-                }
-            } catch {
-                debugPrint(error)
-            }
-        }
     }
     
     // MARK: - Setup
