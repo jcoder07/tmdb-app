@@ -15,18 +15,18 @@ final class LoginViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let sessionManager: SessionManagerProtocol
+    private let authService: TMDBAuthService
     private let onLoginSuccess: () -> Void
 
-    init(sessionManager: SessionManagerProtocol, onLoginSuccess: @escaping () -> Void) {
+    init(sessionManager: SessionManagerProtocol, authService: TMDBAuthService, onLoginSuccess: @escaping () -> Void) {
         self.sessionManager = sessionManager
+        self.authService = authService
         self.onLoginSuccess = onLoginSuccess
     }
 
     func login() {
         isLoading = true
         errorMessage = nil
-
-        let authService = TMDBAuthService()
 
         authService.createRequestToken { [weak self] result in
             guard let self else { return }

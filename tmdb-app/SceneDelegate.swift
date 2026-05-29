@@ -16,13 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Composition root: all dependencies and view controllers are created here
         let sessionManager: SessionManagerProtocol = SessionManager()
+        let authService = TMDBAuthService()
 
         guard let windowScene = scene as? UIWindowScene else { return }
 
         let nav = UINavigationController()
 
         func makeLoginVC() -> UIViewController {
-            let viewModel = LoginViewModel(sessionManager: sessionManager, onLoginSuccess: {
+            let viewModel = LoginViewModel(sessionManager: sessionManager, authService: authService, onLoginSuccess: {
                 nav.setViewControllers([makeHomeVC()], animated: true)
             })
             return UIHostingController(rootView: LoginView(viewModel: viewModel))
