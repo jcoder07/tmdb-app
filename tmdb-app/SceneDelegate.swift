@@ -22,9 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav = UINavigationController()
 
         func makeLoginVC() -> UIViewController {
-            UIHostingController(rootView: LoginView(sessionManager: sessionManager, onLoginSuccess: {
+            let viewModel = LoginViewModel(sessionManager: sessionManager, onLoginSuccess: {
                 nav.setViewControllers([makeHomeVC()], animated: true)
-            }))
+            })
+            return UIHostingController(rootView: LoginView(viewModel: viewModel))
         }
 
         func makeHomeVC() -> HomeViewController {
