@@ -5,6 +5,7 @@
 //  Created by Juan Fernandez on 05-01-26.
 //
 
+import SwiftUI
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -20,10 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let nav = UINavigationController()
 
-        func makeLoginVC() -> LoginViewController {
-            LoginViewController(sessionManager: sessionManager) {
+        func makeLoginVC() -> UIViewController {
+            UIHostingController(rootView: LoginView(sessionManager: sessionManager, onLoginSuccess: {
                 nav.setViewControllers([makeHomeVC()], animated: true)
-            }
+            }))
         }
 
         func makeHomeVC() -> HomeViewController {
