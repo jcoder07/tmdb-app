@@ -12,9 +12,11 @@ final class HomeViewController: UIViewController {
     // MARK: - Dependencies
 
     private let sessionManager: SessionManagerProtocol
+    private let onLogout: () -> Void
 
-    init(sessionManager: SessionManagerProtocol) {
+    init(sessionManager: SessionManagerProtocol, onLogout: @escaping () -> Void) {
         self.sessionManager = sessionManager
+        self.onLogout = onLogout
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -78,9 +80,7 @@ final class HomeViewController: UIViewController {
 
     @objc private func logoutTapped() {
         sessionManager.clearSession()
-
-        let loginVC = LoginViewController(sessionManager: sessionManager)
-        navigationController?.setViewControllers([loginVC], animated: true)
+        onLogout()
     }
     
     deinit {

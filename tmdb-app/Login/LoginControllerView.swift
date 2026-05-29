@@ -12,9 +12,11 @@ final class LoginViewController: UIViewController {
     // MARK: - Dependencies
 
     private let sessionManager: SessionManagerProtocol
+    private let onLoginSuccess: () -> Void
 
-    init(sessionManager: SessionManagerProtocol) {
+    init(sessionManager: SessionManagerProtocol, onLoginSuccess: @escaping () -> Void) {
         self.sessionManager = sessionManager
+        self.onLoginSuccess = onLoginSuccess
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -84,8 +86,7 @@ final class LoginViewController: UIViewController {
     }
 
     private func goToHome() {
-        let homeVC = HomeViewController(sessionManager: sessionManager)
-        navigationController?.setViewControllers([homeVC], animated: true)
+        onLoginSuccess()
     }
 
     // MARK: - Actions

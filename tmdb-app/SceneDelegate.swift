@@ -13,27 +13,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-        // Composition root: create dependencies here and inject them
+        // Composition root: all dependencies and view controllers are created here
         let sessionManager: SessionManagerProtocol = SessionManager()
-
-        let mainViewController: UIViewController
-
-        if sessionManager.isLoggedIn {
-            mainViewController = HomeViewController(sessionManager: sessionManager)
-        } else {
-            mainViewController = LoginViewController(sessionManager: sessionManager)
-        }
-
-        let navigationController = UINavigationController(
-            rootViewController: mainViewController
-        )
 
         guard let windowScene = scene as? UIWindowScene else { return }
 
+        let nav = UINavigationController()
+
+        func makeLoginVC() -> LoginViewController {
+            LoginViewController(sessionManager: sessionManager) {
+                nav.setViewControllers([makeHomeVC()], animated: true)
+            }
+        }
+
+        func makeHomeVC() -> HomeViewController {
+            HomeViewController(sessionManager: sessionManager) {
+                nav.setViewControllers([makeLoginVC()], animated: true)
+            }
+        }
+
+        nav.setViewControllers([sessionManager.isLoggedIn ? makeHomeVC() : makeLoginVC()], animated: false)
+
         let window = UIWindow(windowScene: windowScene)
-        
-        window.rootViewController = navigationController
-        
+        window.rootViewController = nav
         self.window = window
         window.makeKeyAndVisible()
     }
