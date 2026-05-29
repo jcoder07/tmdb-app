@@ -15,10 +15,10 @@ final class LoginViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let sessionManager: SessionManagerProtocol
-    private let authService: TMDBAuthService
+    private let authService: TMDBAuthServiceProtocol
     private let onLoginSuccess: () -> Void
 
-    init(sessionManager: SessionManagerProtocol, authService: TMDBAuthService, onLoginSuccess: @escaping () -> Void) {
+    init(sessionManager: SessionManagerProtocol, authService: TMDBAuthServiceProtocol, onLoginSuccess: @escaping () -> Void) {
         self.sessionManager = sessionManager
         self.authService = authService
         self.onLoginSuccess = onLoginSuccess

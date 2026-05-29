@@ -7,7 +7,13 @@
 
 import Foundation
 
-final class TMDBAuthService {
+protocol TMDBAuthServiceProtocol {
+    func createRequestToken(completion: @escaping (Result<RequestTokenResponse, Error>) -> Void)
+    func validateLogin(username: String, password: String, requestToken: String, completion: @escaping (Result<RequestTokenResponse, Error>) -> Void)
+    func createSession(requestToken: String, completion: @escaping (Result<CreateSessionResponse, Error>) -> Void)
+}
+
+final class TMDBAuthService: TMDBAuthServiceProtocol {
 
     // MARK: - Constants
 

@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Composition root: all dependencies and view controllers are created here
         let sessionManager: SessionManagerProtocol = SessionManager()
-        let authService = TMDBAuthService()
+        let authService: TMDBAuthServiceProtocol = TMDBAuthService()
 
         guard let windowScene = scene as? UIWindowScene else { return }
 
