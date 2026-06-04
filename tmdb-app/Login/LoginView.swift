@@ -13,12 +13,12 @@ struct LoginView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            TextField("Usuario", text: $viewModel.username)
+            TextField("User", text: $viewModel.username)
                 .textFieldStyle(.roundedBorder)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
 
-            SecureField("Contraseña", text: $viewModel.password)
+            SecureField("Password", text: $viewModel.password)
                 .textFieldStyle(.roundedBorder)
 
             if let error = viewModel.errorMessage {
@@ -33,7 +33,7 @@ struct LoginView: View {
                 if viewModel.isLoading {
                     ProgressView()
                 } else {
-                    Text("Iniciar sesión")
+                    Text("Login")
                         .frame(maxWidth: .infinity)
                 }
             }
