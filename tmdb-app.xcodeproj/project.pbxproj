@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		49EC55902FCA3F00008673D4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 49EC558F2FCA3F00008673D4 /* Localizable.xcstrings */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		47DDB7DB2F0C1CC600946C49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -31,7 +27,6 @@
 		47DDB7C42F0C1CC400946C49 /* tmdb-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tmdb-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tmdb-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tmdb-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		49EC558F2FCA3F00008673D4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = Localizable.xcstrings; path = "tmdb-app/Localizable.xcstrings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -93,7 +88,6 @@
 		47DDB7BB2F0C1CC400946C49 = {
 			isa = PBXGroup;
 			children = (
-				49EC558F2FCA3F00008673D4 /* Localizable.xcstrings */,
 				47DDB7C62F0C1CC400946C49 /* tmdb-app */,
 				47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */,
 				47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */,
@@ -232,7 +226,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49EC55902FCA3F00008673D4 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
