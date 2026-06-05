@@ -9,5 +9,6 @@ struct WatchlistView: View {
     var body: some View {
         Text("Watchlist")
             .navigationTitle("Watchlist")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }

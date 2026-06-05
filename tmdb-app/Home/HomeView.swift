@@ -15,6 +15,7 @@ struct HomeView: View {
         Text("🎬 Welcome to TMDB")
             .font(.system(size: 22, weight: .bold))
             .navigationTitle("Home")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

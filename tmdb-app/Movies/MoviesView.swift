@@ -9,5 +9,6 @@ struct MoviesView: View {
     var body: some View {
         Text("Movies")
             .navigationTitle("Movies")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
