@@ -32,6 +32,7 @@
       }
     },
     "Logout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es-419" : {
           "stringUnit" : {
@@ -40,6 +41,9 @@
           }
         }
       }
+    },
+    "Movies" : {
+
     },
     "Password" : {
       "localizations" : {
@@ -51,6 +55,12 @@
         }
       }
     },
+    "Search" : {
+
+    },
+    "Series" : {
+
+    },
     "User" : {
       "localizations" : {
         "es-419" : {
@@ -60,6 +70,9 @@
           }
         }
       }
+    },
+    "Watchlist" : {
+
     }
   },
   "version" : "1.2"

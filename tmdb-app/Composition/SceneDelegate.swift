@@ -23,20 +23,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav = UINavigationController()
 
         func makeLoginVC() -> UIViewController {
+            nav.setNavigationBarHidden(false, animated: true)
             let viewModel = LoginViewModel(sessionManager: sessionManager, authService: authService, onLoginSuccess: {
-                nav.setViewControllers([makeHomeVC()], animated: true)
+                nav.setViewControllers([makeMainTabVC()], animated: true)
             })
             return UIHostingController(rootView: LoginView(viewModel: viewModel))
         }
 
-        func makeHomeVC() -> UIViewController {
-            let viewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
+        func makeMainTabVC() -> UIViewController {
+            nav.setNavigationBarHidden(true, animated: true)
+            let homeViewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
                 nav.setViewControllers([makeLoginVC()], animated: true)
             })
-            return UIHostingController(rootView: HomeView(viewModel: viewModel))
+            return UIHostingController(rootView: MainTabView(homeViewModel: homeViewModel))
         }
 
-        nav.setViewControllers([sessionManager.isLoggedIn ? makeHomeVC() : makeLoginVC()], animated: false)
+        nav.setViewControllers([sessionManager.isLoggedIn ? makeMainTabVC() : makeLoginVC()], animated: false)
 
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = nav
