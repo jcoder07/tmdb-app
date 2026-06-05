@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
 
     @ObservedObject var viewModel: HomeViewModel
+    @State private var showingProfile = false
 
     var body: some View {
         Text("🎬 Welcome to TMDB")
@@ -19,12 +20,15 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        viewModel.logout()
+                        showingProfile = true
                     } label: {
                         Image(systemName: "person.circle.fill")
                             .imageScale(.large)
                     }
                 }
+            }
+            .sheet(isPresented: $showingProfile) {
+                ProfileView()
             }
     }
 }
