@@ -7,6 +7,7 @@ import SwiftUI
 
 struct MainTabView: View {
     let homeViewModel: HomeViewModel
+    let watchlistViewModel: WatchlistViewModel
 
     var body: some View {
         TabView {
@@ -26,7 +27,7 @@ struct MainTabView: View {
             .tabItem { Label("Series", systemImage: "tv") }
 
             NavigationStack {
-                WatchlistView()
+                WatchlistView(viewModel: watchlistViewModel)
             }
             .tabItem { Label("Watchlist", systemImage: "bookmark") }
 

@@ -35,7 +35,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let homeViewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
                 nav.setViewControllers([makeLoginVC()], animated: true)
             })
-            return UIHostingController(rootView: MainTabView(homeViewModel: homeViewModel))
+            let watchlistViewModel = WatchlistViewModel(
+                service: WatchlistService(),
+                sessionManager: sessionManager
+            )
+            return UIHostingController(rootView: MainTabView(homeViewModel: homeViewModel, watchlistViewModel: watchlistViewModel))
         }
 
         nav.setViewControllers([sessionManager.isLoggedIn ? makeMainTabVC() : makeLoginVC()], animated: false)
