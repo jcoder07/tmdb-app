@@ -68,6 +68,7 @@ extension UserProfile {
 
 struct ProfileView: View {
 
+    @Environment(\.dismiss) private var dismiss
     let profile: UserProfile = .preview
     @State private var showLogoutAlert = false
 
@@ -93,7 +94,7 @@ struct ProfileView: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .topLeading) {
             // Fondo degradado azul oscuro como TMDB
             LinearGradient(
                 colors: [Color(hex: "0D253F"), Color(hex: "1A3A5C")],
@@ -104,6 +105,18 @@ struct ProfileView: View {
 
             // Decoración diagonal (líneas naranjas como TMDB)
             diagonalDecorations
+
+            // Botón cerrar
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .imageScale(.large)
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+            .padding(.top, 56)
+            .padding(.trailing, 16)
+            .frame(maxWidth: .infinity, alignment: .trailing)
 
             // Contenido del header
             VStack(alignment: .leading, spacing: 16) {
@@ -120,26 +133,29 @@ struct ProfileView: View {
                             .font(.subheadline)
                             .foregroundStyle(.white.opacity(0.7))
 
-                        HStack(spacing: 20) {
-                            scoreCircle(
-                                value: profile.avgMovieScore,
-                                label: "Average\nMovie Score"
-                            )
-                            Divider()
-                                .frame(height: 44)
-                                .overlay(Color.white.opacity(0.3))
-                            scoreCircle(
-                                value: profile.avgTVScore,
-                                label: "Average\nTV Score"
-                            )
-                        }
-                        .padding(.top, 4)
+                        
                     }
+                    
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 60)
-                .padding(.bottom, 28)
+
+                HStack(alignment: .center, spacing: 16) {
+                    scoreCircle(
+                        value: profile.avgMovieScore,
+                        label: "Average\nMovie Score"
+                    )
+                    
+                    scoreCircle(
+                        value: profile.avgTVScore,
+                        label: "Average\nTV Score"
+                    )
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
             }
+            
         }
     }
 
