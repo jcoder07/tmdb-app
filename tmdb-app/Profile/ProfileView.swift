@@ -68,11 +68,45 @@ extension UserProfile {
 
 struct ProfileView: View {
 
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) private var dismiss
-    let profile: UserProfile = .preview
     @State private var showLogoutAlert = false
 
+    private var profile: UserProfile { viewModel.profile ?? .preview }
+
     var body: some View {
+        Group {
+            if viewModel.isLoading && viewModel.profile == nil {
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(.systemGroupedBackground))
+            } else if let message = viewModel.errorMessage, viewModel.profile == nil {
+                VStack(spacing: 16) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.system(size: 40))
+                        .foregroundStyle(.secondary)
+                    Text(message)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                mainScrollView
+            }
+        }
+        .task { await viewModel.load() }
+        .alert("Cerrar sesión", isPresented: $showLogoutAlert) {
+            Button("Cancelar", role: .cancel) {}
+            Button("Cerrar sesión", role: .destructive) {
+                viewModel.logout()
+            }
+        } message: {
+            Text("¿Estás seguro de que quieres cerrar sesión?")
+        }
+    }
+
+    private var mainScrollView: some View {
         ScrollView {
             VStack(spacing: 0) {
                 headerSection
@@ -81,14 +115,6 @@ struct ProfileView: View {
         }
         .background(Color(.systemGroupedBackground))
         .ignoresSafeArea(edges: .top)
-        .alert("Cerrar sesión", isPresented: $showLogoutAlert) {
-            Button("Cancelar", role: .cancel) {}
-            Button("Cerrar sesión", role: .destructive) {
-                // TODO: conectar con AuthViewModel
-            }
-        } message: {
-            Text("¿Estás seguro de que quieres cerrar sesión?")
-        }
     }
 
     // MARK: - Header
@@ -129,13 +155,12 @@ struct ProfileView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
 
-                        Text("Member since \(profile.memberSince)")
-                            .font(.subheadline)
-                            .foregroundStyle(.white.opacity(0.7))
-
-                        
+                        if !profile.memberSince.isEmpty {
+                            Text("Member since \(profile.memberSince)")
+                                .font(.subheadline)
+                                .foregroundStyle(.white.opacity(0.7))
+                        }
                     }
-                    
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 60)
@@ -145,7 +170,7 @@ struct ProfileView: View {
                         value: profile.avgMovieScore,
                         label: "Average\nMovie Score"
                     )
-                    
+
                     scoreCircle(
                         value: profile.avgTVScore,
                         label: "Average\nTV Score"
@@ -155,7 +180,6 @@ struct ProfileView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 20)
             }
-            
         }
     }
 
@@ -165,7 +189,6 @@ struct ProfileView: View {
                 .fill(Color(hex: "0668E1"))
                 .frame(width: 80, height: 80)
 
-            // Icono por defecto estilo TMDB (power icon)
             Image(systemName: "person.fill")
                 .font(.system(size: 34))
                 .foregroundStyle(.white)
@@ -235,7 +258,6 @@ struct ProfileView: View {
     private var contentSection: some View {
         VStack(alignment: .leading, spacing: 0) {
 
-            // Título Stats
             Text("Stats")
                 .font(.title3)
                 .fontWeight(.bold)
@@ -244,7 +266,6 @@ struct ProfileView: View {
                 .padding(.top, 28)
                 .padding(.bottom, 4)
 
-            // Grid: Total Edits + Total Ratings
             HStack(spacing: 16) {
                 statCard(title: "Total Edits", value: "\(profile.totalEdits)")
                 statCard(title: "Total Ratings", value: "\(profile.totalRatings)")
@@ -252,17 +273,14 @@ struct ProfileView: View {
             .padding(.horizontal, 16)
             .padding(.top, 16)
 
-            // Rating Overview (gráfico de barras)
             ratingOverviewCard
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
 
-            // Most Watched Genres (donut)
             genresCard
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
 
-            // Botón Logout
             logoutButton
                 .padding(.horizontal, 16)
                 .padding(.top, 28)
@@ -319,7 +337,6 @@ struct ProfileView: View {
 
     private var genresCard: some View {
         HStack(spacing: 20) {
-            // Donut chart manual
             ZStack {
                 ForEach(Array(donutSegments().enumerated()), id: \.offset) { _, segment in
                     Circle()
@@ -333,7 +350,6 @@ struct ProfileView: View {
                     .frame(width: 44, height: 44)
             }
 
-            // Leyenda
             VStack(alignment: .leading, spacing: 8) {
                 Text("Most Watched Genres")
                     .font(.subheadline)
@@ -402,8 +418,75 @@ extension Color {
     }
 }
 
-// MARK: - Preview
+// MARK: - Preview Mocks
 
-#Preview {
-    ProfileView()
+private struct MockProfileService: ProfileServiceProtocol {
+    var shouldFail = false
+    var shouldHang = false
+
+    func fetchAccountDetails(sessionId: String) async throws -> AccountProfile {
+        if shouldHang { try await Task.sleep(for: .seconds(100)) }
+        if shouldFail { throw URLError(.badServerResponse) }
+        return AccountProfile(
+            id: 1,
+            username: "Juanjo07",
+            avatar: AccountProfile.Avatar(tmdb: AccountProfile.Avatar.TMDBAvatar(avatarPath: nil))
+        )
+    }
+
+    func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie] {
+        if shouldFail { throw URLError(.badServerResponse) }
+        return [
+            RatedMovie(id: 1, rating: 4.0, genreIds: [28, 12]),
+            RatedMovie(id: 2, rating: 8.0, genreIds: [28, 18]),
+            RatedMovie(id: 3, rating: 6.0, genreIds: [12]),
+        ]
+    }
+
+    func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow] {
+        if shouldFail { throw URLError(.badServerResponse) }
+        return [RatedTVShow(id: 1, rating: 7.0)]
+    }
+
+    func fetchMovieGenres() async throws -> [GenreItem] {
+        if shouldFail { throw URLError(.badServerResponse) }
+        return [
+            GenreItem(id: 28, name: "Action"),
+            GenreItem(id: 12, name: "Adventure"),
+            GenreItem(id: 18, name: "Drama"),
+        ]
+    }
+}
+
+private struct MockSessionManager: SessionManagerProtocol {
+    func saveSession(id: String) {}
+    func getSession() -> String? { "mock_session" }
+    func clearSession() {}
+    var isLoggedIn: Bool { true }
+}
+
+// MARK: - Previews
+
+#Preview("Loaded") {
+    ProfileView(viewModel: ProfileViewModel(
+        service: MockProfileService(),
+        sessionManager: MockSessionManager(),
+        onLogout: {}
+    ))
+}
+
+#Preview("Loading") {
+    ProfileView(viewModel: ProfileViewModel(
+        service: MockProfileService(shouldHang: true),
+        sessionManager: MockSessionManager(),
+        onLogout: {}
+    ))
+}
+
+#Preview("Error") {
+    ProfileView(viewModel: ProfileViewModel(
+        service: MockProfileService(shouldFail: true),
+        sessionManager: MockSessionManager(),
+        onLogout: {}
+    ))
 }
