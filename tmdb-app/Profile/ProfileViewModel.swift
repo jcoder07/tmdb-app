@@ -34,8 +34,10 @@ final class ProfileViewModel: ObservableObject {
             let account = try await service.fetchAccountDetails(sessionId: sessionId)
             async let moviesTask = service.fetchRatedMovies(accountId: account.id, sessionId: sessionId)
             async let tvTask = service.fetchRatedTVShows(accountId: account.id, sessionId: sessionId)
-            async let genresTask = service.fetchMovieGenres()
-            let (movies, tvShows, genres) = try await (moviesTask, tvTask, genresTask)
+            async let movieGenresTask = service.fetchMovieGenres()
+            async let tvGenresTask = service.fetchTVGenres()
+            let (movies, tvShows, movieGenres, tvGenres) = try await (moviesTask, tvTask, movieGenresTask, tvGenresTask)
+            let genres = (movieGenres + tvGenres).reduce(into: [Int: GenreItem]()) { $0[$1.id] = $1 }.map(\.value)
             profile = buildProfile(account: account, movies: movies, tvShows: tvShows, genres: genres)
         } catch {
             errorMessage = error.localizedDescription
@@ -64,24 +66,20 @@ final class ProfileViewModel: ObservableObject {
         }
 
         let accentHex = resolveAccentHex(account.accentColor)
-        let genreColors: [Color] = [
-            Color(hex: accentHex),
-            Color(hex: accentHex).opacity(0.65),
-            Color(hex: accentHex).opacity(0.35),
-        ]
         let genreMap = Dictionary(uniqueKeysWithValues: genres.map { ($0.id, $0.name) })
         var genreCounts: [Int: Int] = [:]
         movies.flatMap(\.genreIds).forEach { genreCounts[$0, default: 0] += 1 }
+        tvShows.flatMap(\.genreIds).forEach { genreCounts[$0, default: 0] += 1 }
         let total = genreCounts.values.reduce(0, +)
-        let topGenres: [GenreSlice] = genreCounts
-            .sorted { $0.value > $1.value }
-            .prefix(3)
-            .enumerated()
-            .compactMap { index, pair in
-                guard let name = genreMap[pair.key] else { return nil }
-                let pct = total > 0 ? Double(pair.value) / Double(total) : 0
-                return GenreSlice(name: name, color: genreColors[index], percentage: pct)
-            }
+        let sorted = genreCounts.sorted { $0.value > $1.value }.filter { genreMap[$0.key] != nil }
+        let topGenres: [GenreSlice] = sorted.enumerated().compactMap { index, pair in
+            guard let name = genreMap[pair.key] else { return nil }
+            let pct = total > 0 ? Double(pair.value) / Double(total) : 0
+            let opacity = sorted.count > 1
+                ? 1.0 - Double(index) / Double(sorted.count - 1) * 0.75
+                : 1.0
+            return GenreSlice(name: name, color: Color(hex: accentHex).opacity(opacity), percentage: pct)
+        }
 
         let displayName = account.name.isEmpty ? account.username : account.name
 
@@ -92,12 +90,9 @@ final class ProfileViewModel: ObservableObject {
             avatarURLString = "https://www.gravatar.com/avatar/\(account.avatar.gravatar.hash)?s=185&d=404"
         }
 
-        let memberSince = account.createdAt.flatMap { formatMemberSince($0) } ?? ""
-
         return UserProfile(
             username: displayName,
             avatarPath: avatarURLString,
-            memberSince: memberSince,
             avgMovieScore: avgMovie,
             avgTVScore: avgTV,
             totalMovieRatings: movies.count,
@@ -106,19 +101,6 @@ final class ProfileViewModel: ObservableObject {
             topGenres: topGenres,
             accentHex: accentHex
         )
-    }
-
-    private func formatMemberSince(_ raw: String) -> String? {
-        let input = DateFormatter()
-        let output = DateFormatter()
-        output.dateFormat = "MMMM yyyy"
-        for format in ["yyyy-MM-dd'T'HH:mm:ss.SSSZ", "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd"] {
-            input.dateFormat = format
-            if let date = input.date(from: raw) {
-                return output.string(from: date)
-            }
-        }
-        return nil
     }
 
     // Maps TMDB color names, integer theme IDs, or hex strings to hex values used in the UI.

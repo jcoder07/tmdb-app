@@ -11,7 +11,6 @@ import Charts
 struct UserProfile {
     let username: String
     let avatarPath: String?
-    let memberSince: String
     let avgMovieScore: Double
     let avgTVScore: Double
     let totalMovieRatings: Int
@@ -40,7 +39,6 @@ extension UserProfile {
     static let preview = UserProfile(
         username: "Juanjo07",
         avatarPath: nil,
-        memberSince: "June 2023",
         avgMovieScore: 40,
         avgTVScore: 0,
         totalMovieRatings: 1,
@@ -58,9 +56,11 @@ extension UserProfile {
             RatingBar(rating: 10, count: 0),
         ],
         topGenres: [
-            GenreSlice(name: "Action",     color: Color(hex: "01B4E4"), percentage: 0.50),
-            GenreSlice(name: "Drama",      color: Color(hex: "0068BC"), percentage: 0.30),
-            GenreSlice(name: "Adventure",  color: Color(hex: "90CEF4"), percentage: 0.20),
+            GenreSlice(name: "Action",     color: Color(hex: "01B4E4").opacity(1.00), percentage: 0.35),
+            GenreSlice(name: "Drama",      color: Color(hex: "01B4E4").opacity(0.81), percentage: 0.25),
+            GenreSlice(name: "Adventure",  color: Color(hex: "01B4E4").opacity(0.62), percentage: 0.20),
+            GenreSlice(name: "Comedy",     color: Color(hex: "01B4E4").opacity(0.44), percentage: 0.12),
+            GenreSlice(name: "Thriller",   color: Color(hex: "01B4E4").opacity(0.25), percentage: 0.08),
         ],
         accentHex: "01B4E4"
     )
@@ -109,13 +109,14 @@ struct ProfileView: View {
     }
 
     private var mainScrollView: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                headerSection
+        VStack(spacing: 0) {
+            headerSection
+                .fixedSize(horizontal: false, vertical: true)
+            ScrollView {
                 contentSection
             }
+            .background(Color(.systemGroupedBackground))
         }
-        .background(Color(.systemGroupedBackground))
         .ignoresSafeArea(edges: .top)
     }
 
@@ -148,21 +149,13 @@ struct ProfileView: View {
 
             // Contenido del header
             VStack(alignment: .leading, spacing: 16) {
-                HStack(alignment: .top, spacing: 20) {
+                HStack(alignment: .center, spacing: 20) {
                     avatarView
 
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(profile.username)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-
-                        if !profile.memberSince.isEmpty {
-                            Text("Member since \(profile.memberSince)")
-                                .font(.subheadline)
-                                .foregroundStyle(.white.opacity(0.7))
-                        }
-                    }
+                    Text(profile.username)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 60)
@@ -460,13 +453,15 @@ private struct MockProfileService: ProfileServiceProtocol {
         return [
             RatedMovie(id: 1, rating: 4.0, genreIds: [28, 12]),
             RatedMovie(id: 2, rating: 8.0, genreIds: [28, 18]),
-            RatedMovie(id: 3, rating: 6.0, genreIds: [12]),
+            RatedMovie(id: 3, rating: 6.0, genreIds: [12, 35]),
+            RatedMovie(id: 4, rating: 9.0, genreIds: [53, 35]),
+            RatedMovie(id: 5, rating: 9.0, genreIds: [28, 53]),
         ]
     }
 
     func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow] {
         if shouldFail { throw URLError(.badServerResponse) }
-        return [RatedTVShow(id: 1, rating: 7.0)]
+        return [RatedTVShow(id: 1, rating: 7.0, genreIds: [10765, 18])]
     }
 
     func fetchMovieGenres() async throws -> [GenreItem] {
@@ -474,6 +469,16 @@ private struct MockProfileService: ProfileServiceProtocol {
         return [
             GenreItem(id: 28, name: "Action"),
             GenreItem(id: 12, name: "Adventure"),
+            GenreItem(id: 18, name: "Drama"),
+            GenreItem(id: 35, name: "Comedy"),
+            GenreItem(id: 53, name: "Thriller"),
+        ]
+    }
+
+    func fetchTVGenres() async throws -> [GenreItem] {
+        if shouldFail { throw URLError(.badServerResponse) }
+        return [
+            GenreItem(id: 10765, name: "Sci-Fi & Fantasy"),
             GenreItem(id: 18, name: "Drama"),
         ]
     }
