@@ -14,8 +14,8 @@ struct UserProfile {
     let memberSince: String
     let avgMovieScore: Double
     let avgTVScore: Double
-    let totalEdits: Int
-    let totalRatings: Int
+    let totalMovieRatings: Int
+    let totalTVRatings: Int
     let ratingDistribution: [RatingBar]
     let topGenres: [GenreSlice]
 }
@@ -42,8 +42,8 @@ extension UserProfile {
         memberSince: "June 2023",
         avgMovieScore: 40,
         avgTVScore: 0,
-        totalEdits: 0,
-        totalRatings: 1,
+        totalMovieRatings: 1,
+        totalTVRatings: 0,
         ratingDistribution: [
             RatingBar(rating: 1, count: 0),
             RatingBar(rating: 2, count: 0),
@@ -278,8 +278,8 @@ struct ProfileView: View {
                 .padding(.bottom, 4)
 
             HStack(spacing: 16) {
-                statCard(title: "Total Edits", value: "\(profile.totalEdits)")
-                statCard(title: "Total Ratings", value: "\(profile.totalRatings)")
+                statCard(title: "Rated Movies", value: "\(profile.totalMovieRatings)")
+                statCard(title: "Rated TV", value: "\(profile.totalTVRatings)")
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
