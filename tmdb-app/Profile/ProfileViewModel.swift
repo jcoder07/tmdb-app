@@ -91,8 +91,8 @@ final class ProfileViewModel: ObservableObject {
             memberSince: "",
             avgMovieScore: avgMovie,
             avgTVScore: avgTV,
-            totalEdits: 0,
-            totalRatings: movies.count + tvShows.count,
+            totalMovieRatings: movies.count,
+            totalTVRatings: tvShows.count,
             ratingDistribution: distribution,
             topGenres: topGenres
         )
