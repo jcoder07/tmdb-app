@@ -18,6 +18,7 @@ struct UserProfile {
     let totalTVRatings: Int
     let ratingDistribution: [RatingBar]
     let topGenres: [GenreSlice]
+    let accentHex: String
 }
 
 struct RatingBar: Identifiable {
@@ -57,10 +58,11 @@ extension UserProfile {
             RatingBar(rating: 10, count: 0),
         ],
         topGenres: [
-            GenreSlice(name: "Action", color: Color(hex: "E8820C"), percentage: 0.50),
-            GenreSlice(name: "Drama", color: Color(hex: "C9873B"), percentage: 0.30),
-            GenreSlice(name: "Adventure", color: Color(hex: "E8C49A"), percentage: 0.20),
-        ]
+            GenreSlice(name: "Action",     color: Color(hex: "01B4E4"), percentage: 0.50),
+            GenreSlice(name: "Drama",      color: Color(hex: "0068BC"), percentage: 0.30),
+            GenreSlice(name: "Adventure",  color: Color(hex: "90CEF4"), percentage: 0.20),
+        ],
+        accentHex: "01B4E4"
     )
 }
 
@@ -220,7 +222,7 @@ struct ProfileView: View {
                 Circle()
                     .trim(from: 0, to: value / 100)
                     .stroke(
-                        value > 0 ? Color(hex: "D4AF37") : Color.gray,
+                        value > 0 ? Color(hex: profile.accentHex) : Color.gray,
                         style: StrokeStyle(lineWidth: 3, lineCap: .round)
                     )
                     .frame(width: 48, height: 48)
@@ -243,19 +245,19 @@ struct ProfileView: View {
     private var diagonalDecorations: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: "E8820C").opacity(0.7))
+                .fill(Color(hex: profile.accentHex).opacity(0.7))
                 .frame(width: 6, height: 60)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -40, y: 20)
 
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: "E8820C").opacity(0.5))
+                .fill(Color(hex: profile.accentHex).opacity(0.5))
                 .frame(width: 6, height: 40)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -70, y: 10)
 
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: "C9873B").opacity(0.6))
+                .fill(Color(hex: profile.accentHex).opacity(0.6))
                 .frame(width: 6, height: 50)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -15, y: 40)
@@ -307,7 +309,7 @@ struct ProfileView: View {
 
             Text(value)
                 .font(.system(size: 36, weight: .bold))
-                .foregroundStyle(Color(hex: "E8820C"))
+                .foregroundStyle(Color(hex: profile.accentHex))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
@@ -323,18 +325,20 @@ struct ProfileView: View {
 
             Chart(profile.ratingDistribution) { bar in
                 BarMark(
-                    x: .value("Rating", bar.rating),
+                    x: .value("Rating", "\(bar.rating)"),
                     y: .value("Count", bar.count)
                 )
-                .foregroundStyle(Color(hex: "E8820C"))
+                .foregroundStyle(Color(hex: profile.accentHex))
                 .cornerRadius(3)
             }
             .chartXAxis {
-                AxisMarks(values: Array(1...10)) { value in
+                AxisMarks { value in
                     AxisValueLabel {
-                        Text("\(value.index + 1)")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                        if let label = value.as(String.self) {
+                            Text(label)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
             }
@@ -445,7 +449,9 @@ private struct MockProfileService: ProfileServiceProtocol {
             avatar: AccountProfile.Avatar(
                 gravatar: AccountProfile.Avatar.Gravatar(hash: ""),
                 tmdb: AccountProfile.Avatar.TMDBAvatar(avatarPath: nil)
-            )
+            ),
+            createdAt: "2023-06-01T00:00:00.000Z",
+            accentColor: "blue"
         )
     }
 
