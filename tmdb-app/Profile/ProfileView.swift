@@ -296,7 +296,7 @@ struct ProfileView: View {
 
             logoutButton
                 .padding(.horizontal, 16)
-                .padding(.top, 28)
+                .padding(.top, 16)
                 .padding(.bottom, 40)
         }
     }
