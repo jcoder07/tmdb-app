@@ -184,15 +184,26 @@ struct ProfileView: View {
     }
 
     private var avatarView: some View {
-        ZStack {
-            Circle()
-                .fill(Color(hex: "0668E1"))
-                .frame(width: 80, height: 80)
-
-            Image(systemName: "person.fill")
-                .font(.system(size: 34))
-                .foregroundStyle(.white)
+        AsyncImage(url: profile.avatarPath.flatMap { URL(string: $0) }) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+            default:
+                ZStack {
+                    Circle()
+                        .fill(Color(hex: "0668E1"))
+                        .frame(width: 80, height: 80)
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 34))
+                        .foregroundStyle(.white)
+                }
+            }
         }
+        .frame(width: 80, height: 80)
         .overlay(
             Circle()
                 .stroke(Color.white.opacity(0.2), lineWidth: 2)
@@ -430,7 +441,11 @@ private struct MockProfileService: ProfileServiceProtocol {
         return AccountProfile(
             id: 1,
             username: "Juanjo07",
-            avatar: AccountProfile.Avatar(tmdb: AccountProfile.Avatar.TMDBAvatar(avatarPath: nil))
+            name: "Juanjo07",
+            avatar: AccountProfile.Avatar(
+                gravatar: AccountProfile.Avatar.Gravatar(hash: ""),
+                tmdb: AccountProfile.Avatar.TMDBAvatar(avatarPath: nil)
+            )
         )
     }
 
