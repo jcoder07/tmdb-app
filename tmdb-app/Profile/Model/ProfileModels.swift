@@ -8,10 +8,16 @@ import Foundation
 struct AccountProfile: Decodable {
     let id: Int
     let username: String
+    let name: String
     let avatar: Avatar
 
     struct Avatar: Decodable {
+        let gravatar: Gravatar
         let tmdb: TMDBAvatar
+
+        struct Gravatar: Decodable {
+            let hash: String
+        }
 
         struct TMDBAvatar: Decodable {
             let avatarPath: String?

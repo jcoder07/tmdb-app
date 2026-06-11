@@ -76,9 +76,18 @@ final class ProfileViewModel: ObservableObject {
                 return GenreSlice(name: name, color: genreColors[index], percentage: pct)
             }
 
+        let displayName = account.name.isEmpty ? account.username : account.name
+
+        let avatarURLString: String?
+        if let tmdbPath = account.avatar.tmdb.avatarPath, !tmdbPath.isEmpty {
+            avatarURLString = "https://image.tmdb.org/t/p/w185\(tmdbPath)"
+        } else {
+            avatarURLString = "https://www.gravatar.com/avatar/\(account.avatar.gravatar.hash)?s=185&d=404"
+        }
+
         return UserProfile(
-            username: account.username,
-            avatarPath: account.avatar.tmdb.avatarPath,
+            username: displayName,
+            avatarPath: avatarURLString,
             memberSince: "",
             avgMovieScore: avgMovie,
             avgTVScore: avgTV,
