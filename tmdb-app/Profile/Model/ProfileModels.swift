@@ -75,6 +75,12 @@ struct RatedMovie: Decodable {
 struct RatedTVShow: Decodable {
     let id: Int
     let rating: Double
+    let genreIds: [Int]
+
+    enum CodingKeys: String, CodingKey {
+        case id, rating
+        case genreIds = "genre_ids"
+    }
 }
 
 struct GenreItem: Decodable {

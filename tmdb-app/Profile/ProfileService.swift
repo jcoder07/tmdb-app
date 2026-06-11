@@ -10,6 +10,7 @@ protocol ProfileServiceProtocol {
     func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie]
     func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow]
     func fetchMovieGenres() async throws -> [GenreItem]
+    func fetchTVGenres() async throws -> [GenreItem]
 }
 
 final class ProfileService: ProfileServiceProtocol {
@@ -37,6 +38,12 @@ final class ProfileService: ProfileServiceProtocol {
 
     func fetchMovieGenres() async throws -> [GenreItem] {
         let url = URL(string: "\(baseURL)/genre/movie/list?api_key=\(apiKey)")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode(GenreListResponse.self, from: data).genres
+    }
+
+    func fetchTVGenres() async throws -> [GenreItem] {
+        let url = URL(string: "\(baseURL)/genre/tv/list?api_key=\(apiKey)")!
         let (data, _) = try await URLSession.shared.data(from: url)
         return try JSONDecoder().decode(GenreListResponse.self, from: data).genres
     }
