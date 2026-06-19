@@ -15,11 +15,7 @@ Always run `XcodeRefreshCodeIssuesInFile` on every file you edit before declarin
 
 ## API Key Setup
 
-The TMDB API key is **not** in source control. It lives in `tmdb-app/Config.xcconfig` (gitignored). Copy `Config.xcconfig.example` to `Config.xcconfig` and fill in the key. The xcconfig feeds `Info.plist`, which the app reads at runtime:
-
-```swift
-Bundle.main.infoDictionary?["TMDB_API_KEY"] as? String ?? ""
-```
+The TMDB API key is **not** in source control. It lives in `tmdb-app/Config.xcconfig` (gitignored). Copy `Config.xcconfig.example` to `Config.xcconfig` and fill in the key. The xcconfig feeds `Info.plist`, which the app reads at runtime via `TMDBConfig.apiKey` (`Core/TMDBConfig.swift`).
 
 ## Architecture
 
@@ -31,9 +27,10 @@ Screen transitions use `nav.setViewControllers(_:animated:)` (full replacement, 
 
 ```
 SceneDelegate
-├── makeLoginVC()  →  UIHostingController<LoginView>
-└── makeMainTabVC() →  UIHostingController<MainTabView>
-                           └── TabView with 5 NavigationStacks
+├── makeLoginVC()   → UIHostingController<LoginView>
+└── makeMainTabVC() → UIHostingController<MainTabView>
+                          └── TabView with 5 NavigationStacks
+                              (Home, Movies, Series, Watchlist, Search)
 ```
 
 ### MVVM + Protocol-based DI
@@ -44,33 +41,60 @@ Every screen has a `ViewModel: ObservableObject` that owns all logic and state. 
 |---|---|---|
 | `SessionManagerProtocol` | `SessionManager` | Reads/writes session ID from `UserDefaults` |
 | `TMDBAuthServiceProtocol` | `TMDBAuthService` | 3-step TMDB auth (completion-handler based) |
-| `WatchlistServiceProtocol` | `WatchlistService` | Watchlist TMDB API (async/await) |
+| `HttpClientProtocol` | `HttpClient` | Generic async/await HTTP networking |
+| `WatchlistServiceProtocol` | `WatchlistService` | Watchlist TMDB API |
+| `ProfileServiceProtocol` | `ProfileService` | Facade over `AccountService` + `GenreService` |
 
-New services should use **async/await**. New ViewModels should be marked **`@MainActor`** (see `WatchlistViewModel` as the reference pattern). The older `LoginViewModel` uses completion handlers — do not copy that style.
+New services should use **async/await** via `HttpClient`. New ViewModels should be marked **`@MainActor`** (see `WatchlistViewModel` as the reference pattern). The older `LoginViewModel` uses completion handlers — do not copy that style.
+
+### Networking Layer (`Core/`)
+
+All HTTP calls go through `HttpClient`, which uses a `Resource<T: Decodable>` struct to describe a request and decodes responses automatically:
+
+```swift
+let resource = Resource(url: Constants.Urls.account(sessionId: id), modelType: AccountProfile.self)
+let profile = try await httpClient.load(resource)
+```
+
+`HttpClient.load` uses `JSONDecoder` with `.convertFromSnakeCase`, so models do **not** need `CodingKeys` for standard snake_case conversions (e.g. `poster_path` → `posterPath`). Only add `CodingKeys` when the Swift property name doesn't match the snake_case-converted JSON key (e.g. `AccountProfile` uses `languageCode` for `iso_639_1`).
+
+All URLs live in `Constants.Urls` (`Core/Constants.swift`), grouped by feature (Auth, Account, Watchlist, Genres, Images). Never hardcode URLs in services.
 
 ### TMDB Authentication Flow
 
-Three sequential API calls, all in `TMDBAuthService`, all completion-handler based:
+Three sequential API calls in `TMDBAuthService`, completion-handler based (legacy — do not copy):
 
 1. `createRequestToken()` → temporary token
 2. `validateLogin(username:password:requestToken:)` → validated token
 3. `createSession(requestToken:)` → persistent `sessionId` stored via `SessionManager`
 
-### Feature Structure
+### Profile Feature Structure
 
-Each feature lives in its own folder:
+`ProfileService` is a **facade** — it implements `ProfileServiceProtocol` by delegating to two focused services, both injected via `HttpClientProtocol`:
 
 ```
+ProfileService (facade)
+├── AccountService  — /account, /account/{id}/rated/movies, /account/{id}/rated/tv
+└── GenreService    — /genre/movie/list, /genre/tv/list
+```
+
+The split means `ProfileViewModel` depends only on `ProfileServiceProtocol` and is unaware of the internal decomposition.
+
+### Feature Structure
+
+```
+Core/               ← Shared infrastructure (HttpClient, Constants, TMDBConfig, SessionManager)
 Login/
-  Model/          ← Decodable response types
-  LoginView.swift
-  LoginViewModel.swift
-  TMDBAuthService.swift
+  Model/            ← RequestTokenResponse, CreateSessionResponse
+  LoginView / LoginViewModel / TMDBAuthService
+Home/               ← HomeView, HomeViewModel, MainTabView
+Profile/
+  Model/            ← AccountProfile, RatedMovie, RatedTVShow, GenreItem, etc.
+  ProfileView / ProfileViewModel
+  ProfileService (facade) / AccountService / GenreService
 Watchlist/
-  Model/          ← WatchlistMovie, WatchlistTVShow, etc.
-  WatchlistView.swift
-  WatchlistViewModel.swift
-  WatchlistService.swift
+  Model/            ← WatchlistMovie, WatchlistTVShow, WatchlistResponse
+  WatchlistView / WatchlistViewModel / WatchlistService
 ```
 
 Movies, Series, and Search are currently placeholder views with no ViewModels.
@@ -81,4 +105,4 @@ All user-visible strings go in `tmdb-app/Localizable.xcstrings`. Source language
 
 ## SwiftUI Previews Pattern
 
-Use a configurable mock service to drive previews through the real `load()` path — do not bypass the ViewModel by setting `@Published` properties directly, because `.task` will overwrite them when the canvas renders. See `WatchlistView.swift` for the reference implementation (`MockWatchlistService` with `shouldHang`/`shouldFail` flags).
+Use a configurable mock service to drive previews through the real `load()` path — do not bypass the ViewModel by setting `@Published` properties directly, because `.task` will overwrite them when the canvas renders. Use `shouldHang: true` for loading state and `shouldFail: true` for error state. See `WatchlistView.swift` and `ProfileView.swift` for the reference implementations.
