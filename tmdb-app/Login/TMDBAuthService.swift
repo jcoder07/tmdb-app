@@ -39,7 +39,9 @@ final class TMDBAuthService: TMDBAuthServiceProtocol {
             print(String(data: data, encoding: .utf8) ?? "No data")
 
             do {
-                let decoded = try JSONDecoder().decode(RequestTokenResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let decoded = try decoder.decode(RequestTokenResponse.self, from: data)
                 completion(.success(decoded))
             } catch {
                 print("❌ Decode error:", error)
@@ -86,7 +88,9 @@ final class TMDBAuthService: TMDBAuthServiceProtocol {
             print(String(data: data, encoding: .utf8) ?? "No data")
 
             do {
-                let decoded = try JSONDecoder().decode(RequestTokenResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let decoded = try decoder.decode(RequestTokenResponse.self, from: data)
                 completion(.success(decoded))
             } catch {
                 print("❌ Decode error:", error)
@@ -129,7 +133,9 @@ final class TMDBAuthService: TMDBAuthServiceProtocol {
             print(String(data: data, encoding: .utf8) ?? "No data")
 
             do {
-                let decoded = try JSONDecoder().decode(CreateSessionResponse.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let decoded = try decoder.decode(CreateSessionResponse.self, from: data)
                 completion(.success(decoded))
             } catch {
                 completion(.failure(error))

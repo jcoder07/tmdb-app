@@ -19,12 +19,12 @@ final class GenreService: GenreServiceProtocol {
     }
 
     func fetchMovieGenres() async throws -> [GenreItem] {
-        let data = try await httpClient.get(url: Constants.Urls.movieGenres)
-        return try JSONDecoder().decode(GenreListResponse.self, from: data).genres
+        let resource = Resource(url: Constants.Urls.movieGenres, modelType: GenreListResponse.self)
+        return try await httpClient.load(resource).genres
     }
 
     func fetchTVGenres() async throws -> [GenreItem] {
-        let data = try await httpClient.get(url: Constants.Urls.tvGenres)
-        return try JSONDecoder().decode(GenreListResponse.self, from: data).genres
+        let resource = Resource(url: Constants.Urls.tvGenres, modelType: GenreListResponse.self)
+        return try await httpClient.load(resource).genres
     }
 }

@@ -35,11 +35,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let homeViewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
                 nav.setViewControllers([makeLoginVC()], animated: true)
             })
+            let httpClient: HttpClientProtocol = HttpClient()
             let watchlistViewModel = WatchlistViewModel(
-                service: WatchlistService(),
+                service: WatchlistService(httpClient: httpClient),
                 sessionManager: sessionManager
             )
-            let httpClient: HttpClientProtocol = HttpClient()
             let profileViewModel = ProfileViewModel(
                 service: ProfileService(
                     accountService: AccountService(httpClient: httpClient),
