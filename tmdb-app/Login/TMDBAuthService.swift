@@ -15,10 +15,8 @@ protocol TMDBAuthServiceProtocol {
 
 final class TMDBAuthService: TMDBAuthServiceProtocol {
 
-    // MARK: - Constants
-
-    private let apiKey = Bundle.main.infoDictionary?["TMDB_API_KEY"] as? String ?? ""
-    private let baseURL = "https://api.themoviedb.org/3"
+    private let apiKey = TMDBConfig.apiKey
+    private let baseURL = TMDBConfig.baseURL
 
     // MARK: - Step 1: Create Request Token
 
