@@ -15,36 +15,31 @@ protocol ProfileServiceProtocol {
 
 final class ProfileService: ProfileServiceProtocol {
 
-    private let apiKey = TMDBConfig.apiKey
-    private let baseURL = TMDBConfig.baseURL
+    private let accountService: AccountServiceProtocol
+    private let genreService: GenreServiceProtocol
+
+    init(accountService: AccountServiceProtocol, genreService: GenreServiceProtocol) {
+        self.accountService = accountService
+        self.genreService = genreService
+    }
 
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile {
-        let url = URL(string: "\(baseURL)/account?api_key=\(apiKey)&session_id=\(sessionId)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(AccountProfile.self, from: data)
+        try await accountService.fetchAccountDetails(sessionId: sessionId)
     }
 
     func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie] {
-        let url = URL(string: "\(baseURL)/account/\(accountId)/rated/movies?api_key=\(apiKey)&session_id=\(sessionId)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(RatedResponse<RatedMovie>.self, from: data).results
+        try await accountService.fetchRatedMovies(accountId: accountId, sessionId: sessionId)
     }
 
     func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow] {
-        let url = URL(string: "\(baseURL)/account/\(accountId)/rated/tv?api_key=\(apiKey)&session_id=\(sessionId)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(RatedResponse<RatedTVShow>.self, from: data).results
+        try await accountService.fetchRatedTVShows(accountId: accountId, sessionId: sessionId)
     }
 
     func fetchMovieGenres() async throws -> [GenreItem] {
-        let url = URL(string: "\(baseURL)/genre/movie/list?api_key=\(apiKey)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(GenreListResponse.self, from: data).genres
+        try await genreService.fetchMovieGenres()
     }
 
     func fetchTVGenres() async throws -> [GenreItem] {
-        let url = URL(string: "\(baseURL)/genre/tv/list?api_key=\(apiKey)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(GenreListResponse.self, from: data).genres
+        try await genreService.fetchTVGenres()
     }
 }

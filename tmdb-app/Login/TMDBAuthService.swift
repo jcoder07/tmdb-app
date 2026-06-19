@@ -15,21 +15,13 @@ protocol TMDBAuthServiceProtocol {
 
 final class TMDBAuthService: TMDBAuthServiceProtocol {
 
-    private let apiKey = TMDBConfig.apiKey
-    private let baseURL = TMDBConfig.baseURL
-
     // MARK: - Step 1: Create Request Token
 
     func createRequestToken(
         completion: @escaping (Result<RequestTokenResponse, Error>) -> Void
     ) {
 
-        let urlString = "\(baseURL)/authentication/token/new?api_key=\(apiKey)"
-        guard let url = URL(string: urlString) else {
-            return
-        }
-
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: Constants.Urls.requestToken)
 
         URLSession.shared.dataTask(with: request) { data, response, error in
 
@@ -66,12 +58,7 @@ final class TMDBAuthService: TMDBAuthServiceProtocol {
         completion: @escaping (Result<RequestTokenResponse, Error>) -> Void
     ) {
 
-        let urlString = "\(baseURL)/authentication/token/validate_with_login?api_key=\(apiKey)"
-        guard let url = URL(string: urlString) else {
-            return
-        }
-
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: Constants.Urls.validateLogin)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -116,12 +103,7 @@ final class TMDBAuthService: TMDBAuthServiceProtocol {
         completion: @escaping (Result<CreateSessionResponse, Error>) -> Void
     ) {
 
-        let urlString = "\(baseURL)/authentication/session/new?api_key=\(apiKey)"
-        guard let url = URL(string: urlString) else {
-            return
-        }
-
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: Constants.Urls.createSession)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
