@@ -13,8 +13,8 @@ protocol WatchlistServiceProtocol {
 
 final class WatchlistService: WatchlistServiceProtocol {
 
-    private let apiKey = Bundle.main.infoDictionary?["TMDB_API_KEY"] as? String ?? ""
-    private let baseURL = "https://api.themoviedb.org/3"
+    private let apiKey = TMDBConfig.apiKey
+    private let baseURL = TMDBConfig.baseURL
 
     func fetchAccountId(sessionId: String) async throws -> Int {
         let url = URL(string: "\(baseURL)/account?api_key=\(apiKey)&session_id=\(sessionId)")!

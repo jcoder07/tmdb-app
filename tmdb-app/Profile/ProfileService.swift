@@ -15,8 +15,8 @@ protocol ProfileServiceProtocol {
 
 final class ProfileService: ProfileServiceProtocol {
 
-    private let apiKey = Bundle.main.infoDictionary?["TMDB_API_KEY"] as? String ?? ""
-    private let baseURL = "https://api.themoviedb.org/3"
+    private let apiKey = TMDBConfig.apiKey
+    private let baseURL = TMDBConfig.baseURL
 
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile {
         let url = URL(string: "\(baseURL)/account?api_key=\(apiKey)&session_id=\(sessionId)")!
