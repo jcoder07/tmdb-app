@@ -98,13 +98,13 @@ struct ProfileView: View {
             }
         }
         .task { await viewModel.load() }
-        .alert("Cerrar sesión", isPresented: $showLogoutAlert) {
-            Button("Cancelar", role: .cancel) {}
-            Button("Cerrar sesión", role: .destructive) {
+        .alert("Log Out", isPresented: $showLogoutAlert) {
+            Button("Cancel", role: .cancel) {}
+            Button("Log Out", role: .destructive) {
                 viewModel.logout()
             }
         } message: {
-            Text("¿Estás seguro de que quieres cerrar sesión?")
+            Text("Are you sure you want to log out?")
         }
     }
 
@@ -163,12 +163,12 @@ struct ProfileView: View {
                 HStack(alignment: .center, spacing: 16) {
                     scoreCircle(
                         value: profile.avgMovieScore,
-                        label: "Average\nMovie Score"
+                        label: "Average Movie Score"
                     )
 
                     scoreCircle(
                         value: profile.avgTVScore,
-                        label: "Average\nTV Score"
+                        label: "Average TV Score"
                     )
                 }
                 .frame(maxWidth: .infinity)
@@ -205,7 +205,7 @@ struct ProfileView: View {
         )
     }
 
-    private func scoreCircle(value: Double, label: String) -> some View {
+    private func scoreCircle(value: Double, label: LocalizedStringKey) -> some View {
         HStack(spacing: 10) {
             ZStack {
                 Circle()
@@ -221,7 +221,7 @@ struct ProfileView: View {
                     .frame(width: 48, height: 48)
                     .rotationEffect(.degrees(-90))
 
-                Text("\(Int(value))%")
+                Text(value / 100, format: .percent.precision(.fractionLength(0)))
                     .font(.system(size: 11, weight: .bold))
                     .foregroundStyle(.white)
             }
@@ -294,7 +294,7 @@ struct ProfileView: View {
         }
     }
 
-    private func statCard(title: String, value: String) -> some View {
+    private func statCard(title: LocalizedStringKey, value: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.subheadline)
@@ -400,7 +400,7 @@ struct ProfileView: View {
             HStack {
                 Spacer()
                 Image(systemName: "rectangle.portrait.and.arrow.right")
-                Text("Cerrar sesión")
+                Text("Log Out")
                     .fontWeight(.medium)
                 Spacer()
             }
