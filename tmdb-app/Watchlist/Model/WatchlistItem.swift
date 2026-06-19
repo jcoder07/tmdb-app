@@ -22,7 +22,7 @@ struct WatchlistMovie: Identifiable, Decodable {
 
     var posterURL: URL? {
         guard let posterPath else { return nil }
-        return URL(string: "https://image.tmdb.org/t/p/w185\(posterPath)")
+        return Constants.Urls.poster(path: posterPath)
     }
 }
 
@@ -43,7 +43,7 @@ struct WatchlistTVShow: Identifiable, Decodable {
 
     var posterURL: URL? {
         guard let posterPath else { return nil }
-        return URL(string: "https://image.tmdb.org/t/p/w185\(posterPath)")
+        return Constants.Urls.poster(path: posterPath)
     }
 }
 

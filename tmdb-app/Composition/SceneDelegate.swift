@@ -39,8 +39,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 service: WatchlistService(),
                 sessionManager: sessionManager
             )
+            let httpClient: HttpClientProtocol = HttpClient()
             let profileViewModel = ProfileViewModel(
-                service: ProfileService(),
+                service: ProfileService(
+                    accountService: AccountService(httpClient: httpClient),
+                    genreService: GenreService(httpClient: httpClient)
+                ),
                 sessionManager: sessionManager,
                 onLogout: {
                     nav.setViewControllers([makeLoginVC()], animated: true)

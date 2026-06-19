@@ -85,9 +85,9 @@ final class ProfileViewModel: ObservableObject {
 
         let avatarURLString: String?
         if let tmdbPath = account.avatar.tmdb.avatarPath, !tmdbPath.isEmpty {
-            avatarURLString = "https://image.tmdb.org/t/p/w185\(tmdbPath)"
+            avatarURLString = Constants.Urls.poster(path: tmdbPath)?.absoluteString
         } else {
-            avatarURLString = "https://www.gravatar.com/avatar/\(account.avatar.gravatar.hash)?s=185&d=404"
+            avatarURLString = Constants.Urls.gravatar(hash: account.avatar.gravatar.hash).absoluteString
         }
 
         return UserProfile(
