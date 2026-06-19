@@ -436,15 +436,15 @@ private struct MockProfileService: ProfileServiceProtocol {
         if shouldHang { try await Task.sleep(for: .seconds(100)) }
         if shouldFail { throw URLError(.badServerResponse) }
         return AccountProfile(
-            id: 1,
-            username: "Juanjo07",
-            name: "Juanjo07",
+            id: 6445638,
+            username: "mduranx64",
+            name: "Miguel",
             avatar: AccountProfile.Avatar(
-                gravatar: AccountProfile.Avatar.Gravatar(hash: ""),
+                gravatar: AccountProfile.Avatar.Gravatar(hash: "701f890836bf668eef5bae3c305e3b31"),
                 tmdb: AccountProfile.Avatar.TMDBAvatar(avatarPath: nil)
             ),
-            createdAt: "2023-06-01T00:00:00.000Z",
-            accentColor: "blue"
+            languageCode: "en",
+            regionCode: "CL"
         )
     }
 

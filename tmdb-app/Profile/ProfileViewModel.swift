@@ -65,7 +65,7 @@ final class ProfileViewModel: ObservableObject {
             return RatingBar(rating: rating, count: count)
         }
 
-        let accentHex = resolveAccentHex(account.accentColor)
+        let accentHex = resolveAccentHex(nil)
         let genreMap = Dictionary(uniqueKeysWithValues: genres.map { ($0.id, $0.name) })
         var genreCounts: [Int: Int] = [:]
         movies.flatMap(\.genreIds).forEach { genreCounts[$0, default: 0] += 1 }
