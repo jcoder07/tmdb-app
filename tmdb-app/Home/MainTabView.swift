@@ -8,11 +8,12 @@ import SwiftUI
 struct MainTabView: View {
     let homeViewModel: HomeViewModel
     let watchlistViewModel: WatchlistViewModel
+    let profileViewModel: ProfileViewModel
 
     var body: some View {
         TabView {
             NavigationStack {
-                HomeView(viewModel: homeViewModel)
+                HomeView(viewModel: homeViewModel, profileViewModel: profileViewModel)
             }
             .tabItem { Label("Home", systemImage: "house") }
 

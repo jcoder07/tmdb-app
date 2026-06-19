@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
 
     @ObservedObject var viewModel: HomeViewModel
+    let profileViewModel: ProfileViewModel
     @State private var showingProfile = false
 
     var body: some View {
@@ -28,7 +29,7 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingProfile) {
-                ProfileView()
+                ProfileView(viewModel: profileViewModel)
             }
     }
 }
