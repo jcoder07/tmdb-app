@@ -13,13 +13,6 @@ struct WatchlistMovie: Identifiable, Decodable {
     let voteAverage: Double
     let releaseDate: String?
 
-    enum CodingKeys: String, CodingKey {
-        case id, title, overview
-        case posterPath = "poster_path"
-        case voteAverage = "vote_average"
-        case releaseDate = "release_date"
-    }
-
     var posterURL: URL? {
         guard let posterPath else { return nil }
         return Constants.Urls.poster(path: posterPath)
@@ -33,13 +26,6 @@ struct WatchlistTVShow: Identifiable, Decodable {
     let posterPath: String?
     let voteAverage: Double
     let firstAirDate: String?
-
-    enum CodingKeys: String, CodingKey {
-        case id, name, overview
-        case posterPath = "poster_path"
-        case voteAverage = "vote_average"
-        case firstAirDate = "first_air_date"
-    }
 
     var posterURL: URL? {
         guard let posterPath else { return nil }

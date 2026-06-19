@@ -59,6 +59,9 @@
         }
       }
     },
+    "Invalid response" : {
+      "comment" : "invalidResponse"
+    },
     "Log Out" : {
       "localizations" : {
         "es-419" : {
@@ -222,6 +225,12 @@
           }
         }
       }
+    },
+    "Unable to decode successfully." : {
+      "comment" : "decodingError"
+    },
+    "Unable to perform request" : {
+      "comment" : "badRequestError"
     },
     "User" : {
       "localizations" : {

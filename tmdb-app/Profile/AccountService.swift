@@ -20,17 +20,17 @@ final class AccountService: AccountServiceProtocol {
     }
 
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile {
-        let data = try await httpClient.get(url: Constants.Urls.account(sessionId: sessionId))
-        return try JSONDecoder().decode(AccountProfile.self, from: data)
+        let resource = Resource(url: Constants.Urls.account(sessionId: sessionId), modelType: AccountProfile.self)
+        return try await httpClient.load(resource)
     }
 
     func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie] {
-        let data = try await httpClient.get(url: Constants.Urls.ratedMovies(accountId: accountId, sessionId: sessionId))
-        return try JSONDecoder().decode(RatedResponse<RatedMovie>.self, from: data).results
+        let resource = Resource(url: Constants.Urls.ratedMovies(accountId: accountId, sessionId: sessionId), modelType: RatedResponse<RatedMovie>.self)
+        return try await httpClient.load(resource).results
     }
 
     func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow] {
-        let data = try await httpClient.get(url: Constants.Urls.ratedTVShows(accountId: accountId, sessionId: sessionId))
-        return try JSONDecoder().decode(RatedResponse<RatedTVShow>.self, from: data).results
+        let resource = Resource(url: Constants.Urls.ratedTVShows(accountId: accountId, sessionId: sessionId), modelType: RatedResponse<RatedTVShow>.self)
+        return try await httpClient.load(resource).results
     }
 }

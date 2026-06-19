@@ -13,18 +13,24 @@ protocol WatchlistServiceProtocol {
 
 final class WatchlistService: WatchlistServiceProtocol {
 
+    private let httpClient: HttpClientProtocol
+
+    init(httpClient: HttpClientProtocol) {
+        self.httpClient = httpClient
+    }
+
     func fetchAccountId(sessionId: String) async throws -> Int {
-        let (data, _) = try await URLSession.shared.data(from: Constants.Urls.account(sessionId: sessionId))
-        return try JSONDecoder().decode(AccountDetails.self, from: data).id
+        let resource = Resource(url: Constants.Urls.account(sessionId: sessionId), modelType: AccountDetails.self)
+        return try await httpClient.load(resource).id
     }
 
     func fetchMovies(accountId: Int, sessionId: String) async throws -> [WatchlistMovie] {
-        let (data, _) = try await URLSession.shared.data(from: Constants.Urls.watchlistMovies(accountId: accountId, sessionId: sessionId))
-        return try JSONDecoder().decode(WatchlistResponse<WatchlistMovie>.self, from: data).results
+        let resource = Resource(url: Constants.Urls.watchlistMovies(accountId: accountId, sessionId: sessionId), modelType: WatchlistResponse<WatchlistMovie>.self)
+        return try await httpClient.load(resource).results
     }
 
     func fetchTVShows(accountId: Int, sessionId: String) async throws -> [WatchlistTVShow] {
-        let (data, _) = try await URLSession.shared.data(from: Constants.Urls.watchlistTVShows(accountId: accountId, sessionId: sessionId))
-        return try JSONDecoder().decode(WatchlistResponse<WatchlistTVShow>.self, from: data).results
+        let resource = Resource(url: Constants.Urls.watchlistTVShows(accountId: accountId, sessionId: sessionId), modelType: WatchlistResponse<WatchlistTVShow>.self)
+        return try await httpClient.load(resource).results
     }
 }

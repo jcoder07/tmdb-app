@@ -14,11 +14,12 @@ struct AccountProfile: Decodable {
     let regionCode: String?
     let includeAdult: Bool
 
+    // Custom keys needed: property names differ from JSON keys (iso_639_1, iso_3166_1)
     enum CodingKeys: String, CodingKey {
         case id, username, name, avatar
         case languageCode = "iso_639_1"
         case regionCode = "iso_3166_1"
-        case includeAdult = "include_adult"
+        case includeAdult
     }
 
     // Memberwise init used by previews / tests
@@ -39,9 +40,6 @@ struct AccountProfile: Decodable {
 
         struct TMDBAvatar: Decodable {
             let avatarPath: String?
-            enum CodingKeys: String, CodingKey {
-                case avatarPath = "avatar_path"
-            }
         }
     }
 }
@@ -50,22 +48,12 @@ struct RatedMovie: Decodable {
     let id: Int
     let rating: Double
     let genreIds: [Int]
-
-    enum CodingKeys: String, CodingKey {
-        case id, rating
-        case genreIds = "genre_ids"
-    }
 }
 
 struct RatedTVShow: Decodable {
     let id: Int
     let rating: Double
     let genreIds: [Int]
-
-    enum CodingKeys: String, CodingKey {
-        case id, rating
-        case genreIds = "genre_ids"
-    }
 }
 
 struct GenreItem: Decodable {
