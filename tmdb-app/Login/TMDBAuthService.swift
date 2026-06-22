@@ -2,145 +2,49 @@
 //  TMDBAuthService.swift
 //  tmdb-app
 //
-//  Created by Juan Fernandez on 07-01-26.
-//
 
 import Foundation
 
 protocol TMDBAuthServiceProtocol {
-    func createRequestToken(completion: @escaping (Result<RequestTokenResponse, Error>) -> Void)
-    func validateLogin(username: String, password: String, requestToken: String, completion: @escaping (Result<RequestTokenResponse, Error>) -> Void)
-    func createSession(requestToken: String, completion: @escaping (Result<CreateSessionResponse, Error>) -> Void)
+    func createRequestToken() async throws -> RequestTokenResponse
+    func validateLogin(username: String, password: String, requestToken: String) async throws
+    func createSession(requestToken: String) async throws -> CreateSessionResponse
 }
 
 final class TMDBAuthService: TMDBAuthServiceProtocol {
 
+    private let httpClient: HttpClientProtocol
+
+    init(httpClient: HttpClientProtocol) {
+        self.httpClient = httpClient
+    }
+
     // MARK: - Step 1: Create Request Token
 
-    func createRequestToken(
-        completion: @escaping (Result<RequestTokenResponse, Error>) -> Void
-    ) {
-
-        let request = URLRequest(url: Constants.Urls.requestToken)
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                return
-            }
-
-            // 🔍 Debug REAL
-            print("📦 Request Token RAW:")
-            print(String(data: data, encoding: .utf8) ?? "No data")
-
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let decoded = try decoder.decode(RequestTokenResponse.self, from: data)
-                completion(.success(decoded))
-            } catch {
-                print("❌ Decode error:", error)
-                completion(.failure(error))
-            }
-
-        }.resume()
+    func createRequestToken() async throws -> RequestTokenResponse {
+        let resource = Resource(url: Constants.Urls.requestToken, modelType: RequestTokenResponse.self)
+        return try await httpClient.load(resource)
     }
 
     // MARK: - Step 2: Validate Login
 
-    func validateLogin(
-        username: String,
-        password: String,
-        requestToken: String,
-        completion: @escaping (Result<RequestTokenResponse, Error>) -> Void
-    ) {
-
-        var request = URLRequest(url: Constants.Urls.validateLogin)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body: [String: Any] = [
-            "username": username,
-            "password": password,
-            "request_token": requestToken
-        ]
-
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                return
-            }
-
-            // 🔍 Debug REAL
-            print("📦 Validate Login RAW:")
-            print(String(data: data, encoding: .utf8) ?? "No data")
-
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let decoded = try decoder.decode(RequestTokenResponse.self, from: data)
-                completion(.success(decoded))
-            } catch {
-                print("❌ Decode error:", error)
-                completion(.failure(error))
-            }
-
-        }.resume()
+    func validateLogin(username: String, password: String, requestToken: String) async throws {
+        let body = try encoder.encode(ValidateLoginRequest(username: username, password: password, requestToken: requestToken))
+        let resource = Resource(url: Constants.Urls.validateLogin, method: .post(body), modelType: RequestTokenResponse.self)
+        _ = try await httpClient.load(resource)
     }
-    
+
     // MARK: - Step 3: Create Session ID
 
-    func createSession(
-        requestToken: String,
-        completion: @escaping (Result<CreateSessionResponse, Error>) -> Void
-    ) {
+    func createSession(requestToken: String) async throws -> CreateSessionResponse {
+        let body = try encoder.encode(CreateSessionRequest(requestToken: requestToken))
+        let resource = Resource(url: Constants.Urls.createSession, method: .post(body), modelType: CreateSessionResponse.self)
+        return try await httpClient.load(resource)
+    }
 
-        var request = URLRequest(url: Constants.Urls.createSession)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body: [String: Any] = [
-            "request_token": requestToken
-        ]
-
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                return
-            }
-
-            // 🔍 Debug real
-            print("📦 Create Session RAW:")
-            print(String(data: data, encoding: .utf8) ?? "No data")
-
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let decoded = try decoder.decode(CreateSessionResponse.self, from: data)
-                completion(.success(decoded))
-            } catch {
-                completion(.failure(error))
-            }
-
-        }.resume()
+    private var encoder: JSONEncoder {
+        let e = JSONEncoder()
+        e.keyEncodingStrategy = .convertToSnakeCase
+        return e
     }
 }

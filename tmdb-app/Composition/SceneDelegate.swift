@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Composition root: all dependencies and view controllers are created here
         let sessionManager: SessionManagerProtocol = SessionManager()
-        let authService: TMDBAuthServiceProtocol = TMDBAuthService()
+        let httpClient: HttpClientProtocol = HttpClient()
+        let authService: TMDBAuthServiceProtocol = TMDBAuthService(httpClient: httpClient)
 
         guard let windowScene = scene as? UIWindowScene else { return }
 
@@ -35,7 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let homeViewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
                 nav.setViewControllers([makeLoginVC()], animated: true)
             })
-            let httpClient: HttpClientProtocol = HttpClient()
             let watchlistViewModel = WatchlistViewModel(
                 service: WatchlistService(httpClient: httpClient),
                 sessionManager: sessionManager
