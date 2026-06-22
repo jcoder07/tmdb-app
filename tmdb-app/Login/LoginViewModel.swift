@@ -2,11 +2,10 @@
 //  LoginViewModel.swift
 //  tmdb-app
 //
-//  Created by Juan Fernandez on 07-01-26.
-//
 
 import Foundation
 
+@MainActor
 final class LoginViewModel: ObservableObject {
 
     @Published var username = ""
@@ -24,52 +23,22 @@ final class LoginViewModel: ObservableObject {
         self.onLoginSuccess = onLoginSuccess
     }
 
-    func login() {
+    func login() async {
         isLoading = true
         errorMessage = nil
-
-        authService.createRequestToken { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let tokenResponse):
-                guard let token = tokenResponse.requestToken else {
-                    DispatchQueue.main.async { self.isLoading = false }
-                    return
-                }
-                authService.validateLogin(
-                    username: username,
-                    password: password,
-                    requestToken: token
-                ) { [weak self] result in
-                    guard let self else { return }
-                    switch result {
-                    case .success:
-                        authService.createSession(requestToken: token) { [weak self] result in
-                            guard let self else { return }
-                            DispatchQueue.main.async {
-                                self.isLoading = false
-                                switch result {
-                                case .success(let sessionResponse):
-                                    self.sessionManager.saveSession(id: sessionResponse.sessionId)
-                                    self.onLoginSuccess()
-                                case .failure(let error):
-                                    self.errorMessage = error.localizedDescription
-                                }
-                            }
-                        }
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            self.isLoading = false
-                            self.errorMessage = error.localizedDescription
-                        }
-                    }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.errorMessage = error.localizedDescription
-                }
+        do {
+            let tokenResponse = try await authService.createRequestToken()
+            guard let token = tokenResponse.requestToken else {
+                isLoading = false
+                return
             }
+            try await authService.validateLogin(username: username, password: password, requestToken: token)
+            let session = try await authService.createSession(requestToken: token)
+            sessionManager.saveSession(id: session.sessionId)
+            onLoginSuccess()
+        } catch {
+            errorMessage = error.localizedDescription
         }
+        isLoading = false
     }
 }
