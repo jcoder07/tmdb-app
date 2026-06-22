@@ -53,6 +53,16 @@ struct Resource<T: Decodable> {
     var modelType: T.Type
 }
 
+extension Resource {
+    init(url: URL, body: some Encodable, modelType: T.Type) throws {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        self.url = url
+        self.method = .post(try encoder.encode(body))
+        self.modelType = modelType
+    }
+}
+
 // MARK: - Protocol
 
 protocol HttpClientProtocol {

@@ -29,22 +29,22 @@ final class TMDBAuthService: TMDBAuthServiceProtocol {
     // MARK: - Step 2: Validate Login
 
     func validateLogin(username: String, password: String, requestToken: String) async throws {
-        let body = try encoder.encode(ValidateLoginRequest(username: username, password: password, requestToken: requestToken))
-        let resource = Resource(url: Constants.Urls.validateLogin, method: .post(body), modelType: RequestTokenResponse.self)
+        let resource = try Resource(
+            url: Constants.Urls.validateLogin,
+            body: ValidateLoginRequest(username: username, password: password, requestToken: requestToken),
+            modelType: RequestTokenResponse.self
+        )
         _ = try await httpClient.load(resource)
     }
 
     // MARK: - Step 3: Create Session ID
 
     func createSession(requestToken: String) async throws -> CreateSessionResponse {
-        let body = try encoder.encode(CreateSessionRequest(requestToken: requestToken))
-        let resource = Resource(url: Constants.Urls.createSession, method: .post(body), modelType: CreateSessionResponse.self)
+        let resource = try Resource(
+            url: Constants.Urls.createSession,
+            body: CreateSessionRequest(requestToken: requestToken),
+            modelType: CreateSessionResponse.self
+        )
         return try await httpClient.load(resource)
-    }
-
-    private var encoder: JSONEncoder {
-        let e = JSONEncoder()
-        e.keyEncodingStrategy = .convertToSnakeCase
-        return e
     }
 }
