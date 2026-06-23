@@ -36,7 +36,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let homeViewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
                 nav.setViewControllers([makeLoginVC()], animated: true)
             })
-            let moviesViewModel = MoviesViewModel(service: MoviesService(httpClient: httpClient))
+            let moviesViewModel = MoviesViewModel(
+                service: MoviesService(httpClient: httpClient),
+                detailService: MovieDetailService(httpClient: httpClient)
+            )
             let watchlistViewModel = WatchlistViewModel(
                 service: WatchlistService(httpClient: httpClient),
                 sessionManager: sessionManager

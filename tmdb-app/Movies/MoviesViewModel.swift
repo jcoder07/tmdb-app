@@ -17,9 +17,11 @@ final class MoviesViewModel: ObservableObject {
     private var currentPage = 1
     private var totalPages = 1
     private let service: MoviesServiceProtocol
+    let detailService: MovieDetailServiceProtocol
 
-    init(service: MoviesServiceProtocol) {
+    init(service: MoviesServiceProtocol, detailService: MovieDetailServiceProtocol) {
         self.service = service
+        self.detailService = detailService
     }
 
     var displayedMovies: [PopularMovie] { Array(movies.prefix(displayedCount)) }
