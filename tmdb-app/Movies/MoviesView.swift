@@ -41,7 +41,10 @@ struct MoviesView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.displayedMovies) { movie in
-                            MovieCard(movie: movie)
+                            NavigationLink(value: movie.id) {
+                                MovieCard(movie: movie)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -62,6 +65,9 @@ struct MoviesView: View {
                             }
                         }
                     }
+                }
+                .navigationDestination(for: Int.self) { movieId in
+                    MovieDetailView(movieId: movieId, detailService: viewModel.detailService)
                 }
             }
         }

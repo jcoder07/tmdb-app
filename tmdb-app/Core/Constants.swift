@@ -44,6 +44,22 @@ struct Constants {
             URL(string: "\(base)/movie/popular?api_key=\(key)&page=\(page)")!
         }
 
+        static func movieDetail(id: Int) -> URL {
+            URL(string: "\(base)/movie/\(id)?api_key=\(key)")!
+        }
+
+        static func movieCredits(id: Int) -> URL {
+            URL(string: "\(base)/movie/\(id)/credits?api_key=\(key)")!
+        }
+
+        static func movieReviews(id: Int) -> URL {
+            URL(string: "\(base)/movie/\(id)/reviews?api_key=\(key)")!
+        }
+
+        static func backdrop(path: String) -> URL? {
+            URL(string: "https://image.tmdb.org/t/p/w780\(path)")
+        }
+
         // MARK: - Genres
         static let movieGenres = URL(string: "\(base)/genre/movie/list?api_key=\(key)")!
         static let tvGenres = URL(string: "\(base)/genre/tv/list?api_key=\(key)")!
