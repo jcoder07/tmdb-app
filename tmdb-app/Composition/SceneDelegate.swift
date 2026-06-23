@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let homeViewModel = HomeViewModel(sessionManager: sessionManager, onLogout: {
                 nav.setViewControllers([makeLoginVC()], animated: true)
             })
+            let moviesViewModel = MoviesViewModel(service: MoviesService(httpClient: httpClient))
             let watchlistViewModel = WatchlistViewModel(
                 service: WatchlistService(httpClient: httpClient),
                 sessionManager: sessionManager
@@ -52,6 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             )
             return UIHostingController(rootView: MainTabView(
                 homeViewModel: homeViewModel,
+                moviesViewModel: moviesViewModel,
                 watchlistViewModel: watchlistViewModel,
                 profileViewModel: profileViewModel
             ))
