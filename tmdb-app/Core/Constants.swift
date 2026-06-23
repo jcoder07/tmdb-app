@@ -39,6 +39,11 @@ struct Constants {
             URL(string: "\(base)/account/\(accountId)/watchlist/tv?api_key=\(key)&session_id=\(sessionId)")!
         }
 
+        // MARK: - Movies
+        static func popularMovies(page: Int = 1) -> URL {
+            URL(string: "\(base)/movie/popular?api_key=\(key)&page=\(page)")!
+        }
+
         // MARK: - Genres
         static let movieGenres = URL(string: "\(base)/genre/movie/list?api_key=\(key)")!
         static let tvGenres = URL(string: "\(base)/genre/tv/list?api_key=\(key)")!

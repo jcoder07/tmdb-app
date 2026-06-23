@@ -7,6 +7,7 @@ import SwiftUI
 
 struct MainTabView: View {
     let homeViewModel: HomeViewModel
+    let moviesViewModel: MoviesViewModel
     let watchlistViewModel: WatchlistViewModel
     let profileViewModel: ProfileViewModel
     @State private var selectedTab = 0
@@ -21,7 +22,7 @@ struct MainTabView: View {
             .tabItem { Label("Home", systemImage: "house") }
             .tag(0)
 
-            NavigationStack { MoviesView() }
+            NavigationStack { MoviesView(viewModel: moviesViewModel) }
             .tabItem { Label("Movies", systemImage: "film") }
             .tag(1)
 
