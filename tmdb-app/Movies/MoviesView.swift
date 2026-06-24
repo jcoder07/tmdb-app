@@ -67,7 +67,7 @@ struct MoviesView: View {
                     }
                 }
                 .navigationDestination(for: Int.self) { movieId in
-                    MovieDetailView(movieId: movieId, detailService: viewModel.detailService)
+                    MovieDetailView(viewModel: viewModel.makeDetailViewModel(for: movieId))
                 }
             }
         }

@@ -7,13 +7,9 @@ import SwiftUI
 
 struct MovieDetailView: View {
 
-    @StateObject private var viewModel: MovieDetailViewModel
+    @ObservedObject var viewModel: MovieDetailViewModel
     @Environment(\.dismiss) private var dismiss
     @Environment(\.verticalSizeClass) private var verticalSizeClass
-
-    init(movieId: Int, detailService: MovieDetailServiceProtocol) {
-        _viewModel = StateObject(wrappedValue: MovieDetailViewModel(movieId: movieId, service: detailService))
-    }
 
     var body: some View {
         ZStack {

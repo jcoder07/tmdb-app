@@ -17,11 +17,19 @@ final class MoviesViewModel: ObservableObject {
     private var currentPage = 1
     private var totalPages = 1
     private let service: MoviesServiceProtocol
-    let detailService: MovieDetailServiceProtocol
+    private let detailService: MovieDetailServiceProtocol
+    private var detailViewModels: [Int: MovieDetailViewModel] = [:]
 
     init(service: MoviesServiceProtocol, detailService: MovieDetailServiceProtocol) {
         self.service = service
         self.detailService = detailService
+    }
+
+    func makeDetailViewModel(for movieId: Int) -> MovieDetailViewModel {
+        if let existing = detailViewModels[movieId] { return existing }
+        let vm = MovieDetailViewModel(movieId: movieId, service: detailService)
+        detailViewModels[movieId] = vm
+        return vm
     }
 
     var displayedMovies: [PopularMovie] { Array(movies.prefix(displayedCount)) }
