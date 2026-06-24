@@ -13,7 +13,7 @@ final class MoviesService: MoviesServiceProtocol {
 
     private let httpClient: HttpClientProtocol
 
-    init(httpClient: HttpClientProtocol = HttpClient()) {
+    init(httpClient: HttpClientProtocol) {
         self.httpClient = httpClient
     }
 
