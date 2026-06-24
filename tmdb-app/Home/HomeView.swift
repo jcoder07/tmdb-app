@@ -11,6 +11,7 @@ struct HomeView: View {
 
     @ObservedObject var viewModel: HomeViewModel
     let profileViewModel: ProfileViewModel
+    let onGoToWatchlist: () -> Void
     @State private var showingProfile = false
 
     var body: some View {
@@ -29,7 +30,10 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingProfile) {
-                ProfileView(viewModel: profileViewModel)
+                ProfileView(viewModel: profileViewModel, onGoToWatchlist: {
+                    showingProfile = false
+                    onGoToWatchlist()
+                })
             }
     }
 }

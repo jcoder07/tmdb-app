@@ -73,6 +73,7 @@ struct ProfileView: View {
     @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var showLogoutAlert = false
+    let onGoToWatchlist: () -> Void
 
     private var profile: UserProfile { viewModel.profile ?? .preview }
 
@@ -83,16 +84,38 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else if let message = viewModel.errorMessage, viewModel.profile == nil {
-                VStack(spacing: 16) {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 40))
-                        .foregroundStyle(.secondary)
-                    Text(message)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                ZStack(alignment: .topTrailing) {
+                    VStack(spacing: 16) {
+                        Image(systemName: "exclamationmark.triangle")
+                            .font(.system(size: 40))
+                            .foregroundStyle(.secondary)
+
+                        Text(message)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+
+                        Button {
+                            Task { await viewModel.load() }
+                        } label: {
+                            Text("Retry")
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.red)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .imageScale(.large)
+                            .foregroundStyle(.black.opacity(0.8))
+                    }
+                    .padding(.top, 56)
+                    .padding(.trailing, 16)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+       
             } else {
                 mainScrollView
             }
@@ -264,13 +287,19 @@ struct ProfileView: View {
     private var contentSection: some View {
         VStack(alignment: .leading, spacing: 0) {
 
-            Text("Stats")
-                .font(.title3)
-                .fontWeight(.bold)
-                .foregroundStyle(.primary)
-                .padding(.horizontal, 20)
-                .padding(.top, 28)
-                .padding(.bottom, 4)
+            HStack(alignment: .center) {
+                Text("Stats")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.primary)
+                    .padding(.bottom, 4)
+                Spacer()
+                watchlistButton
+                    .padding(.top, 20)
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 28)
+            .padding(.bottom, 4)
 
             HStack(spacing: 16) {
                 statCard(title: "Rated Movies", value: "\(profile.totalMovieRatings)")
@@ -393,6 +422,20 @@ struct ProfileView: View {
         return result
     }
 
+    private var watchlistButton: some View {
+        Button {
+            onGoToWatchlist()
+        } label: {
+            HStack {
+                //Image(systemName: "bookmark.fill")
+                Text("Go To Watchlist")
+                    .fontWeight(.medium)
+            }
+            .foregroundStyle(Color(hex: "01B4E4"))
+            .font(.subheadline)
+        }
+    }
+
     private var logoutButton: some View {
         Button {
             showLogoutAlert = true
@@ -498,7 +541,7 @@ private struct MockSessionManager: SessionManagerProtocol {
         service: MockProfileService(),
         sessionManager: MockSessionManager(),
         onLogout: {}
-    ))
+    ), onGoToWatchlist: {})
 }
 
 #Preview("Loading") {
@@ -506,7 +549,7 @@ private struct MockSessionManager: SessionManagerProtocol {
         service: MockProfileService(shouldHang: true),
         sessionManager: MockSessionManager(),
         onLogout: {}
-    ))
+    ), onGoToWatchlist: {})
 }
 
 #Preview("Error") {
@@ -514,5 +557,5 @@ private struct MockSessionManager: SessionManagerProtocol {
         service: MockProfileService(shouldFail: true),
         sessionManager: MockSessionManager(),
         onLogout: {}
-    ))
+    ), onGoToWatchlist: {})
 }
