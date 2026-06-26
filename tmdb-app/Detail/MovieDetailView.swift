@@ -345,7 +345,7 @@ private struct CastRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            AsyncImage(url: member.profilePath.flatMap { URL(string: "https://image.tmdb.org/t/p/w185\($0)") }) { phase in
+            AsyncImage(url: member.profilePath.flatMap { Constants.Urls.poster(path: $0) }) { phase in
                 switch phase {
                 case .success(let image):
                     image.resizable().scaledToFill()
