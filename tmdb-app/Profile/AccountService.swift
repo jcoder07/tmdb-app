@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 protocol AccountServiceProtocol {
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile

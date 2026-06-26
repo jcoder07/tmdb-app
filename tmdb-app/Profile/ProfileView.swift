@@ -5,6 +5,7 @@
 
 import SwiftUI
 import Charts
+import TMDBCore
 
 // MARK: - Models
 

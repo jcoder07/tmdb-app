@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 protocol GenreServiceProtocol {
     func fetchMovieGenres() async throws -> [GenreItem]

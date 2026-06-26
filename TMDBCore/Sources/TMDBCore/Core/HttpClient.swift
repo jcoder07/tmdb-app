@@ -1,13 +1,8 @@
-//
-//  HttpClient.swift
-//  tmdb-app
-//
-
 import Foundation
 
 // MARK: - Errors
 
-enum NetworkError: Error {
+public enum NetworkError: Error {
     case badRequest
     case serverError(String)
     case decodingError
@@ -15,7 +10,7 @@ enum NetworkError: Error {
 }
 
 extension NetworkError: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .badRequest:
             return NSLocalizedString("Unable to perform request", comment: "badRequestError")
@@ -31,12 +26,12 @@ extension NetworkError: LocalizedError {
 
 // MARK: - HTTP Method
 
-enum HTTPMethod {
+public enum HTTPMethod {
     case get([URLQueryItem])
     case post(Data?)
     case delete
 
-    var name: String {
+    public var name: String {
         switch self {
         case .get:    return "GET"
         case .post:   return "POST"
@@ -47,14 +42,20 @@ enum HTTPMethod {
 
 // MARK: - Resource
 
-struct Resource<T: Decodable> {
-    let url: URL
-    var method: HTTPMethod = .get([])
-    var modelType: T.Type
+public struct Resource<T: Decodable> {
+    public let url: URL
+    public var method: HTTPMethod = .get([])
+    public var modelType: T.Type
+
+    public init(url: URL, method: HTTPMethod = .get([]), modelType: T.Type) {
+        self.url = url
+        self.method = method
+        self.modelType = modelType
+    }
 }
 
 extension Resource {
-    init(url: URL, body: some Encodable, modelType: T.Type) throws {
+    public init(url: URL, body: some Encodable, modelType: T.Type) throws {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         self.url = url
@@ -65,7 +66,7 @@ extension Resource {
 
 // MARK: - Protocol
 
-protocol HttpClientProtocol {
+public protocol HttpClientProtocol {
     func load<T: Decodable>(_ resource: Resource<T>) async throws -> T
 }
 
@@ -84,13 +85,15 @@ private extension Data {
 
 // MARK: - Implementation
 
-struct HttpClient: HttpClientProtocol {
+public struct HttpClient: HttpClientProtocol {
+
+    public init() {}
 
     private var defaultHeaders: [String: String] {
         ["Content-Type": "application/json"]
     }
 
-    func load<T: Decodable>(_ resource: Resource<T>) async throws -> T {
+    public func load<T: Decodable>(_ resource: Resource<T>) async throws -> T {
         var request: URLRequest
 
         switch resource.method {
@@ -130,7 +133,7 @@ struct HttpClient: HttpClientProtocol {
         let result: T
         do {
             result = try decoder.decode(resource.modelType, from: data)
-            
+
             #if DEBUG
             let allHeaders = defaultHeaders.merging(request.allHTTPHeaderFields ?? [:]) { _, requestValue in requestValue }
             print("🟢 URL: \(request.url?.absoluteString ?? "")",

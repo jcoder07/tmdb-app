@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 final class HomeViewModel: ObservableObject {
 

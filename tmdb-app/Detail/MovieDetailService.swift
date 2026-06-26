@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 protocol MovieDetailServiceProtocol {
     func fetchMovieDetail(id: Int) async throws -> MovieDetail

@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 protocol WatchlistServiceProtocol {
     func fetchAccountId(sessionId: String) async throws -> Int

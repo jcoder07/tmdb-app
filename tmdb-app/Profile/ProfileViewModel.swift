@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import TMDBCore
 
 @MainActor
 final class ProfileViewModel: ObservableObject {

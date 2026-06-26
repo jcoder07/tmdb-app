@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 protocol MoviesServiceProtocol {
     func fetchPopularMovies(page: Int) async throws -> PopularMoviesResponse
