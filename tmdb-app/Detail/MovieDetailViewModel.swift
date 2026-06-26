@@ -4,16 +4,19 @@
 //
 
 import SwiftUI
+import Observation
 
 @MainActor
-final class MovieDetailViewModel: ObservableObject {
+@Observable
+final class MovieDetailViewModel {
 
-    @Published var detail: MovieDetail?
-    @Published var cast: [CastMember] = []
-    @Published var reviews: [Review] = []
-    @Published var isLoading = false
-    @Published var errorMessage: String?
-    @Published var showFullCast = false
+    var detail: MovieDetail?
+    private(set) var cast: [CastMember] = []       { didSet { recomputeDisplayedCast() } }
+    private(set) var displayedCast: [CastMember] = []
+    var reviews: [Review] = []
+    var isLoading = false
+    var errorMessage: String?
+    var showFullCast = false                        { didSet { recomputeDisplayedCast() } }
 
     private let movieId: Int
     private let service: MovieDetailServiceProtocol
@@ -22,8 +25,6 @@ final class MovieDetailViewModel: ObservableObject {
         self.movieId = movieId
         self.service = service
     }
-
-    var displayedCast: [CastMember] { showFullCast ? cast : Array(cast.prefix(6)) }
 
     func load() async {
         guard !isLoading else { return }
@@ -38,5 +39,9 @@ final class MovieDetailViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
         isLoading = false
+    }
+
+    private func recomputeDisplayedCast() {
+        displayedCast = showFullCast ? cast : Array(cast.prefix(6))
     }
 }
