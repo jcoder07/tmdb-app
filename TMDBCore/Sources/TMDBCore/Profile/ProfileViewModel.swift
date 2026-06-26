@@ -1,25 +1,19 @@
-//
-//  ProfileViewModel.swift
-//  tmdb-app
-//
-
-import SwiftUI
+import Foundation
 import Observation
-import TMDBCore
 
 @MainActor
 @Observable
-final class ProfileViewModel {
+public final class ProfileViewModel {
 
-    var profile: UserProfile?
-    var isLoading = false
-    var errorMessage: String?
+    public var profile: UserProfile?
+    public var isLoading = false
+    public var errorMessage: String?
 
-    private let service: ProfileServiceProtocol
-    private let sessionManager: SessionManagerProtocol
+    nonisolated(unsafe) private let service: any ProfileServiceProtocol
+    nonisolated(unsafe) private let sessionManager: any SessionManagerProtocol
     private let onLogout: () -> Void
 
-    init(
+    public init(
         service: ProfileServiceProtocol,
         sessionManager: SessionManagerProtocol,
         onLogout: @escaping () -> Void
@@ -29,14 +23,15 @@ final class ProfileViewModel {
         self.onLogout = onLogout
     }
 
-    func load() async {
+    public func load() async {
         guard let sessionId = sessionManager.getSession() else { return }
         isLoading = true
         errorMessage = nil
         do {
             let account = try await service.fetchAccountDetails(sessionId: sessionId)
-            async let moviesTask      = service.fetchRatedMovies(accountId: account.id, sessionId: sessionId)
-            async let tvTask          = service.fetchRatedTVShows(accountId: account.id, sessionId: sessionId)
+            let accountId = account.id
+            async let moviesTask      = service.fetchRatedMovies(accountId: accountId, sessionId: sessionId)
+            async let tvTask          = service.fetchRatedTVShows(accountId: accountId, sessionId: sessionId)
             async let movieGenresTask = service.fetchMovieGenres()
             async let tvGenresTask    = service.fetchTVGenres()
             let (movies, tvShows, movieGenres, tvGenres) = try await (moviesTask, tvTask, movieGenresTask, tvGenresTask)
@@ -48,7 +43,7 @@ final class ProfileViewModel {
         isLoading = false
     }
 
-    func logout() {
+    public func logout() {
         sessionManager.clearSession()
         onLogout()
     }
@@ -81,7 +76,7 @@ final class ProfileViewModel {
             let opacity = sorted.count > 1
                 ? 1.0 - Double(index) / Double(sorted.count - 1) * 0.75
                 : 1.0
-            return GenreSlice(name: name, color: Color(hex: accentHex).opacity(opacity), percentage: pct)
+            return GenreSlice(name: name, colorHex: accentHex, opacity: opacity, percentage: pct)
         }
 
         return UserProfile(

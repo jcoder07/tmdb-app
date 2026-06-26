@@ -1,8 +1,3 @@
-//
-//  MovieDTO.swift
-//  tmdb-app
-//
-
 import Foundation
 
 struct PopularMovieDTO: Decodable {

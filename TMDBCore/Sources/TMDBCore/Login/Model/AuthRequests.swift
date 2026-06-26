@@ -1,8 +1,3 @@
-//
-//  AuthRequests.swift
-//  tmdb-app
-//
-
 import Foundation
 
 struct ValidateLoginRequest: Encodable {

@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import TMDBCore
 
 struct LoginView: View {
 
-    @ObservedObject var viewModel: LoginViewModel
+    @Bindable var viewModel: LoginViewModel
 
     var body: some View {
         VStack(spacing: 16) {

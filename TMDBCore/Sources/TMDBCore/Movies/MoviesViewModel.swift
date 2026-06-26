@@ -1,42 +1,36 @@
-//
-//  MoviesViewModel.swift
-//  tmdb-app
-//
-
-import SwiftUI
 import Observation
 
 @MainActor
 @Observable
-final class MoviesViewModel {
+public final class MoviesViewModel {
 
-    private(set) var movies: [Movie] = []       { didSet { recomputeDerived() } }
-    private(set) var displayedMovies: [Movie] = []
-    private(set) var canShowMore = false
-    var isLoading = false
-    var isLoadingMore = false
-    var errorMessage: String?
+    public private(set) var movies: [Movie] = []       { didSet { recomputeDerived() } }
+    public private(set) var displayedMovies: [Movie] = []
+    public private(set) var canShowMore = false
+    public var isLoading = false
+    public var isLoadingMore = false
+    public var errorMessage: String?
 
     private var displayedCount = 8  { didSet { recomputeDerived() } }
     private var currentPage = 1     { didSet { recomputeDerived() } }
     private var totalPages = 1      { didSet { recomputeDerived() } }
-    private let service: MoviesServiceProtocol
-    private let detailService: MovieDetailServiceProtocol
+    nonisolated(unsafe) private let service: any MoviesServiceProtocol
+    nonisolated(unsafe) private let detailService: any MovieDetailServiceProtocol
     private var detailViewModels: [Int: MovieDetailViewModel] = [:]
 
-    init(service: MoviesServiceProtocol, detailService: MovieDetailServiceProtocol) {
+    public init(service: MoviesServiceProtocol, detailService: MovieDetailServiceProtocol) {
         self.service = service
         self.detailService = detailService
     }
 
-    func makeDetailViewModel(for movieId: Int) -> MovieDetailViewModel {
+    public func makeDetailViewModel(for movieId: Int) -> MovieDetailViewModel {
         if let existing = detailViewModels[movieId] { return existing }
         let vm = MovieDetailViewModel(movieId: movieId, service: detailService)
         detailViewModels[movieId] = vm
         return vm
     }
 
-    func load() async {
+    public func load() async {
         guard !isLoading else { return }
         isLoading = true
         errorMessage = nil
@@ -52,7 +46,7 @@ final class MoviesViewModel {
         isLoading = false
     }
 
-    func showMore() async {
+    public func showMore() async {
         let nextCount = displayedCount + 8
         if nextCount > movies.count && currentPage < totalPages {
             isLoadingMore = true

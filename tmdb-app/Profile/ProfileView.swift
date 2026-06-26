@@ -30,11 +30,11 @@ extension UserProfile {
             RatingBar(rating: 10, count: 0),
         ],
         topGenres: [
-            GenreSlice(name: "Action",    color: Color(hex: "01B4E4").opacity(1.00), percentage: 0.35),
-            GenreSlice(name: "Drama",     color: Color(hex: "01B4E4").opacity(0.81), percentage: 0.25),
-            GenreSlice(name: "Adventure", color: Color(hex: "01B4E4").opacity(0.62), percentage: 0.20),
-            GenreSlice(name: "Comedy",    color: Color(hex: "01B4E4").opacity(0.44), percentage: 0.12),
-            GenreSlice(name: "Thriller",  color: Color(hex: "01B4E4").opacity(0.25), percentage: 0.08),
+            GenreSlice(name: "Action",    colorHex: "01B4E4", opacity: 1.00, percentage: 0.35),
+            GenreSlice(name: "Drama",     colorHex: "01B4E4", opacity: 0.81, percentage: 0.25),
+            GenreSlice(name: "Adventure", colorHex: "01B4E4", opacity: 0.62, percentage: 0.20),
+            GenreSlice(name: "Comedy",    colorHex: "01B4E4", opacity: 0.44, percentage: 0.12),
+            GenreSlice(name: "Thriller",  colorHex: "01B4E4", opacity: 0.25, percentage: 0.08),
         ],
         accentHex: "01B4E4"
     )
@@ -436,7 +436,7 @@ private struct ProfileGenresCard: View {
         var current = 0.0
         for genre in topGenres {
             let end = current + genre.percentage
-            result.append((id: genre.id, start: current, end: end, color: genre.color))
+            result.append((id: genre.id, start: current, end: end, color: Color(hex: genre.colorHex).opacity(genre.opacity)))
             current = end
         }
         return result
@@ -464,7 +464,7 @@ private struct ProfileGenresCard: View {
                 ForEach(topGenres) { genre in
                     HStack(spacing: 8) {
                         RoundedRectangle(cornerRadius: 3)
-                            .fill(genre.color)
+                            .fill(Color(hex: genre.colorHex).opacity(genre.opacity))
                             .frame(width: 14, height: 14)
                         Text(genre.name)
                             .font(.subheadline)
