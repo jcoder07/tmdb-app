@@ -29,7 +29,7 @@ extension WatchlistMovie {
     }
 }
 
-public struct WatchlistTVShow: Identifiable, Sendable {
+public struct WatchlistTVShow: Identifiable {
     public let id: Int
     public let name: String
     public let overview: String

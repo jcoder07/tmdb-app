@@ -13,8 +13,8 @@ public final class WatchlistViewModel {
     public var isLoading = false
     public var errorMessage: String?
 
-    private let service: WatchlistServiceProtocol
-    private let sessionManager: SessionManagerProtocol
+    nonisolated(unsafe) private let service: any WatchlistServiceProtocol
+    nonisolated(unsafe) private let sessionManager: any SessionManagerProtocol
 
     public init(service: WatchlistServiceProtocol, sessionManager: SessionManagerProtocol) {
         self.service = service
@@ -27,9 +27,8 @@ public final class WatchlistViewModel {
         errorMessage = nil
         do {
             let accountId = try await service.fetchAccountId(sessionId: sessionId)
-            async let moviesTask = service.fetchMovies(accountId: accountId, sessionId: sessionId)
-            async let tvShowsTask = service.fetchTVShows(accountId: accountId, sessionId: sessionId)
-            (movies, tvShows) = try await (moviesTask, tvShowsTask)
+            movies = try await service.fetchMovies(accountId: accountId, sessionId: sessionId)
+            tvShows = try await service.fetchTVShows(accountId: accountId, sessionId: sessionId)
         } catch {
             errorMessage = error.localizedDescription
         }
