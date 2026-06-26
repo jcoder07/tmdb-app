@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import TMDBCore
 
 struct MainTabView: View {
     let homeViewModel: HomeViewModel
