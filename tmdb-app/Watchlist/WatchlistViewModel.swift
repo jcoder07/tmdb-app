@@ -4,17 +4,19 @@
 //
 
 import Foundation
+import Observation
 
 @MainActor
-final class WatchlistViewModel: ObservableObject {
+@Observable
+final class WatchlistViewModel {
 
     enum Tab { case movies, tvShows }
 
-    @Published var selectedTab: Tab = .movies
-    @Published var movies: [WatchlistMovie] = []
-    @Published var tvShows: [WatchlistTVShow] = []
-    @Published var isLoading = false
-    @Published var errorMessage: String?
+    var selectedTab: Tab = .movies
+    var movies: [WatchlistMovie] = []
+    var tvShows: [WatchlistTVShow] = []
+    var isLoading = false
+    var errorMessage: String?
 
     private let service: WatchlistServiceProtocol
     private let sessionManager: SessionManagerProtocol
