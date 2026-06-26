@@ -1,30 +1,30 @@
-//
-//  LoginViewModel.swift
-//  tmdb-app
-//
-
 import Foundation
-import TMDBCore
+import Observation
 
 @MainActor
-final class LoginViewModel: ObservableObject {
+@Observable
+public final class LoginViewModel {
 
-    @Published var username = ""
-    @Published var password = ""
-    @Published var isLoading = false
-    @Published var errorMessage: String?
+    public var username = ""
+    public var password = ""
+    public var isLoading = false
+    public var errorMessage: String?
 
-    private let sessionManager: SessionManagerProtocol
-    private let authService: TMDBAuthServiceProtocol
+    nonisolated(unsafe) private let sessionManager: any SessionManagerProtocol
+    nonisolated(unsafe) private let authService: any TMDBAuthServiceProtocol
     private let onLoginSuccess: () -> Void
 
-    init(sessionManager: SessionManagerProtocol, authService: TMDBAuthServiceProtocol, onLoginSuccess: @escaping () -> Void) {
+    public init(
+        sessionManager: SessionManagerProtocol,
+        authService: TMDBAuthServiceProtocol,
+        onLoginSuccess: @escaping () -> Void
+    ) {
         self.sessionManager = sessionManager
         self.authService = authService
         self.onLoginSuccess = onLoginSuccess
     }
 
-    func login() async {
+    public func login() async {
         isLoading = true
         errorMessage = nil
         do {

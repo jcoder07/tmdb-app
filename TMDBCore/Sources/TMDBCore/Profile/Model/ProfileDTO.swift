@@ -1,8 +1,3 @@
-//
-//  ProfileDTO.swift
-//  tmdb-app
-//
-
 import Foundation
 
 struct AccountProfileDTO: Decodable {
