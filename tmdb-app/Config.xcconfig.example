@@ -1,2 +1,0 @@
-TMDB_API_KEY = your_api_key_here
-INFOPLIST_KEY_TMDB_API_KEY = $(TMDB_API_KEY)

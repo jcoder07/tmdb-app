@@ -10,7 +10,7 @@ import TMDBCore
 
 struct HomeView: View {
 
-    @ObservedObject var viewModel: HomeViewModel
+    let viewModel: HomeViewModel
     let profileViewModel: ProfileViewModel
     let onGoToWatchlist: () -> Void
     @State private var showingProfile = false
