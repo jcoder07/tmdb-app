@@ -1,33 +1,27 @@
-//
-//  WatchlistViewModel.swift
-//  tmdb-app
-//
-
 import Foundation
 import Observation
-import TMDBCore
 
 @MainActor
 @Observable
-final class WatchlistViewModel {
+public final class WatchlistViewModel {
 
-    enum Tab { case movies, tvShows }
+    public enum Tab { case movies, tvShows }
 
-    var selectedTab: Tab = .movies
-    var movies: [WatchlistMovie] = []
-    var tvShows: [WatchlistTVShow] = []
-    var isLoading = false
-    var errorMessage: String?
+    public var selectedTab: Tab = .movies
+    public var movies: [WatchlistMovie] = []
+    public var tvShows: [WatchlistTVShow] = []
+    public var isLoading = false
+    public var errorMessage: String?
 
     private let service: WatchlistServiceProtocol
     private let sessionManager: SessionManagerProtocol
 
-    init(service: WatchlistServiceProtocol, sessionManager: SessionManagerProtocol) {
+    public init(service: WatchlistServiceProtocol, sessionManager: SessionManagerProtocol) {
         self.service = service
         self.sessionManager = sessionManager
     }
 
-    func load() async {
+    public func load() async {
         guard let sessionId = sessionManager.getSession() else { return }
         isLoading = true
         errorMessage = nil
