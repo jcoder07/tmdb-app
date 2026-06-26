@@ -1,12 +1,11 @@
 //
 //  WatchlistView.swift
 //  tmdb-app
-//
 
 import SwiftUI
 
 struct WatchlistView: View {
-    @ObservedObject var viewModel: WatchlistViewModel
+    var viewModel: WatchlistViewModel
 
     var body: some View {
         Group {
@@ -28,7 +27,7 @@ struct WatchlistView: View {
 }
 
 private struct WatchlistContentView: View {
-    @ObservedObject var viewModel: WatchlistViewModel
+    @Bindable var viewModel: WatchlistViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -44,13 +43,25 @@ private struct WatchlistContentView: View {
             case .movies:
                 WatchlistListView(isEmpty: viewModel.movies.isEmpty, emptyLabel: "No movies in your watchlist") {
                     ForEach(viewModel.movies) { movie in
-                        WatchlistMovieRow(movie: movie)
+                        WatchlistItemRow(
+                            title: movie.title,
+                            overview: movie.overview,
+                            posterURL: movie.posterURL,
+                            voteAverage: movie.voteAverage,
+                            year: movie.releaseDate.map { String($0.prefix(4)) }
+                        )
                     }
                 }
             case .tvShows:
                 WatchlistListView(isEmpty: viewModel.tvShows.isEmpty, emptyLabel: "No TV shows in your watchlist") {
                     ForEach(viewModel.tvShows) { show in
-                        WatchlistTVShowRow(show: show)
+                        WatchlistItemRow(
+                            title: show.name,
+                            overview: show.overview,
+                            posterURL: show.posterURL,
+                            voteAverage: show.voteAverage,
+                            year: show.firstAirDate.map { String($0.prefix(4)) }
+                        )
                     }
                 }
             }
@@ -73,53 +84,29 @@ private struct WatchlistListView<Content: View>: View {
     }
 }
 
-private struct WatchlistMovieRow: View {
-    let movie: WatchlistMovie
+private struct WatchlistItemRow: View {
+    let title: String
+    let overview: String
+    let posterURL: URL?
+    let voteAverage: Double
+    let year: String?
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            PosterImage(url: movie.posterURL)
+            PosterImage(url: posterURL)
             VStack(alignment: .leading, spacing: 4) {
-                Text(movie.title)
+                Text(title)
                     .font(.headline)
                     .lineLimit(2)
                 HStack(spacing: 8) {
-                    if let year = movie.releaseDate?.prefix(4) {
+                    if let year {
                         Text(year)
                             .foregroundStyle(.secondary)
                     }
-                    RatingBadge(value: movie.voteAverage)
+                    RatingBadge(value: voteAverage)
                 }
                 .font(.subheadline)
-                Text(movie.overview)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(3)
-            }
-        }
-        .padding(.vertical, 4)
-    }
-}
-
-private struct WatchlistTVShowRow: View {
-    let show: WatchlistTVShow
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            PosterImage(url: show.posterURL)
-            VStack(alignment: .leading, spacing: 4) {
-                Text(show.name)
-                    .font(.headline)
-                    .lineLimit(2)
-                HStack(spacing: 8) {
-                    if let year = show.firstAirDate?.prefix(4) {
-                        Text(year)
-                            .foregroundStyle(.secondary)
-                    }
-                    RatingBadge(value: show.voteAverage)
-                }
-                .font(.subheadline)
-                Text(show.overview)
+                Text(overview)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(3)
@@ -153,7 +140,7 @@ private struct RatingBadge: View {
         HStack(spacing: 2) {
             Image(systemName: "star.fill")
                 .foregroundStyle(.yellow)
-            Text(String(format: "%.1f", value))
+            Text(value, format: .number.precision(.fractionLength(1)))
         }
     }
 }
