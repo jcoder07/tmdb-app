@@ -3,6 +3,7 @@
 //  tmdb-app
 
 import SwiftUI
+import TMDBCore
 
 struct WatchlistView: View {
     var viewModel: WatchlistViewModel

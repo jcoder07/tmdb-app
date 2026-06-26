@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 struct WatchlistMovie: Identifiable {
     let id: Int

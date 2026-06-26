@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 protocol TMDBAuthServiceProtocol {
     func createRequestToken() async throws -> RequestTokenResponse

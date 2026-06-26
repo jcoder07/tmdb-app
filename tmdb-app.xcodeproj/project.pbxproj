@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		49580CC32FEE833600EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC22FEE833600EFE953 /* TMDBCore */; };
 		49580CC52FEE835300EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC42FEE835300EFE953 /* TMDBCore */; };
+		49580CCF2FEEDFDB00EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CCE2FEEDFDB00EFE953 /* TMDBCore */; };
 		49FAFA982FD8A54A00A4D174 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 49FAFA972FD8A54A00A4D174 /* CLAUDE.md */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49580CCF2FEEDFDB00EFE953 /* TMDBCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +232,7 @@
 			);
 			name = "tmdb-app";
 			packageProductDependencies = (
+				49580CCE2FEEDFDB00EFE953 /* TMDBCore */,
 			);
 			productName = "tmdb-app";
 			productReference = 47DDB7C42F0C1CC400946C49 /* tmdb-app.app */;
@@ -754,6 +757,8 @@
 		};
 		494CC05F2FEE7BAB000C93C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -786,6 +791,8 @@
 		};
 		494CC0602FEE7BAB000C93C2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -900,6 +907,8 @@
 		};
 		49580CB72FEE827400EFE953 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 49580C932FEE827300EFE953 /* TMDBUIKit */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -932,6 +941,8 @@
 		};
 		49580CB82FEE827400EFE953 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 49580C932FEE827300EFE953 /* TMDBUIKit */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1127,6 +1138,10 @@
 			productName = TMDBCore;
 		};
 		49580CC42FEE835300EFE953 /* TMDBCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TMDBCore;
+		};
+		49580CCE2FEEDFDB00EFE953 /* TMDBCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TMDBCore;
 		};

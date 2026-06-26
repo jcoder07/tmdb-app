@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import TMDBCore
 
 @MainActor
 final class LoginViewModel: ObservableObject {

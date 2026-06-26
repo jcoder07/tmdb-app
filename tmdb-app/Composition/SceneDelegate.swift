@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TMDBCore
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

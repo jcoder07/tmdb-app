@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import TMDBCore
 
 struct MovieDetailView: View {
 
