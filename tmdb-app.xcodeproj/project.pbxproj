@@ -13,46 +13,11 @@
 		49FAFA982FD8A54A00A4D174 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 49FAFA972FD8A54A00A4D174 /* CLAUDE.md */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		494CC0502FEE7BAB000C93C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 494CC0422FEE7BAA000C93C2;
-			remoteInfo = TMDBSwiftUI;
-		};
-		494CC05A2FEE7BAB000C93C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 494CC0422FEE7BAA000C93C2;
-			remoteInfo = TMDBSwiftUI;
-		};
-		49580CA82FEE827400EFE953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 49580C912FEE827300EFE953;
-			remoteInfo = TMDBUIKit;
-		};
-		49580CB22FEE827400EFE953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 49580C912FEE827300EFE953;
-			remoteInfo = TMDBUIKit;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		47DDB7C42F0C1CC400946C49 /* tmdb-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tmdb-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		490375882FEE7E0300C6DB3C /* TMDBCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TMDBCore; sourceTree = "<group>"; };
 		494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		494CC04F2FEE7BAB000C93C2 /* TMDBSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		494CC0592FEE7BAB000C93C2 /* TMDBSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49580C922FEE827300EFE953 /* TMDBUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		49580CA72FEE827400EFE953 /* TMDBUIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBUIKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		49580CB12FEE827400EFE953 /* TMDBUIKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBUIKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FAFA972FD8A54A00A4D174 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,32 +53,12 @@
 			path = TMDBSwiftUI;
 			sourceTree = "<group>";
 		};
-		494CC0522FEE7BAB000C93C2 /* TMDBSwiftUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TMDBSwiftUITests;
-			sourceTree = "<group>";
-		};
-		494CC05C2FEE7BAB000C93C2 /* TMDBSwiftUIUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TMDBSwiftUIUITests;
-			sourceTree = "<group>";
-		};
 		49580C932FEE827300EFE953 /* TMDBUIKit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				49580CBD2FEE827400EFE953 /* Exceptions for "TMDBUIKit" folder in "TMDBUIKit" target */,
 			);
 			path = TMDBUIKit;
-			sourceTree = "<group>";
-		};
-		49580CAA2FEE827400EFE953 /* TMDBUIKitTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TMDBUIKitTests;
-			sourceTree = "<group>";
-		};
-		49580CB42FEE827400EFE953 /* TMDBUIKitUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TMDBUIKitUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -135,39 +80,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		494CC04C2FEE7BAB000C93C2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		494CC0562FEE7BAB000C93C2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		49580C8F2FEE827300EFE953 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				49580CC52FEE835300EFE953 /* TMDBCore in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49580CA42FEE827400EFE953 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49580CAE2FEE827400EFE953 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,11 +98,7 @@
 				49FAFA972FD8A54A00A4D174 /* CLAUDE.md */,
 				47DDB7C62F0C1CC400946C49 /* tmdb-app */,
 				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
-				494CC0522FEE7BAB000C93C2 /* TMDBSwiftUITests */,
-				494CC05C2FEE7BAB000C93C2 /* TMDBSwiftUIUITests */,
 				49580C932FEE827300EFE953 /* TMDBUIKit */,
-				49580CAA2FEE827400EFE953 /* TMDBUIKitTests */,
-				49580CB42FEE827400EFE953 /* TMDBUIKitUITests */,
 				49580CC12FEE833600EFE953 /* Frameworks */,
 				47DDB7C52F0C1CC400946C49 /* Products */,
 			);
@@ -196,11 +109,7 @@
 			children = (
 				47DDB7C42F0C1CC400946C49 /* tmdb-app.app */,
 				494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */,
-				494CC04F2FEE7BAB000C93C2 /* TMDBSwiftUITests.xctest */,
-				494CC0592FEE7BAB000C93C2 /* TMDBSwiftUIUITests.xctest */,
 				49580C922FEE827300EFE953 /* TMDBUIKit.app */,
-				49580CA72FEE827400EFE953 /* TMDBUIKitTests.xctest */,
-				49580CB12FEE827400EFE953 /* TMDBUIKitUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,52 +170,6 @@
 			productReference = 494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		494CC04E2FEE7BAB000C93C2 /* TMDBSwiftUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 494CC0662FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUITests" */;
-			buildPhases = (
-				494CC04B2FEE7BAB000C93C2 /* Sources */,
-				494CC04C2FEE7BAB000C93C2 /* Frameworks */,
-				494CC04D2FEE7BAB000C93C2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				494CC0512FEE7BAB000C93C2 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				494CC0522FEE7BAB000C93C2 /* TMDBSwiftUITests */,
-			);
-			name = TMDBSwiftUITests;
-			packageProductDependencies = (
-			);
-			productName = TMDBSwiftUITests;
-			productReference = 494CC04F2FEE7BAB000C93C2 /* TMDBSwiftUITests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		494CC0582FEE7BAB000C93C2 /* TMDBSwiftUIUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 494CC0672FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUIUITests" */;
-			buildPhases = (
-				494CC0552FEE7BAB000C93C2 /* Sources */,
-				494CC0562FEE7BAB000C93C2 /* Frameworks */,
-				494CC0572FEE7BAB000C93C2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				494CC05B2FEE7BAB000C93C2 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				494CC05C2FEE7BAB000C93C2 /* TMDBSwiftUIUITests */,
-			);
-			name = TMDBSwiftUIUITests;
-			packageProductDependencies = (
-			);
-			productName = TMDBSwiftUIUITests;
-			productReference = 494CC0592FEE7BAB000C93C2 /* TMDBSwiftUIUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		49580C912FEE827300EFE953 /* TMDBUIKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 49580CBE2FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKit" */;
@@ -330,52 +193,6 @@
 			productReference = 49580C922FEE827300EFE953 /* TMDBUIKit.app */;
 			productType = "com.apple.product-type.application";
 		};
-		49580CA62FEE827400EFE953 /* TMDBUIKitTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 49580CBF2FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKitTests" */;
-			buildPhases = (
-				49580CA32FEE827400EFE953 /* Sources */,
-				49580CA42FEE827400EFE953 /* Frameworks */,
-				49580CA52FEE827400EFE953 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				49580CA92FEE827400EFE953 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				49580CAA2FEE827400EFE953 /* TMDBUIKitTests */,
-			);
-			name = TMDBUIKitTests;
-			packageProductDependencies = (
-			);
-			productName = TMDBUIKitTests;
-			productReference = 49580CA72FEE827400EFE953 /* TMDBUIKitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		49580CB02FEE827400EFE953 /* TMDBUIKitUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 49580CC02FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKitUITests" */;
-			buildPhases = (
-				49580CAD2FEE827400EFE953 /* Sources */,
-				49580CAE2FEE827400EFE953 /* Frameworks */,
-				49580CAF2FEE827400EFE953 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				49580CB32FEE827400EFE953 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				49580CB42FEE827400EFE953 /* TMDBUIKitUITests */,
-			);
-			name = TMDBUIKitUITests;
-			packageProductDependencies = (
-			);
-			productName = TMDBUIKitUITests;
-			productReference = 49580CB12FEE827400EFE953 /* TMDBUIKitUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -392,24 +209,8 @@
 					494CC0422FEE7BAA000C93C2 = {
 						CreatedOnToolsVersion = 27.0;
 					};
-					494CC04E2FEE7BAB000C93C2 = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 494CC0422FEE7BAA000C93C2;
-					};
-					494CC0582FEE7BAB000C93C2 = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 494CC0422FEE7BAA000C93C2;
-					};
 					49580C912FEE827300EFE953 = {
 						CreatedOnToolsVersion = 27.0;
-					};
-					49580CA62FEE827400EFE953 = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 49580C912FEE827300EFE953;
-					};
-					49580CB02FEE827400EFE953 = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 49580C912FEE827300EFE953;
 					};
 				};
 			};
@@ -430,11 +231,7 @@
 			targets = (
 				47DDB7C32F0C1CC400946C49 /* tmdb-app */,
 				494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */,
-				494CC04E2FEE7BAB000C93C2 /* TMDBSwiftUITests */,
-				494CC0582FEE7BAB000C93C2 /* TMDBSwiftUIUITests */,
 				49580C912FEE827300EFE953 /* TMDBUIKit */,
-				49580CA62FEE827400EFE953 /* TMDBUIKitTests */,
-				49580CB02FEE827400EFE953 /* TMDBUIKitUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -455,35 +252,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		494CC04D2FEE7BAB000C93C2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		494CC0572FEE7BAB000C93C2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		49580C902FEE827300EFE953 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49580CA52FEE827400EFE953 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49580CAF2FEE827400EFE953 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -507,20 +276,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		494CC04B2FEE7BAB000C93C2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		494CC0552FEE7BAB000C93C2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		49580C8E2FEE827300EFE953 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -528,44 +283,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49580CA32FEE827400EFE953 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49580CAD2FEE827400EFE953 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		494CC0512FEE7BAB000C93C2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */;
-			targetProxy = 494CC0502FEE7BAB000C93C2 /* PBXContainerItemProxy */;
-		};
-		494CC05B2FEE7BAB000C93C2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */;
-			targetProxy = 494CC05A2FEE7BAB000C93C2 /* PBXContainerItemProxy */;
-		};
-		49580CA92FEE827400EFE953 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 49580C912FEE827300EFE953 /* TMDBUIKit */;
-			targetProxy = 49580CA82FEE827400EFE953 /* PBXContainerItemProxy */;
-		};
-		49580CB32FEE827400EFE953 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 49580C912FEE827300EFE953 /* TMDBUIKit */;
-			targetProxy = 49580CB22FEE827400EFE953 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		47DDB7EE2F0C1CC700946C49 /* Debug */ = {
@@ -823,88 +541,6 @@
 			};
 			name = Release;
 		};
-		494CC0612FEE7BAB000C93C2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDBSwiftUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TMDBSwiftUI";
-			};
-			name = Debug;
-		};
-		494CC0622FEE7BAB000C93C2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDBSwiftUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TMDBSwiftUI";
-			};
-			name = Release;
-		};
-		494CC0632FEE7BAB000C93C2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUIUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TMDBSwiftUI;
-			};
-			name = Debug;
-		};
-		494CC0642FEE7BAB000C93C2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUIUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TMDBSwiftUI;
-			};
-			name = Release;
-		};
 		49580CB72FEE827400EFE953 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 49580C932FEE827300EFE953 /* TMDBUIKit */;
@@ -973,88 +609,6 @@
 			};
 			name = Release;
 		};
-		49580CB92FEE827400EFE953 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBUIKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDBUIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TMDBUIKit";
-			};
-			name = Debug;
-		};
-		49580CBA2FEE827400EFE953 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBUIKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDBUIKit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TMDBUIKit";
-			};
-			name = Release;
-		};
-		49580CBB2FEE827400EFE953 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBUIKitUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TMDBUIKit;
-			};
-			name = Debug;
-		};
-		49580CBC2FEE827400EFE953 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBUIKitUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TMDBUIKit;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1085,47 +639,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		494CC0662FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				494CC0612FEE7BAB000C93C2 /* Debug */,
-				494CC0622FEE7BAB000C93C2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		494CC0672FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUIUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				494CC0632FEE7BAB000C93C2 /* Debug */,
-				494CC0642FEE7BAB000C93C2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		49580CBE2FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49580CB72FEE827400EFE953 /* Debug */,
 				49580CB82FEE827400EFE953 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		49580CBF2FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKitTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				49580CB92FEE827400EFE953 /* Debug */,
-				49580CBA2FEE827400EFE953 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		49580CC02FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKitUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				49580CBB2FEE827400EFE953 /* Debug */,
-				49580CBC2FEE827400EFE953 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
