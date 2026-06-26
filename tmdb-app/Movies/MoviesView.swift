@@ -7,7 +7,7 @@ import SwiftUI
 
 struct MoviesView: View {
 
-    @ObservedObject var viewModel: MoviesViewModel
+    var viewModel: MoviesViewModel
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -20,29 +20,19 @@ struct MoviesView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let message = viewModel.errorMessage, viewModel.movies.isEmpty {
-                VStack(spacing: 16) {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 40))
-                        .foregroundStyle(.secondary)
-                    Text(message)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    Button {
-                        Task { await viewModel.load() }
-                    } label: {
-                        Text("Retry")
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.red)
-                    }
+                MoviesErrorView(message: message) {
+                    Task { await viewModel.load() }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.displayedMovies) { movie in
                             NavigationLink(value: movie.id) {
-                                MovieCard(movie: movie)
+                                MovieCard(
+                                    title: movie.title,
+                                    posterURL: movie.posterURL,
+                                    voteAverage: movie.voteAverage
+                                )
                             }
                             .buttonStyle(.plain)
                         }
@@ -77,13 +67,43 @@ struct MoviesView: View {
     }
 }
 
-private struct MovieCard: View {
+// MARK: - MoviesErrorView
 
-    let movie: Movie
+private struct MoviesErrorView: View {
+    let message: String
+    let onRetry: () -> Void
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 40))
+                .foregroundStyle(.secondary)
+            Text(message)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            Button {
+                onRetry()
+            } label: {
+                Text("Retry")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.red)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+// MARK: - MovieCard
+
+private struct MovieCard: View {
+    let title: String
+    let posterURL: URL?
+    let voteAverage: Double
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            AsyncImage(url: movie.posterURL) { phase in
+            AsyncImage(url: posterURL) { phase in
                 switch phase {
                 case .success(let image):
                     image
@@ -102,7 +122,7 @@ private struct MovieCard: View {
             .aspectRatio(2/3, contentMode: .fit)
             .clipShape(RoundedRectangle(cornerRadius: 10))
 
-            Text(movie.title)
+            Text(title)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .lineLimit(2)
@@ -112,7 +132,7 @@ private struct MovieCard: View {
                 Image(systemName: "star.fill")
                     .font(.caption2)
                     .foregroundStyle(.yellow)
-                Text(String(format: "%.1f", movie.voteAverage))
+                Text(voteAverage, format: .number.precision(.fractionLength(1)))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }

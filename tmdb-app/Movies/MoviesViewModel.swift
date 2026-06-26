@@ -4,18 +4,22 @@
 //
 
 import SwiftUI
+import Observation
 
 @MainActor
-final class MoviesViewModel: ObservableObject {
+@Observable
+final class MoviesViewModel {
 
-    @Published var movies: [Movie] = []
-    @Published var displayedCount = 8
-    @Published var isLoading = false
-    @Published var isLoadingMore = false
-    @Published var errorMessage: String?
+    private(set) var movies: [Movie] = []       { didSet { recomputeDerived() } }
+    private(set) var displayedMovies: [Movie] = []
+    private(set) var canShowMore = false
+    var isLoading = false
+    var isLoadingMore = false
+    var errorMessage: String?
 
-    private var currentPage = 1
-    private var totalPages = 1
+    private var displayedCount = 8  { didSet { recomputeDerived() } }
+    private var currentPage = 1     { didSet { recomputeDerived() } }
+    private var totalPages = 1      { didSet { recomputeDerived() } }
     private let service: MoviesServiceProtocol
     private let detailService: MovieDetailServiceProtocol
     private var detailViewModels: [Int: MovieDetailViewModel] = [:]
@@ -31,9 +35,6 @@ final class MoviesViewModel: ObservableObject {
         detailViewModels[movieId] = vm
         return vm
     }
-
-    var displayedMovies: [Movie] { Array(movies.prefix(displayedCount)) }
-    var canShowMore: Bool { displayedCount < movies.count || currentPage < totalPages }
 
     func load() async {
         guard !isLoading else { return }
@@ -63,5 +64,10 @@ final class MoviesViewModel: ObservableObject {
             isLoadingMore = false
         }
         displayedCount = min(nextCount, movies.count)
+    }
+
+    private func recomputeDerived() {
+        displayedMovies = Array(movies.prefix(displayedCount))
+        canShowMore = displayedCount < movies.count || currentPage < totalPages
     }
 }
