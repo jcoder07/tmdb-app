@@ -33,10 +33,10 @@ final class ProfileViewModel: ObservableObject {
         errorMessage = nil
         do {
             let account = try await service.fetchAccountDetails(sessionId: sessionId)
-            async let moviesTask = service.fetchRatedMovies(accountId: account.id, sessionId: sessionId)
-            async let tvTask = service.fetchRatedTVShows(accountId: account.id, sessionId: sessionId)
+            async let moviesTask      = service.fetchRatedMovies(accountId: account.id, sessionId: sessionId)
+            async let tvTask          = service.fetchRatedTVShows(accountId: account.id, sessionId: sessionId)
             async let movieGenresTask = service.fetchMovieGenres()
-            async let tvGenresTask = service.fetchTVGenres()
+            async let tvGenresTask    = service.fetchTVGenres()
             let (movies, tvShows, movieGenres, tvGenres) = try await (moviesTask, tvTask, movieGenresTask, tvGenresTask)
             let genres = (movieGenres + tvGenres).reduce(into: [Int: GenreItem]()) { $0[$1.id] = $1 }.map(\.value)
             profile = buildProfile(account: account, movies: movies, tvShows: tvShows, genres: genres)
@@ -58,7 +58,7 @@ final class ProfileViewModel: ObservableObject {
         genres: [GenreItem]
     ) -> UserProfile {
         let avgMovie = movies.isEmpty ? 0.0 : (movies.map(\.rating).reduce(0, +) / Double(movies.count)) * 10
-        let avgTV = tvShows.isEmpty ? 0.0 : (tvShows.map(\.rating).reduce(0, +) / Double(tvShows.count)) * 10
+        let avgTV    = tvShows.isEmpty ? 0.0 : (tvShows.map(\.rating).reduce(0, +) / Double(tvShows.count)) * 10
 
         let distribution: [RatingBar] = (1...10).map { rating in
             let count = movies.filter { Int($0.rating) == rating }.count
@@ -82,18 +82,9 @@ final class ProfileViewModel: ObservableObject {
             return GenreSlice(name: name, color: Color(hex: accentHex).opacity(opacity), percentage: pct)
         }
 
-        let displayName = account.name.isEmpty ? account.username : account.name
-
-        let avatarURLString: String?
-        if let tmdbPath = account.avatar.tmdb.avatarPath, !tmdbPath.isEmpty {
-            avatarURLString = Constants.Urls.poster(path: tmdbPath)?.absoluteString
-        } else {
-            avatarURLString = Constants.Urls.gravatar(hash: account.avatar.gravatar.hash).absoluteString
-        }
-
         return UserProfile(
-            username: displayName,
-            avatarPath: avatarURLString,
+            username: account.displayName,
+            avatarURL: account.avatarURL,
             avgMovieScore: avgMovie,
             avgTVScore: avgTV,
             totalMovieRatings: movies.count,
@@ -104,35 +95,23 @@ final class ProfileViewModel: ObservableObject {
         )
     }
 
-    // Maps TMDB color names, integer theme IDs, or hex strings to hex values used in the UI.
     private func resolveAccentHex(_ color: String?) -> String {
         guard let color else { return "01B4E4" }
         let key = color.lowercased().trimmingCharacters(in: .whitespaces)
 
-        // TMDB integer theme IDs (e.g. accent_color: 1)
         let byId: [String: String] = [
-            "0": "01B4E4",  // default / TMDB blue
-            "1": "01B4E4",  // blue
-            "2": "4CAF50",  // green
-            "3": "E74C3C",  // red
-            "4": "9B59B6",  // purple
-            "5": "F1C40F",  // yellow
+            "0": "01B4E4", "1": "01B4E4", "2": "4CAF50",
+            "3": "E74C3C", "4": "9B59B6", "5": "F1C40F",
         ]
         if let mapped = byId[key] { return mapped }
 
-        // TMDB named colors
         let byName: [String: String] = [
-            "blue":    "01B4E4",
-            "teal":    "01B4E4",
-            "green":   "4CAF50",
-            "red":     "E74C3C",
-            "orange":  "E8820C",
-            "purple":  "9B59B6",
-            "yellow":  "F1C40F",
+            "blue": "01B4E4", "teal": "01B4E4", "green":  "4CAF50",
+            "red":  "E74C3C", "orange": "E8820C", "purple": "9B59B6",
+            "yellow": "F1C40F",
         ]
         if let mapped = byName[key] { return mapped }
 
-        // Bare or prefixed hex string (#0068BC or 0068BC)
         return key.hasPrefix("#") ? String(key.dropFirst()) : key
     }
 }
