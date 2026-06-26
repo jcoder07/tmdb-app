@@ -7,10 +7,6 @@ import SwiftUI
 import Charts
 import TMDBCore
 
-// MARK: - Models
-
-// UserProfile, RatingBar, GenreSlice are defined in ProfileModels.swift
-
 // MARK: - Preview Data
 
 extension UserProfile {
@@ -34,11 +30,11 @@ extension UserProfile {
             RatingBar(rating: 10, count: 0),
         ],
         topGenres: [
-            GenreSlice(name: "Action",     color: Color(hex: "01B4E4").opacity(1.00), percentage: 0.35),
-            GenreSlice(name: "Drama",      color: Color(hex: "01B4E4").opacity(0.81), percentage: 0.25),
-            GenreSlice(name: "Adventure",  color: Color(hex: "01B4E4").opacity(0.62), percentage: 0.20),
-            GenreSlice(name: "Comedy",     color: Color(hex: "01B4E4").opacity(0.44), percentage: 0.12),
-            GenreSlice(name: "Thriller",   color: Color(hex: "01B4E4").opacity(0.25), percentage: 0.08),
+            GenreSlice(name: "Action",    color: Color(hex: "01B4E4").opacity(1.00), percentage: 0.35),
+            GenreSlice(name: "Drama",     color: Color(hex: "01B4E4").opacity(0.81), percentage: 0.25),
+            GenreSlice(name: "Adventure", color: Color(hex: "01B4E4").opacity(0.62), percentage: 0.20),
+            GenreSlice(name: "Comedy",    color: Color(hex: "01B4E4").opacity(0.44), percentage: 0.12),
+            GenreSlice(name: "Thriller",  color: Color(hex: "01B4E4").opacity(0.25), percentage: 0.08),
         ],
         accentHex: "01B4E4"
     )
@@ -47,13 +43,10 @@ extension UserProfile {
 // MARK: - ProfileView
 
 struct ProfileView: View {
-
-    @ObservedObject var viewModel: ProfileViewModel
+    var viewModel: ProfileViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var showLogoutAlert = false
     let onGoToWatchlist: () -> Void
-
-    private var profile: UserProfile { viewModel.profile ?? .preview }
 
     var body: some View {
         Group {
@@ -62,40 +55,18 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else if let message = viewModel.errorMessage, viewModel.profile == nil {
-                ZStack(alignment: .topTrailing) {
-                    VStack(spacing: 16) {
-                        Image(systemName: "exclamationmark.triangle")
-                            .font(.system(size: 40))
-                            .foregroundStyle(.secondary)
-
-                        Text(message)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-
-                        Button {
-                            Task { await viewModel.load() }
-                        } label: {
-                            Text("Retry")
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.red)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .imageScale(.large)
-                            .foregroundStyle(.black.opacity(0.8))
-                    }
-                    .padding(.top, 56)
-                    .padding(.trailing, 16)
-                }
-       
+                ProfileErrorView(
+                    message: message,
+                    onRetry: { Task { await viewModel.load() } },
+                    onDismiss: { dismiss() }
+                )
             } else {
-                mainScrollView
+                ProfileMainView(
+                    profile: viewModel.profile ?? .preview,
+                    showLogoutAlert: $showLogoutAlert,
+                    onGoToWatchlist: onGoToWatchlist,
+                    onDismiss: { dismiss() }
+                )
             }
         }
         .task { await viewModel.load() }
@@ -108,24 +79,90 @@ struct ProfileView: View {
             Text("Are you sure you want to log out?")
         }
     }
+}
 
-    private var mainScrollView: some View {
+// MARK: - ProfileErrorView
+
+private struct ProfileErrorView: View {
+    let message: String
+    let onRetry: () -> Void
+    let onDismiss: () -> Void
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            VStack(spacing: 16) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.system(size: 40))
+                    .foregroundStyle(.secondary)
+                Text(message)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                Button {
+                    onRetry()
+                } label: {
+                    Text("Retry")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.red)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            Button(action: onDismiss) {
+                Image(systemName: "xmark.circle.fill")
+                    .imageScale(.large)
+                    .foregroundStyle(.black.opacity(0.8))
+            }
+            .padding(.top, 56)
+            .padding(.trailing, 16)
+        }
+    }
+}
+
+// MARK: - ProfileMainView
+
+private struct ProfileMainView: View {
+    let profile: UserProfile
+    @Binding var showLogoutAlert: Bool
+    let onGoToWatchlist: () -> Void
+    let onDismiss: () -> Void
+
+    var body: some View {
         VStack(spacing: 0) {
-            headerSection
-                .fixedSize(horizontal: false, vertical: true)
+            ProfileHeaderSection(
+                username: profile.username,
+                avatarURL: profile.avatarURL,
+                avgMovieScore: profile.avgMovieScore,
+                avgTVScore: profile.avgTVScore,
+                accentHex: profile.accentHex,
+                onDismiss: onDismiss
+            )
+            .fixedSize(horizontal: false, vertical: true)
             ScrollView {
-                contentSection
+                ProfileContentSection(
+                    profile: profile,
+                    showLogoutAlert: $showLogoutAlert,
+                    onGoToWatchlist: onGoToWatchlist
+                )
             }
             .background(Color(.systemGroupedBackground))
         }
         .ignoresSafeArea(edges: .top)
     }
+}
 
-    // MARK: - Header
+// MARK: - ProfileHeaderSection
 
-    private var headerSection: some View {
+private struct ProfileHeaderSection: View {
+    let username: String
+    let avatarURL: URL?
+    let avgMovieScore: Double
+    let avgTVScore: Double
+    let accentHex: String
+    let onDismiss: () -> Void
+
+    var body: some View {
         ZStack(alignment: .topLeading) {
-            // Fondo degradado azul oscuro como TMDB
             LinearGradient(
                 colors: [Color(hex: "0D253F"), Color(hex: "1A3A5C")],
                 startPoint: .topLeading,
@@ -133,13 +170,9 @@ struct ProfileView: View {
             )
             .frame(maxWidth: .infinity)
 
-            // Decoración diagonal (líneas naranjas como TMDB)
-            diagonalDecorations
+            DiagonalDecorations(accentHex: accentHex)
 
-            // Botón cerrar
-            Button {
-                dismiss()
-            } label: {
+            Button(action: onDismiss) {
                 Image(systemName: "xmark.circle.fill")
                     .imageScale(.large)
                     .foregroundStyle(.white.opacity(0.8))
@@ -148,12 +181,10 @@ struct ProfileView: View {
             .padding(.trailing, 16)
             .frame(maxWidth: .infinity, alignment: .trailing)
 
-            // Contenido del header
             VStack(alignment: .leading, spacing: 16) {
                 HStack(alignment: .center, spacing: 20) {
-                    avatarView
-
-                    Text(profile.username)
+                    AvatarView(url: avatarURL)
+                    Text(username)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
@@ -162,15 +193,8 @@ struct ProfileView: View {
                 .padding(.top, 60)
 
                 HStack(alignment: .center, spacing: 16) {
-                    scoreCircle(
-                        value: profile.avgMovieScore,
-                        label: "Average Movie Score"
-                    )
-
-                    scoreCircle(
-                        value: profile.avgTVScore,
-                        label: "Average TV Score"
-                    )
+                    ScoreCircle(value: avgMovieScore, label: "Average Movie Score", accentHex: accentHex)
+                    ScoreCircle(value: avgTVScore, label: "Average TV Score", accentHex: accentHex)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 20)
@@ -178,9 +202,15 @@ struct ProfileView: View {
             }
         }
     }
+}
 
-    private var avatarView: some View {
-        AsyncImage(url: profile.avatarURL) { phase in
+// MARK: - AvatarView
+
+private struct AvatarView: View {
+    let url: URL?
+
+    var body: some View {
+        AsyncImage(url: url) { phase in
             switch phase {
             case .success(let image):
                 image
@@ -205,28 +235,33 @@ struct ProfileView: View {
                 .stroke(Color.white.opacity(0.2), lineWidth: 2)
         )
     }
+}
 
-    private func scoreCircle(value: Double, label: LocalizedStringKey) -> some View {
+// MARK: - ScoreCircle
+
+private struct ScoreCircle: View {
+    let value: Double
+    let label: LocalizedStringKey
+    let accentHex: String
+
+    var body: some View {
         HStack(spacing: 10) {
             ZStack {
                 Circle()
                     .stroke(Color.white.opacity(0.2), lineWidth: 3)
                     .frame(width: 48, height: 48)
-
                 Circle()
                     .trim(from: 0, to: value / 100)
                     .stroke(
-                        value > 0 ? Color(hex: profile.accentHex) : Color.gray,
+                        value > 0 ? Color(hex: accentHex) : Color.gray,
                         style: StrokeStyle(lineWidth: 3, lineCap: .round)
                     )
                     .frame(width: 48, height: 48)
                     .rotationEffect(.degrees(-90))
-
                 Text(value / 100, format: .percent.precision(.fractionLength(0)))
                     .font(.system(size: 11, weight: .bold))
                     .foregroundStyle(.white)
             }
-
             Text(label)
                 .font(.caption)
                 .foregroundStyle(.white.opacity(0.85))
@@ -234,24 +269,27 @@ struct ProfileView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
+}
 
-    // Líneas diagonales decorativas estilo TMDB
-    private var diagonalDecorations: some View {
+// MARK: - DiagonalDecorations
+
+private struct DiagonalDecorations: View {
+    let accentHex: String
+
+    var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: profile.accentHex).opacity(0.7))
+                .fill(Color(hex: accentHex).opacity(0.7))
                 .frame(width: 6, height: 60)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -40, y: 20)
-
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: profile.accentHex).opacity(0.5))
+                .fill(Color(hex: accentHex).opacity(0.5))
                 .frame(width: 6, height: 40)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -70, y: 10)
-
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: profile.accentHex).opacity(0.6))
+                .fill(Color(hex: accentHex).opacity(0.6))
                 .frame(width: 6, height: 50)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -15, y: 40)
@@ -259,12 +297,17 @@ struct ProfileView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         .clipped()
     }
+}
 
-    // MARK: - Content / Stats
+// MARK: - ProfileContentSection
 
-    private var contentSection: some View {
+private struct ProfileContentSection: View {
+    let profile: UserProfile
+    @Binding var showLogoutAlert: Bool
+    let onGoToWatchlist: () -> Void
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-
             HStack(alignment: .center) {
                 Text("Stats")
                     .font(.title)
@@ -272,63 +315,95 @@ struct ProfileView: View {
                     .foregroundStyle(.primary)
                     .padding(.bottom, 4)
                 Spacer()
-                watchlistButton
-                    .padding(.top, 20)
+                Button(action: onGoToWatchlist) {
+                    Text("Go To Watchlist")
+                        .fontWeight(.medium)
+                        .foregroundStyle(Color(hex: "01B4E4"))
+                        .font(.subheadline)
+                }
+                .padding(.top, 20)
             }
             .padding(.horizontal, 20)
             .padding(.top, 28)
             .padding(.bottom, 4)
 
             HStack(spacing: 16) {
-                statCard(title: "Rated Movies", value: "\(profile.totalMovieRatings)")
-                statCard(title: "Rated TV", value: "\(profile.totalTVRatings)")
+                StatCard(title: "Rated Movies", value: profile.totalMovieRatings, accentHex: profile.accentHex)
+                StatCard(title: "Rated TV", value: profile.totalTVRatings, accentHex: profile.accentHex)
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
 
-            ratingOverviewCard
+            ProfileRatingOverviewCard(distribution: profile.ratingDistribution, accentHex: profile.accentHex)
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
 
-            genresCard
+            ProfileGenresCard(topGenres: profile.topGenres)
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
 
-            logoutButton
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                .padding(.bottom, 40)
+            Button {
+                showLogoutAlert = true
+            } label: {
+                HStack {
+                    Spacer()
+                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                    Text("Log Out")
+                        .fontWeight(.medium)
+                    Spacer()
+                }
+                .foregroundStyle(.red)
+                .padding(.vertical, 14)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 40)
         }
     }
+}
 
-    private func statCard(title: LocalizedStringKey, value: String) -> some View {
+// MARK: - StatCard
+
+private struct StatCard: View {
+    let title: LocalizedStringKey
+    let value: Int
+    let accentHex: String
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-
-            Text(value)
+            Text(value, format: .number)
                 .font(.system(size: 36, weight: .bold))
-                .foregroundStyle(Color(hex: profile.accentHex))
+                .foregroundStyle(Color(hex: accentHex))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+}
 
-    private var ratingOverviewCard: some View {
+// MARK: - ProfileRatingOverviewCard
+
+private struct ProfileRatingOverviewCard: View {
+    let distribution: [RatingBar]
+    let accentHex: String
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Rating Overview")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-
-            Chart(profile.ratingDistribution) { bar in
+            Chart(distribution) { bar in
                 BarMark(
                     x: .value("Rating", "\(bar.rating)"),
                     y: .value("Count", bar.count)
                 )
-                .foregroundStyle(Color(hex: profile.accentHex))
+                .foregroundStyle(Color(hex: accentHex))
                 .cornerRadius(3)
             }
             .chartXAxis {
@@ -349,11 +424,28 @@ struct ProfileView: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+}
 
-    private var genresCard: some View {
+// MARK: - ProfileGenresCard
+
+private struct ProfileGenresCard: View {
+    let topGenres: [GenreSlice]
+
+    private func donutSegments() -> [(id: UUID, start: Double, end: Double, color: Color)] {
+        var result: [(id: UUID, start: Double, end: Double, color: Color)] = []
+        var current = 0.0
+        for genre in topGenres {
+            let end = current + genre.percentage
+            result.append((id: genre.id, start: current, end: end, color: genre.color))
+            current = end
+        }
+        return result
+    }
+
+    var body: some View {
         HStack(spacing: 20) {
             ZStack {
-                ForEach(Array(donutSegments().enumerated()), id: \.offset) { _, segment in
+                ForEach(donutSegments(), id: \.id) { segment in
                     Circle()
                         .trim(from: segment.start, to: segment.end)
                         .stroke(segment.color, style: StrokeStyle(lineWidth: 20, lineCap: .butt))
@@ -369,8 +461,7 @@ struct ProfileView: View {
                 Text("Most Watched Genres")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
-
-                ForEach(profile.topGenres) { genre in
+                ForEach(topGenres) { genre in
                     HStack(spacing: 8) {
                         RoundedRectangle(cornerRadius: 3)
                             .fill(genre.color)
@@ -387,49 +478,6 @@ struct ProfileView: View {
         .padding(16)
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-
-    private func donutSegments() -> [(start: Double, end: Double, color: Color)] {
-        var result: [(start: Double, end: Double, color: Color)] = []
-        var current = 0.0
-        for genre in profile.topGenres {
-            let end = current + genre.percentage
-            result.append((start: current, end: end, color: genre.color))
-            current = end
-        }
-        return result
-    }
-
-    private var watchlistButton: some View {
-        Button {
-            onGoToWatchlist()
-        } label: {
-            HStack {
-                //Image(systemName: "bookmark.fill")
-                Text("Go To Watchlist")
-                    .fontWeight(.medium)
-            }
-            .foregroundStyle(Color(hex: "01B4E4"))
-            .font(.subheadline)
-        }
-    }
-
-    private var logoutButton: some View {
-        Button {
-            showLogoutAlert = true
-        } label: {
-            HStack {
-                Spacer()
-                Image(systemName: "rectangle.portrait.and.arrow.right")
-                Text("Log Out")
-                    .fontWeight(.medium)
-                Spacer()
-            }
-            .foregroundStyle(.red)
-            .padding(.vertical, 14)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        }
     }
 }
 

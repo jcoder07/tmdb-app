@@ -4,14 +4,16 @@
 //
 
 import SwiftUI
+import Observation
 import TMDBCore
 
 @MainActor
-final class ProfileViewModel: ObservableObject {
+@Observable
+final class ProfileViewModel {
 
-    @Published var profile: UserProfile?
-    @Published var isLoading = false
-    @Published var errorMessage: String?
+    var profile: UserProfile?
+    var isLoading = false
+    var errorMessage: String?
 
     private let service: ProfileServiceProtocol
     private let sessionManager: SessionManagerProtocol
