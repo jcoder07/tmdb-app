@@ -30,6 +30,38 @@
 			);
 			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
 		};
+		4939C9262FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "tmdb-app" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Detail/MovieDetailView.swift,
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+				Home/MainTabView.swift,
+				Login/LoginView.swift,
+				Movies/MoviesView.swift,
+				Profile/ProfileView.swift,
+				Search/SearchView.swift,
+				Series/SeriesView.swift,
+				Watchlist/WatchlistView.swift,
+			);
+			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
+		};
+		4939C9272FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "TMDBSwiftUI" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Detail/MovieDetailView.swift,
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+				Home/MainTabView.swift,
+				Login/LoginView.swift,
+				Movies/MoviesView.swift,
+				Profile/ProfileView.swift,
+				Search/SearchView.swift,
+				Series/SeriesView.swift,
+				Watchlist/WatchlistView.swift,
+			);
+			target = 494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */;
+		};
 		49580CBD2FEE827400EFE953 /* Exceptions for "TMDBUIKit" folder in "TMDBUIKit" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -50,6 +82,10 @@
 		};
 		494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4939C9262FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "tmdb-app" target */,
+				4939C9272FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "TMDBSwiftUI" target */,
+			);
 			path = TMDBSwiftUI;
 			sourceTree = "<group>";
 		};
@@ -489,7 +525,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -523,7 +559,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -557,7 +593,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -591,7 +627,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
