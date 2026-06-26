@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import TMDBCore
 
 struct MoviesView: View {
 
@@ -80,11 +79,11 @@ struct MoviesView: View {
 
 private struct MovieCard: View {
 
-    let movie: PopularMovie
+    let movie: Movie
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            AsyncImage(url: Constants.Urls.poster(path: movie.posterPath ?? "")) { phase in
+            AsyncImage(url: movie.posterURL) { phase in
                 switch phase {
                 case .success(let image):
                     image
@@ -118,5 +117,57 @@ private struct MovieCard: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+}
+
+// MARK: - Previews
+
+private struct MockMoviesService: MoviesServiceProtocol {
+    var page: MoviesPage = MoviesPage(movies: [], page: 1, totalPages: 1)
+    var shouldFail = false
+    var shouldHang = false
+
+    func fetchPopularMovies(page: Int) async throws -> MoviesPage {
+        if shouldHang { try await Task.sleep(nanoseconds: .max) }
+        if shouldFail { throw URLError(.notConnectedToInternet) }
+        return self.page
+    }
+}
+
+private struct MockMovieDetailService: MovieDetailServiceProtocol {
+    func fetchMovieDetail(id: Int) async throws -> MovieDetail { fatalError("not used in preview") }
+    func fetchCredits(id: Int) async throws -> [CastMember] { [] }
+    func fetchReviews(id: Int) async throws -> [Review] { [] }
+}
+
+private let sampleMovies: [Movie] = [
+    Movie(id: 1, title: "Inception",       posterURL: nil, voteAverage: 8.4, releaseDate: "2010-07-16"),
+    Movie(id: 2, title: "The Dark Knight", posterURL: nil, voteAverage: 9.0, releaseDate: "2008-07-18"),
+    Movie(id: 3, title: "Interstellar",    posterURL: nil, voteAverage: 8.7, releaseDate: "2014-11-07"),
+    Movie(id: 4, title: "Oppenheimer",     posterURL: nil, voteAverage: 8.3, releaseDate: "2023-07-21"),
+]
+
+@MainActor
+private func makeViewModel(service: MockMoviesService) -> MoviesViewModel {
+    MoviesViewModel(service: service, detailService: MockMovieDetailService())
+}
+
+#Preview("Content") {
+    NavigationStack {
+        MoviesView(viewModel: makeViewModel(service: MockMoviesService(
+            page: MoviesPage(movies: sampleMovies, page: 1, totalPages: 3)
+        )))
+    }
+}
+
+#Preview("Loading") {
+    NavigationStack {
+        MoviesView(viewModel: makeViewModel(service: MockMoviesService(shouldHang: true)))
+    }
+}
+
+#Preview("Error") {
+    NavigationStack {
+        MoviesView(viewModel: makeViewModel(service: MockMoviesService(shouldFail: true)))
     }
 }

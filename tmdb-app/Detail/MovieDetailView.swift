@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import TMDBCore
 
 struct MovieDetailView: View {
 
@@ -86,7 +85,7 @@ struct MovieDetailView: View {
 
             // Poster + info
             HStack(alignment: .bottom, spacing: 14) {
-                AsyncImage(url: detail.posterPath.flatMap { Constants.Urls.poster(path: $0) }) { phase in
+                AsyncImage(url: detail.posterURL) { phase in
                     switch phase {
                     case .success(let image):
                         image.resizable().scaledToFill()
@@ -157,7 +156,7 @@ struct MovieDetailView: View {
             .padding(.bottom, 24)
         }
         .background {
-            AsyncImage(url: detail.backdropPath.flatMap { Constants.Urls.backdrop(path: $0) }) { phase in
+            AsyncImage(url: detail.backdropURL) { phase in
                 switch phase {
                 case .success(let image):
                     image.resizable().scaledToFill()
@@ -346,7 +345,7 @@ private struct CastRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            AsyncImage(url: member.profilePath.flatMap { Constants.Urls.poster(path: $0) }) { phase in
+            AsyncImage(url: member.profileURL) { phase in
                 switch phase {
                 case .success(let image):
                     image.resizable().scaledToFill()
@@ -403,7 +402,7 @@ private struct ReviewCard: View {
                     Text(review.author)
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                    if let rating = review.authorDetails?.rating {
+                    if let rating = review.rating {
                         HStack(spacing: 2) {
                             Image(systemName: "star.fill")
                                 .font(.caption2)
