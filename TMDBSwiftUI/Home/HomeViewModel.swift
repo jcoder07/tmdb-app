@@ -8,7 +8,7 @@
 import Foundation
 import TMDBCore
 
-final class HomeViewModel: ObservableObject {
+final class HomeViewModel {
 
     private let sessionManager: SessionManagerProtocol
     private let onLogout: () -> Void

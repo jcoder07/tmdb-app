@@ -185,30 +185,38 @@ private struct MovieDetailHeaderSection: View {
             .padding(.top, 20)
             .padding(.bottom, 24)
         }
-        .background {
-            AsyncImage(url: detail.backdropURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                default:
-                    Color(hex: "0D253F")
-                }
-            }
-            .overlay {
-                LinearGradient(
-                    colors: [.black.opacity(0.2), .black.opacity(0.55), .black.opacity(0.92)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
-            .ignoresSafeArea(edges: .top)
-        }
+        .background(MovieDetailBackdrop(url: detail.backdropURL))
     }
 
     private func formatRuntime(_ minutes: Int) -> String {
         let hours = minutes / 60
         let mins  = minutes % 60
         return hours > 0 ? "\(hours)h \(mins)m" : "\(mins)m"
+    }
+}
+
+private struct MovieDetailBackdrop: View {
+    let url: URL?
+
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+            default:
+                Color(hex: "0D253F")
+            }
+        }
+        .overlay {
+            LinearGradient(
+                colors: [.black.opacity(0.2), .black.opacity(0.55), .black.opacity(0.92)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+        .ignoresSafeArea(edges: .top)
     }
 }
 
