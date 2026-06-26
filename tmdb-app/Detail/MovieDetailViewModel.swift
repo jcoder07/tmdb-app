@@ -30,13 +30,10 @@ final class MovieDetailViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         do {
-            async let detailTask   = service.fetchMovieDetail(id: movieId)
-            async let creditsTask  = service.fetchCredits(id: movieId)
-            async let reviewsTask  = service.fetchReviews(id: movieId)
-            let (detail, credits, reviewsResponse) = try await (detailTask, creditsTask, reviewsTask)
-            self.detail  = detail
-            self.cast    = credits.cast
-            self.reviews = reviewsResponse.results
+            async let detailTask  = service.fetchMovieDetail(id: movieId)
+            async let creditsTask = service.fetchCredits(id: movieId)
+            async let reviewsTask = service.fetchReviews(id: movieId)
+            (detail, cast, reviews) = try await (detailTask, creditsTask, reviewsTask)
         } catch {
             errorMessage = error.localizedDescription
         }

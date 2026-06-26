@@ -8,7 +8,7 @@ import SwiftUI
 @MainActor
 final class MoviesViewModel: ObservableObject {
 
-    @Published var movies: [PopularMovie] = []
+    @Published var movies: [Movie] = []
     @Published var displayedCount = 8
     @Published var isLoading = false
     @Published var isLoadingMore = false
@@ -32,7 +32,7 @@ final class MoviesViewModel: ObservableObject {
         return vm
     }
 
-    var displayedMovies: [PopularMovie] { Array(movies.prefix(displayedCount)) }
+    var displayedMovies: [Movie] { Array(movies.prefix(displayedCount)) }
     var canShowMore: Bool { displayedCount < movies.count || currentPage < totalPages }
 
     func load() async {
@@ -40,11 +40,11 @@ final class MoviesViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         do {
-            let response = try await service.fetchPopularMovies(page: 1)
-            movies = response.results
-            totalPages = response.totalPages
+            let page = try await service.fetchPopularMovies(page: 1)
+            movies = page.movies
+            totalPages = page.totalPages
             currentPage = 1
-            displayedCount = min(8, response.results.count)
+            displayedCount = min(8, page.movies.count)
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -56,8 +56,8 @@ final class MoviesViewModel: ObservableObject {
         if nextCount > movies.count && currentPage < totalPages {
             isLoadingMore = true
             do {
-                let response = try await service.fetchPopularMovies(page: currentPage + 1)
-                movies += response.results
+                let page = try await service.fetchPopularMovies(page: currentPage + 1)
+                movies += page.movies
                 currentPage += 1
             } catch { }
             isLoadingMore = false
