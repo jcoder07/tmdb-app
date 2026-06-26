@@ -5,38 +5,42 @@
 
 import Foundation
 
-struct WatchlistMovie: Identifiable, Decodable {
+struct WatchlistMovie: Identifiable {
     let id: Int
     let title: String
     let overview: String
-    let posterPath: String?
+    let posterURL: URL?
     let voteAverage: Double
     let releaseDate: String?
+}
 
-    var posterURL: URL? {
-        guard let posterPath else { return nil }
-        return Constants.Urls.poster(path: posterPath)
+extension WatchlistMovie {
+    init(_ dto: WatchlistMovieDTO) {
+        id = dto.id
+        title = dto.title
+        overview = dto.overview
+        posterURL = dto.posterPath.flatMap { Constants.Urls.poster(path: $0) }
+        voteAverage = dto.voteAverage
+        releaseDate = dto.releaseDate
     }
 }
 
-struct WatchlistTVShow: Identifiable, Decodable {
+struct WatchlistTVShow: Identifiable {
     let id: Int
     let name: String
     let overview: String
-    let posterPath: String?
+    let posterURL: URL?
     let voteAverage: Double
     let firstAirDate: String?
+}
 
-    var posterURL: URL? {
-        guard let posterPath else { return nil }
-        return Constants.Urls.poster(path: posterPath)
+extension WatchlistTVShow {
+    init(_ dto: WatchlistTVShowDTO) {
+        id = dto.id
+        name = dto.name
+        overview = dto.overview
+        posterURL = dto.posterPath.flatMap { Constants.Urls.poster(path: $0) }
+        voteAverage = dto.voteAverage
+        firstAirDate = dto.firstAirDate
     }
-}
-
-struct WatchlistResponse<T: Decodable>: Decodable {
-    let results: [T]
-}
-
-struct AccountDetails: Decodable {
-    let id: Int
 }

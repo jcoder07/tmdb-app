@@ -237,17 +237,17 @@ private let sampleMovies: [WatchlistMovie] = [
     WatchlistMovie(
         id: 1, title: "Inception",
         overview: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-        posterPath: nil, voteAverage: 8.4, releaseDate: "2010-07-16"
+        posterURL: nil, voteAverage: 8.4, releaseDate: "2010-07-16"
     ),
     WatchlistMovie(
         id: 2, title: "The Dark Knight",
         overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-        posterPath: nil, voteAverage: 9.0, releaseDate: "2008-07-18"
+        posterURL: nil, voteAverage: 9.0, releaseDate: "2008-07-18"
     ),
     WatchlistMovie(
         id: 3, title: "Interstellar",
         overview: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        posterPath: nil, voteAverage: 8.7, releaseDate: "2014-11-07"
+        posterURL: nil, voteAverage: 8.7, releaseDate: "2014-11-07"
     )
 ]
 
@@ -255,12 +255,12 @@ private let sampleTVShows: [WatchlistTVShow] = [
     WatchlistTVShow(
         id: 1, name: "Breaking Bad",
         overview: "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
-        posterPath: nil, voteAverage: 9.5, firstAirDate: "2008-01-20"
+        posterURL: nil, voteAverage: 9.5, firstAirDate: "2008-01-20"
     ),
     WatchlistTVShow(
         id: 2, name: "The Last of Us",
         overview: "Joel, a hardened survivor, is hired to smuggle Ellie out of an oppressive quarantine zone. What starts as a small job soon becomes a brutal, heartbreaking journey.",
-        posterPath: nil, voteAverage: 8.8, firstAirDate: "2023-01-15"
+        posterURL: nil, voteAverage: 8.8, firstAirDate: "2023-01-15"
     )
 ]
 
