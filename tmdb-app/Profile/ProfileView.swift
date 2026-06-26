@@ -9,37 +9,14 @@ import TMDBCore
 
 // MARK: - Models
 
-struct UserProfile {
-    let username: String
-    let avatarPath: String?
-    let avgMovieScore: Double
-    let avgTVScore: Double
-    let totalMovieRatings: Int
-    let totalTVRatings: Int
-    let ratingDistribution: [RatingBar]
-    let topGenres: [GenreSlice]
-    let accentHex: String
-}
-
-struct RatingBar: Identifiable {
-    let id = UUID()
-    let rating: Int
-    let count: Int
-}
-
-struct GenreSlice: Identifiable {
-    let id = UUID()
-    let name: String
-    let color: Color
-    let percentage: Double
-}
+// UserProfile, RatingBar, GenreSlice are defined in ProfileModels.swift
 
 // MARK: - Preview Data
 
 extension UserProfile {
     static let preview = UserProfile(
         username: "Juanjo07",
-        avatarPath: nil,
+        avatarURL: nil,
         avgMovieScore: 40,
         avgTVScore: 0,
         totalMovieRatings: 1,
@@ -203,7 +180,7 @@ struct ProfileView: View {
     }
 
     private var avatarView: some View {
-        AsyncImage(url: profile.avatarPath.flatMap { URL(string: $0) }) { phase in
+        AsyncImage(url: profile.avatarURL) { phase in
             switch phase {
             case .success(let image):
                 image
@@ -479,17 +456,7 @@ private struct MockProfileService: ProfileServiceProtocol {
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile {
         if shouldHang { try await Task.sleep(for: .seconds(100)) }
         if shouldFail { throw URLError(.badServerResponse) }
-        return AccountProfile(
-            id: 6445638,
-            username: "mduranx64",
-            name: "Miguel",
-            avatar: AccountProfile.Avatar(
-                gravatar: AccountProfile.Avatar.Gravatar(hash: "701f890836bf668eef5bae3c305e3b31"),
-                tmdb: AccountProfile.Avatar.TMDBAvatar(avatarPath: nil)
-            ),
-            languageCode: "en",
-            regionCode: "CL"
-        )
+        return AccountProfile(id: 6445638, displayName: "Miguel", avatarURL: nil)
     }
 
     func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie] {
