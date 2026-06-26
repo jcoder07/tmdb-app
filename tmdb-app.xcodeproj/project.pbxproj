@@ -13,20 +13,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		47DDB7DB2F0C1CC600946C49 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 47DDB7C32F0C1CC400946C49;
-			remoteInfo = "tmdb-app";
-		};
-		47DDB7E52F0C1CC700946C49 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 47DDB7C32F0C1CC400946C49;
-			remoteInfo = "tmdb-app";
-		};
 		494CC0502FEE7BAB000C93C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
@@ -59,8 +45,6 @@
 
 /* Begin PBXFileReference section */
 		47DDB7C42F0C1CC400946C49 /* tmdb-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tmdb-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tmdb-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tmdb-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		490375882FEE7E0300C6DB3C /* TMDBCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TMDBCore; sourceTree = "<group>"; };
 		494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		494CC04F2FEE7BAB000C93C2 /* TMDBSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,16 +80,6 @@
 				47DDB7EC2F0C1CC700946C49 /* Exceptions for "tmdb-app" folder in "tmdb-app" target */,
 			);
 			path = "tmdb-app";
-			sourceTree = "<group>";
-		};
-		47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "tmdb-appTests";
-			sourceTree = "<group>";
-		};
-		47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "tmdb-appUITests";
 			sourceTree = "<group>";
 		};
 		494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
@@ -145,20 +119,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		47DDB7C12F0C1CC400946C49 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7D72F0C1CC600946C49 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7E12F0C1CC700946C49 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -218,8 +178,6 @@
 				490375882FEE7E0300C6DB3C /* TMDBCore */,
 				49FAFA972FD8A54A00A4D174 /* CLAUDE.md */,
 				47DDB7C62F0C1CC400946C49 /* tmdb-app */,
-				47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */,
-				47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */,
 				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				494CC0522FEE7BAB000C93C2 /* TMDBSwiftUITests */,
 				494CC05C2FEE7BAB000C93C2 /* TMDBSwiftUIUITests */,
@@ -235,8 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				47DDB7C42F0C1CC400946C49 /* tmdb-app.app */,
-				47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */,
-				47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */,
 				494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */,
 				494CC04F2FEE7BAB000C93C2 /* TMDBSwiftUITests.xctest */,
 				494CC0592FEE7BAB000C93C2 /* TMDBSwiftUIUITests.xctest */,
@@ -278,52 +234,6 @@
 			productName = "tmdb-app";
 			productReference = 47DDB7C42F0C1CC400946C49 /* tmdb-app.app */;
 			productType = "com.apple.product-type.application";
-		};
-		47DDB7D92F0C1CC600946C49 /* tmdb-appTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 47DDB7F22F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appTests" */;
-			buildPhases = (
-				47DDB7D62F0C1CC600946C49 /* Sources */,
-				47DDB7D72F0C1CC600946C49 /* Frameworks */,
-				47DDB7D82F0C1CC600946C49 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				47DDB7DC2F0C1CC600946C49 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */,
-			);
-			name = "tmdb-appTests";
-			packageProductDependencies = (
-			);
-			productName = "tmdb-appTests";
-			productReference = 47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		47DDB7E32F0C1CC700946C49 /* tmdb-appUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 47DDB7F52F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appUITests" */;
-			buildPhases = (
-				47DDB7E02F0C1CC700946C49 /* Sources */,
-				47DDB7E12F0C1CC700946C49 /* Frameworks */,
-				47DDB7E22F0C1CC700946C49 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				47DDB7E62F0C1CC700946C49 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */,
-			);
-			name = "tmdb-appUITests";
-			packageProductDependencies = (
-			);
-			productName = "tmdb-appUITests";
-			productReference = 47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXNativeTarget;
@@ -476,14 +386,6 @@
 					47DDB7C32F0C1CC400946C49 = {
 						CreatedOnToolsVersion = 16.4;
 					};
-					47DDB7D92F0C1CC600946C49 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 47DDB7C32F0C1CC400946C49;
-					};
-					47DDB7E32F0C1CC700946C49 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 47DDB7C32F0C1CC400946C49;
-					};
 					494CC0422FEE7BAA000C93C2 = {
 						CreatedOnToolsVersion = 27.0;
 					};
@@ -524,8 +426,6 @@
 			projectRoot = "";
 			targets = (
 				47DDB7C32F0C1CC400946C49 /* tmdb-app */,
-				47DDB7D92F0C1CC600946C49 /* tmdb-appTests */,
-				47DDB7E32F0C1CC700946C49 /* tmdb-appUITests */,
 				494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				494CC04E2FEE7BAB000C93C2 /* TMDBSwiftUITests */,
 				494CC0582FEE7BAB000C93C2 /* TMDBSwiftUIUITests */,
@@ -542,20 +442,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FAFA982FD8A54A00A4D174 /* CLAUDE.md in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7D82F0C1CC600946C49 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7E22F0C1CC700946C49 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,20 +497,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47DDB7D62F0C1CC600946C49 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7E02F0C1CC700946C49 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		494CC03F2FEE7BAA000C93C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -670,16 +542,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		47DDB7DC2F0C1CC600946C49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
-			targetProxy = 47DDB7DB2F0C1CC600946C49 /* PBXContainerItemProxy */;
-		};
-		47DDB7E62F0C1CC700946C49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
-			targetProxy = 47DDB7E52F0C1CC700946C49 /* PBXContainerItemProxy */;
-		};
 		494CC0512FEE7BAB000C93C2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */;
@@ -887,76 +749,6 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		47DDB7F32F0C1CC700946C49 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tmdb-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tmdb-app";
-			};
-			name = Debug;
-		};
-		47DDB7F42F0C1CC700946C49 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tmdb-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tmdb-app";
-			};
-			name = Release;
-		};
-		47DDB7F62F0C1CC700946C49 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "tmdb-app";
-			};
-			name = Debug;
-		};
-		47DDB7F72F0C1CC700946C49 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "tmdb-app";
 			};
 			name = Release;
 		};
@@ -1269,24 +1061,6 @@
 			buildConfigurations = (
 				47DDB7EE2F0C1CC700946C49 /* Debug */,
 				47DDB7EF2F0C1CC700946C49 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		47DDB7F22F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				47DDB7F32F0C1CC700946C49 /* Debug */,
-				47DDB7F42F0C1CC700946C49 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		47DDB7F52F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				47DDB7F62F0C1CC700946C49 /* Debug */,
-				47DDB7F72F0C1CC700946C49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
