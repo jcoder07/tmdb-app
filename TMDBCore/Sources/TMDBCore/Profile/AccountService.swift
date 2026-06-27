@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol AccountServiceProtocol {
+public protocol AccountServiceProtocol: Sendable {
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile
     func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie]
     func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow]

@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Account
 
-public struct AccountProfile {
+public struct AccountProfile: Sendable {
     public let id: Int
     public let displayName: String
     public let avatarURL: URL?
@@ -28,7 +28,7 @@ extension AccountProfile {
 
 // MARK: - Rated Content
 
-public struct RatedMovie {
+public struct RatedMovie: Sendable {
     public let id: Int
     public let rating: Double
     public let genreIds: [Int]
@@ -48,7 +48,7 @@ extension RatedMovie {
     }
 }
 
-public struct RatedTVShow {
+public struct RatedTVShow: Sendable {
     public let id: Int
     public let rating: Double
     public let genreIds: [Int]
@@ -70,7 +70,7 @@ extension RatedTVShow {
 
 // MARK: - Genre
 
-public struct GenreItem {
+public struct GenreItem: Sendable {
     public let id: Int
     public let name: String
 
@@ -89,7 +89,7 @@ extension GenreItem {
 
 // MARK: - UI / Presentation Models
 
-public struct UserProfile {
+public struct UserProfile: Sendable {
     public let username: String
     public let avatarURL: URL?
     public let avgMovieScore: Double
@@ -123,7 +123,7 @@ public struct UserProfile {
     }
 }
 
-public struct RatingBar: Identifiable {
+public struct RatingBar: Identifiable, Sendable {
     public let id = UUID()
     public let rating: Int
     public let count: Int
@@ -134,7 +134,7 @@ public struct RatingBar: Identifiable {
     }
 }
 
-public struct GenreSlice: Identifiable {
+public struct GenreSlice: Identifiable, Sendable {
     public let id = UUID()
     public let name: String
     public let colorHex: String

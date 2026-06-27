@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol SessionManagerProtocol {
+public protocol SessionManagerProtocol: Sendable {
     func saveSession(id: String)
     func getSession() -> String?
     func clearSession()

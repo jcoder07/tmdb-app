@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol MoviesServiceProtocol {
+public protocol MoviesServiceProtocol: Sendable {
     func fetchPopularMovies(page: Int) async throws -> MoviesPage
 }
 

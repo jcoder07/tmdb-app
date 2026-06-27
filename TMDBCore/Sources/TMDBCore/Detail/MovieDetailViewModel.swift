@@ -13,7 +13,7 @@ public final class MovieDetailViewModel {
     public var showFullCast = false                        { didSet { recomputeDisplayedCast() } }
 
     private let movieId: Int
-    nonisolated(unsafe) private let service: any MovieDetailServiceProtocol
+    private let service: any MovieDetailServiceProtocol
 
     public init(movieId: Int, service: MovieDetailServiceProtocol) {
         self.movieId = movieId

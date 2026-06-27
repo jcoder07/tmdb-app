@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol TMDBAuthServiceProtocol {
+public protocol TMDBAuthServiceProtocol: Sendable {
     func createRequestToken() async throws -> RequestTokenResponse
     func validateLogin(username: String, password: String, requestToken: String) async throws
     func createSession(requestToken: String) async throws -> CreateSessionResponse

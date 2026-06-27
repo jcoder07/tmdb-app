@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Popular Movie
 
-public struct Movie: Identifiable {
+public struct Movie: Identifiable, Sendable {
     public let id: Int
     public let title: String
     public let posterURL: URL?
@@ -30,7 +30,7 @@ extension Movie {
 
 // MARK: - Movies Page
 
-public struct MoviesPage {
+public struct MoviesPage: Sendable {
     public let movies: [Movie]
     public let page: Int
     public let totalPages: Int
@@ -52,7 +52,7 @@ extension MoviesPage {
 
 // MARK: - Movie Detail
 
-public struct MovieDetail: Identifiable {
+public struct MovieDetail: Identifiable, Sendable {
     public let id: Int
     public let title: String
     public let overview: String
@@ -113,7 +113,7 @@ extension MovieDetail {
 
 // MARK: - Genre
 
-public struct Genre: Identifiable {
+public struct Genre: Identifiable, Sendable {
     public let id: Int
     public let name: String
 
@@ -132,7 +132,7 @@ extension Genre {
 
 // MARK: - Cast
 
-public struct CastMember: Identifiable {
+public struct CastMember: Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let character: String
@@ -160,7 +160,7 @@ extension CastMember {
 
 // MARK: - Review
 
-public struct Review: Identifiable {
+public struct Review: Identifiable, Sendable {
     public let id: String
     public let author: String
     public let content: String

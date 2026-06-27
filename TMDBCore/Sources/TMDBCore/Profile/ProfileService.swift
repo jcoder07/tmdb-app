@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol ProfileServiceProtocol {
+public protocol ProfileServiceProtocol: Sendable {
     func fetchAccountDetails(sessionId: String) async throws -> AccountProfile
     func fetchRatedMovies(accountId: Int, sessionId: String) async throws -> [RatedMovie]
     func fetchRatedTVShows(accountId: Int, sessionId: String) async throws -> [RatedTVShow]

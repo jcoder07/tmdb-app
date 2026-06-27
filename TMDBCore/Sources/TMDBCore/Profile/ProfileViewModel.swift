@@ -9,8 +9,8 @@ public final class ProfileViewModel {
     public var isLoading = false
     public var errorMessage: String?
 
-    nonisolated(unsafe) private let service: any ProfileServiceProtocol
-    nonisolated(unsafe) private let sessionManager: any SessionManagerProtocol
+    private let service: any ProfileServiceProtocol
+    private let sessionManager: any SessionManagerProtocol
     private let onLogout: () -> Void
 
     public init(

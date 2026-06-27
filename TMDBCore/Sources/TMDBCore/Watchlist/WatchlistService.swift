@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol WatchlistServiceProtocol {
+public protocol WatchlistServiceProtocol: Sendable {
     func fetchAccountId(sessionId: String) async throws -> Int
     func fetchMovies(accountId: Int, sessionId: String) async throws -> [WatchlistMovie]
     func fetchTVShows(accountId: Int, sessionId: String) async throws -> [WatchlistTVShow]
