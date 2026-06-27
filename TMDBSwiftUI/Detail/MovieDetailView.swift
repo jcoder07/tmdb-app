@@ -266,7 +266,7 @@ private struct MovieDetailScoreSection: View {
                         .frame(width: 72, height: 72)
                         .rotationEffect(.degrees(-90))
                     VStack(spacing: 0) {
-                        Text("\(Int(voteAverage * 10))%")
+                        Text(voteAverage / 10, format: .percent.precision(.fractionLength(0)))
                             .font(.system(size: 17, weight: .bold))
                         Text("Score")
                             .font(.system(size: 9))
