@@ -10,8 +10,8 @@ public final class LoginViewModel {
     public var isLoading = false
     public var errorMessage: String?
 
-    nonisolated(unsafe) private let sessionManager: any SessionManagerProtocol
-    nonisolated(unsafe) private let authService: any TMDBAuthServiceProtocol
+    private let sessionManager: any SessionManagerProtocol
+    private let authService: any TMDBAuthServiceProtocol
     private let onLoginSuccess: () -> Void
 
     public init(

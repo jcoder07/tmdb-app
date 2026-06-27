@@ -14,8 +14,8 @@ public final class MoviesViewModel {
     private var displayedCount = 8  { didSet { recomputeDerived() } }
     private var currentPage = 1     { didSet { recomputeDerived() } }
     private var totalPages = 1      { didSet { recomputeDerived() } }
-    nonisolated(unsafe) private let service: any MoviesServiceProtocol
-    nonisolated(unsafe) private let detailService: any MovieDetailServiceProtocol
+    private let service: any MoviesServiceProtocol
+    private let detailService: any MovieDetailServiceProtocol
     private var detailViewModels: [Int: MovieDetailViewModel] = [:]
 
     public init(service: MoviesServiceProtocol, detailService: MovieDetailServiceProtocol) {

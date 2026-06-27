@@ -66,7 +66,7 @@ extension Resource {
 
 // MARK: - Protocol
 
-public protocol HttpClientProtocol {
+public protocol HttpClientProtocol: Sendable {
     func load<T: Decodable>(_ resource: Resource<T>) async throws -> T
 }
 

@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol MovieDetailServiceProtocol {
+public protocol MovieDetailServiceProtocol: Sendable {
     func fetchMovieDetail(id: Int) async throws -> MovieDetail
     func fetchCredits(id: Int) async throws -> [CastMember]
     func fetchReviews(id: Int) async throws -> [Review]

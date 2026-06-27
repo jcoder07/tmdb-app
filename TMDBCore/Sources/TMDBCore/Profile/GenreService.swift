@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol GenreServiceProtocol {
+public protocol GenreServiceProtocol: Sendable {
     func fetchMovieGenres() async throws -> [GenreItem]
     func fetchTVGenres() async throws -> [GenreItem]
 }
