@@ -29,7 +29,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // MARK: - Factory functions
 
     private func makeLoginNav() -> UINavigationController {
-        let vm = LoginViewModel(
+        let loginViewModel = LoginViewModel(
             sessionManager: sessionManager,
             authService: TMDBAuthService(httpClient: httpClient),
             onLoginSuccess: { [weak self] in
@@ -37,7 +37,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.transition(to: self.makeTabBar())
             }
         )
-        return UINavigationController(rootViewController: LoginViewController(viewModel: vm))
+        return UINavigationController(rootViewController: LoginViewController(viewModel: loginViewModel))
     }
 
     private func makeTabBar() -> UITabBarController {
