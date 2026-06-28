@@ -13,6 +13,7 @@
 
 /* Begin PBXFileReference section */
 		490375882FEE7E0300C6DB3C /* TMDBCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TMDBCore; sourceTree = "<group>"; };
+		4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 		494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49580C922FEE827300EFE953 /* TMDBUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FAFA972FD8A54A00A4D174 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
@@ -79,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				490375882FEE7E0300C6DB3C /* TMDBCore */,
+				4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */,
 				49FAFA972FD8A54A00A4D174 /* CLAUDE.md */,
 				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				49580C932FEE827300EFE953 /* TMDBUIKit */,
