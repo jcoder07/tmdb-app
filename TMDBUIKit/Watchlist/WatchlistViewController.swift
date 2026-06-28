@@ -9,9 +9,9 @@ final class WatchlistViewController: UIViewController {
     // MARK: - UI
 
     private let segmentedControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["Movies", "TV Shows"])
-        sc.selectedSegmentIndex = 0
-        return sc
+        let segmentedControl = UISegmentedControl(items: ["Movies", "TV Shows"])
+        segmentedControl.selectedSegmentIndex = 0
+        return segmentedControl
     }()
 
     private let tableView = UITableView(frame: .zero, style: .plain)
@@ -173,34 +173,34 @@ private final class WatchlistItemCell: UITableViewCell {
     static let reuseID = "WatchlistItemCell"
 
     private let posterView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = .systemGray5
-        iv.layer.cornerRadius = 8
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray5
+        imageView.layer.cornerRadius = 8
+        return imageView
     }()
 
     private let titleLabel: UILabel = {
-        let l = UILabel()
-        l.font = .systemFont(ofSize: 15, weight: .semibold)
-        l.numberOfLines = 2
-        return l
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.numberOfLines = 2
+        return label
     }()
 
     private let metaLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .subheadline)
-        l.textColor = .secondaryLabel
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .secondaryLabel
+        return label
     }()
 
     private let overviewLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .caption1)
-        l.textColor = .secondaryLabel
-        l.numberOfLines = 3
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 3
+        return label
     }()
 
     private var imageTask: Task<Void, Never>?

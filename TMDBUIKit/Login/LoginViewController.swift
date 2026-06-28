@@ -9,40 +9,40 @@ final class LoginViewController: UIViewController {
     // MARK: - UI
 
     private let usernameField: UITextField = {
-        let f = UITextField()
-        f.placeholder = "Username"
-        f.borderStyle = .roundedRect
-        f.autocorrectionType = .no
-        f.autocapitalizationType = .none
-        f.returnKeyType = .next
-        return f
+        let textField = UITextField()
+        textField.placeholder = "Username"
+        textField.borderStyle = .roundedRect
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .next
+        return textField
     }()
 
     private let passwordField: UITextField = {
-        let f = UITextField()
-        f.placeholder = "Password"
-        f.borderStyle = .roundedRect
-        f.isSecureTextEntry = true
-        f.returnKeyType = .go
-        return f
+        let textField = UITextField()
+        textField.placeholder = "Password"
+        textField.borderStyle = .roundedRect
+        textField.isSecureTextEntry = true
+        textField.returnKeyType = .go
+        return textField
     }()
 
     private let errorLabel: UILabel = {
-        let l = UILabel()
-        l.textColor = .systemRed
-        l.font = .preferredFont(forTextStyle: .caption1)
-        l.numberOfLines = 0
-        l.textAlignment = .center
-        l.isHidden = true
-        return l
+        let label = UILabel()
+        label.textColor = .systemRed
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
     }()
 
     private let loginButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = "Login"
         config.cornerStyle = .medium
-        let b = UIButton(configuration: config)
-        return b
+        let button = UIButton(configuration: config)
+        return button
     }()
 
     // MARK: - Init

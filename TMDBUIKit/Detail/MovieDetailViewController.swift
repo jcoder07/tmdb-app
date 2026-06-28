@@ -15,11 +15,11 @@ final class MovieDetailViewController: UIViewController {
 
     // Header
     private let backdropImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = .systemGray5
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray5
+        return imageView
     }()
     private let closeButton: UIButton = {
         var config = UIButton.Configuration.filled()
@@ -32,54 +32,54 @@ final class MovieDetailViewController: UIViewController {
 
     // Info
     private let titleLabel: UILabel = {
-        let l = UILabel()
-        l.font = .systemFont(ofSize: 22, weight: .bold)
-        l.numberOfLines = 0
-        return l
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.numberOfLines = 0
+        return label
     }()
     private let genresLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .subheadline)
-        l.textColor = .secondaryLabel
-        l.numberOfLines = 0
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 0
+        return label
     }()
     private let taglineLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .callout)
-        l.textColor = .secondaryLabel
-        l.fontMetrics()
-        l.numberOfLines = 0
-        l.textAlignment = .center
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .callout)
+        label.textColor = .secondaryLabel
+        label.fontMetrics()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
     }()
     private let overviewLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .body)
-        l.numberOfLines = 0
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
+        return label
     }()
 
     // Score
     private let scoreLabel: UILabel = {
-        let l = UILabel()
-        l.font = .systemFont(ofSize: 34, weight: .bold)
-        l.textAlignment = .center
-        return l
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 34, weight: .bold)
+        label.textAlignment = .center
+        return label
     }()
     private let voteCountLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .caption1)
-        l.textColor = .secondaryLabel
-        l.textAlignment = .center
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
     }()
 
     // Cast
     private let castScrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.showsHorizontalScrollIndicator = false
-        return sv
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        return scrollView
     }()
     private let castStack = UIStackView()
 
@@ -299,11 +299,11 @@ final class MovieDetailViewController: UIViewController {
         // Reviews
         reviewsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
         if viewModel.reviews.isEmpty {
-            let l = UILabel()
-            l.text = "No reviews yet."
-            l.textColor = .secondaryLabel
-            l.font = .preferredFont(forTextStyle: .subheadline)
-            reviewsStack.addArrangedSubview(l)
+            let label = UILabel()
+            label.text = "No reviews yet."
+            label.textColor = .secondaryLabel
+            label.font = .preferredFont(forTextStyle: .subheadline)
+            reviewsStack.addArrangedSubview(label)
         } else {
             viewModel.reviews.forEach { review in
                 reviewsStack.addArrangedSubview(ReviewCardView(review: review))
@@ -317,29 +317,29 @@ final class MovieDetailViewController: UIViewController {
 private final class CastMemberView: UIView {
 
     private let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = .systemGray5
-        iv.layer.cornerRadius = 24
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray5
+        imageView.layer.cornerRadius = 24
+        return imageView
     }()
 
     private let nameLabel: UILabel = {
-        let l = UILabel()
-        l.font = .systemFont(ofSize: 11, weight: .semibold)
-        l.numberOfLines = 2
-        l.textAlignment = .center
-        return l
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 11, weight: .semibold)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        return label
     }()
 
     private let characterLabel: UILabel = {
-        let l = UILabel()
-        l.font = .systemFont(ofSize: 10)
-        l.textColor = .secondaryLabel
-        l.numberOfLines = 2
-        l.textAlignment = .center
-        return l
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 10)
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        return label
     }()
 
     private var imageTask: Task<Void, Never>?

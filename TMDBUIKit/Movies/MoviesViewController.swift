@@ -20,8 +20,10 @@ final class MoviesViewController: UIViewController {
         var config = UIButton.Configuration.plain()
         config.title = "Show More"
         config.baseForegroundColor = UIColor(red: 0.004, green: 0.706, blue: 0.894, alpha: 1)
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
-            var a = attrs; a.font = UIFont.systemFont(ofSize: 16, weight: .semibold); return a
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
+            var transformedAttributes = attributes
+            transformedAttributes.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+            return transformedAttributes
         }
         return UIButton(configuration: config)
     }()
@@ -81,12 +83,12 @@ final class MoviesViewController: UIViewController {
     }
 
     private func setupDataSource() {
-        let cellReg = UICollectionView.CellRegistration<MovieCell, Int> { [weak self] cell, _, movieId in
+        let cellRegistration = UICollectionView.CellRegistration<MovieCell, Int> { [weak self] cell, _, movieId in
             guard let movie = self?.viewModel.displayedMovies.first(where: { $0.id == movieId }) else { return }
             cell.configure(with: movie)
         }
-        dataSource = UICollectionViewDiffableDataSource<String, Int>(collectionView: collectionView) { cv, indexPath, item in
-            cv.dequeueConfiguredReusableCell(using: cellReg, for: indexPath, item: item)
+        dataSource = UICollectionViewDiffableDataSource<String, Int>(collectionView: collectionView) { collectionView, indexPath, item in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
     }
 
@@ -176,8 +178,8 @@ extension MoviesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.item < viewModel.displayedMovies.count else { return }
         let movie = viewModel.displayedMovies[indexPath.item]
-        let detailVC = MovieDetailViewController(viewModel: viewModel.makeDetailViewModel(for: movie.id))
-        navigationController?.pushViewController(detailVC, animated: true)
+        let detailViewController = MovieDetailViewController(viewModel: viewModel.makeDetailViewModel(for: movie.id))
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
@@ -186,41 +188,41 @@ extension MoviesViewController: UICollectionViewDelegate {
 private final class MovieCell: UICollectionViewCell {
 
     private let posterImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = .systemGray5
-        iv.layer.cornerRadius = 10
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray5
+        imageView.layer.cornerRadius = 10
+        return imageView
     }()
 
     private let filmIcon: UIImageView = {
-        let iv = UIImageView(image: UIImage(systemName: "film"))
-        iv.tintColor = .systemGray3
-        iv.contentMode = .scaleAspectFit
-        return iv
+        let imageView = UIImageView(image: UIImage(systemName: "film"))
+        imageView.tintColor = .systemGray3
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
 
     private let titleLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .caption1)
-        l.fontMetrics(for: .caption1)
-        l.numberOfLines = 2
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.fontMetrics(for: .caption1)
+        label.numberOfLines = 2
+        return label
     }()
 
     private let starImage: UIImageView = {
-        let iv = UIImageView(image: UIImage(systemName: "star.fill"))
-        iv.tintColor = .systemYellow
-        iv.setContentHuggingPriority(.required, for: .horizontal)
-        return iv
+        let imageView = UIImageView(image: UIImage(systemName: "star.fill"))
+        imageView.tintColor = .systemYellow
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        return imageView
     }()
 
     private let ratingLabel: UILabel = {
-        let l = UILabel()
-        l.font = .preferredFont(forTextStyle: .caption2)
-        l.textColor = .secondaryLabel
-        return l
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption2)
+        label.textColor = .secondaryLabel
+        return label
     }()
 
     private var imageTask: Task<Void, Never>?

@@ -16,21 +16,21 @@ final class ProfileViewController: UIViewController {
 
     // Header
     private let avatarView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = UIColor(red: 0.024, green: 0.408, blue: 0.882, alpha: 1)
-        iv.layer.cornerRadius = 40
-        iv.image = UIImage(systemName: "person.fill")
-        iv.tintColor = .white
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = UIColor(red: 0.024, green: 0.408, blue: 0.882, alpha: 1)
+        imageView.layer.cornerRadius = 40
+        imageView.image = UIImage(systemName: "person.fill")
+        imageView.tintColor = .white
+        return imageView
     }()
 
     private let usernameLabel: UILabel = {
-        let l = UILabel()
-        l.font = .systemFont(ofSize: 20, weight: .bold)
-        l.textColor = .white
-        return l
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = .white
+        return label
     }()
 
     private let movieScoreLabel = ScoreLabel(title: "Avg Movie Score")
@@ -456,9 +456,9 @@ private extension UIColor {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
         guard Scanner(string: hex).scanHexInt64(&int) else { return nil }
-        let r = Double((int >> 16) & 0xFF) / 255
-        let g = Double((int >> 8) & 0xFF) / 255
-        let b = Double(int & 0xFF) / 255
-        self.init(red: r, green: g, blue: b, alpha: 1)
+        let red = Double((int >> 16) & 0xFF) / 255
+        let green = Double((int >> 8) & 0xFF) / 255
+        let blue = Double(int & 0xFF) / 255
+        self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 }
