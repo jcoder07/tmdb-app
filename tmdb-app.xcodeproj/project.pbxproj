@@ -7,84 +7,69 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49FAFA982FD8A54A00A4D174 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = 49FAFA972FD8A54A00A4D174 /* CLAUDE.md */; };
+		49580CC32FEE833600EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC22FEE833600EFE953 /* TMDBCore */; };
+		49580CC52FEE835300EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC42FEE835300EFE953 /* TMDBCore */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		47DDB7DB2F0C1CC600946C49 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 47DDB7C32F0C1CC400946C49;
-			remoteInfo = "tmdb-app";
-		};
-		47DDB7E52F0C1CC700946C49 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 47DDB7C32F0C1CC400946C49;
-			remoteInfo = "tmdb-app";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		47DDB7C42F0C1CC400946C49 /* tmdb-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tmdb-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tmdb-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tmdb-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		490375882FEE7E0300C6DB3C /* TMDBCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TMDBCore; sourceTree = "<group>"; };
+		4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
+		494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49580C922FEE827300EFE953 /* TMDBUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FAFA972FD8A54A00A4D174 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		47DDB7EC2F0C1CC700946C49 /* Exceptions for "tmdb-app" folder in "tmdb-app" target */ = {
+		4939C9272FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "TMDBSwiftUI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Config.xcconfig,
+				Info.plist,
+				Localizable.xcstrings,
+			);
+			target = 494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */;
+		};
+		49580CBD2FEE827400EFE953 /* Exceptions for "TMDBUIKit" folder in "TMDBUIKit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
 				Info.plist,
 			);
-			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
+			target = 49580C912FEE827300EFE953 /* TMDBUIKit */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		47DDB7C62F0C1CC400946C49 /* tmdb-app */ = {
+		494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				47DDB7EC2F0C1CC700946C49 /* Exceptions for "tmdb-app" folder in "tmdb-app" target */,
+				4939C9272FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "TMDBSwiftUI" target */,
 			);
-			path = "tmdb-app";
+			path = TMDBSwiftUI;
 			sourceTree = "<group>";
 		};
-		47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */ = {
+		49580C932FEE827300EFE953 /* TMDBUIKit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "tmdb-appTests";
-			sourceTree = "<group>";
-		};
-		47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "tmdb-appUITests";
+			exceptions = (
+				49580CBD2FEE827400EFE953 /* Exceptions for "TMDBUIKit" folder in "TMDBUIKit" target */,
+			);
+			path = TMDBUIKit;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		47DDB7C12F0C1CC400946C49 /* Frameworks */ = {
+		494CC0402FEE7BAA000C93C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49580CC32FEE833600EFE953 /* TMDBCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47DDB7D72F0C1CC600946C49 /* Frameworks */ = {
+		49580C8F2FEE827300EFE953 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7E12F0C1CC700946C49 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				49580CC52FEE835300EFE953 /* TMDBCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,10 +79,12 @@
 		47DDB7BB2F0C1CC400946C49 = {
 			isa = PBXGroup;
 			children = (
+				490375882FEE7E0300C6DB3C /* TMDBCore */,
+				4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */,
 				49FAFA972FD8A54A00A4D174 /* CLAUDE.md */,
-				47DDB7C62F0C1CC400946C49 /* tmdb-app */,
-				47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */,
-				47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */,
+				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
+				49580C932FEE827300EFE953 /* TMDBUIKit */,
+				49580CC12FEE833600EFE953 /* Frameworks */,
 				47DDB7C52F0C1CC400946C49 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,83 +92,67 @@
 		47DDB7C52F0C1CC400946C49 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				47DDB7C42F0C1CC400946C49 /* tmdb-app.app */,
-				47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */,
-				47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */,
+				494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */,
+				49580C922FEE827300EFE953 /* TMDBUIKit.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		49580CC12FEE833600EFE953 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		47DDB7C32F0C1CC400946C49 /* tmdb-app */ = {
+		494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 47DDB7ED2F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-app" */;
+			buildConfigurationList = 494CC0652FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUI" */;
 			buildPhases = (
-				47DDB7C02F0C1CC400946C49 /* Sources */,
-				47DDB7C12F0C1CC400946C49 /* Frameworks */,
-				47DDB7C22F0C1CC400946C49 /* Resources */,
+				494CC03F2FEE7BAA000C93C2 /* Sources */,
+				494CC0402FEE7BAA000C93C2 /* Frameworks */,
+				494CC0412FEE7BAA000C93C2 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				47DDB7C62F0C1CC400946C49 /* tmdb-app */,
+				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
 			);
-			name = "tmdb-app";
+			name = TMDBSwiftUI;
 			packageProductDependencies = (
+				49580CC22FEE833600EFE953 /* TMDBCore */,
 			);
-			productName = "tmdb-app";
-			productReference = 47DDB7C42F0C1CC400946C49 /* tmdb-app.app */;
+			productName = TMDBSwiftUI;
+			productReference = 494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		47DDB7D92F0C1CC600946C49 /* tmdb-appTests */ = {
+		49580C912FEE827300EFE953 /* TMDBUIKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 47DDB7F22F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appTests" */;
+			buildConfigurationList = 49580CBE2FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKit" */;
 			buildPhases = (
-				47DDB7D62F0C1CC600946C49 /* Sources */,
-				47DDB7D72F0C1CC600946C49 /* Frameworks */,
-				47DDB7D82F0C1CC600946C49 /* Resources */,
+				49580C8E2FEE827300EFE953 /* Sources */,
+				49580C8F2FEE827300EFE953 /* Frameworks */,
+				49580C902FEE827300EFE953 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				47DDB7DC2F0C1CC600946C49 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				47DDB7DD2F0C1CC600946C49 /* tmdb-appTests */,
+				49580C932FEE827300EFE953 /* TMDBUIKit */,
 			);
-			name = "tmdb-appTests";
+			name = TMDBUIKit;
 			packageProductDependencies = (
+				49580CC42FEE835300EFE953 /* TMDBCore */,
 			);
-			productName = "tmdb-appTests";
-			productReference = 47DDB7DA2F0C1CC600946C49 /* tmdb-appTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		47DDB7E32F0C1CC700946C49 /* tmdb-appUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 47DDB7F52F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appUITests" */;
-			buildPhases = (
-				47DDB7E02F0C1CC700946C49 /* Sources */,
-				47DDB7E12F0C1CC700946C49 /* Frameworks */,
-				47DDB7E22F0C1CC700946C49 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				47DDB7E62F0C1CC700946C49 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				47DDB7E72F0C1CC700946C49 /* tmdb-appUITests */,
-			);
-			name = "tmdb-appUITests";
-			packageProductDependencies = (
-			);
-			productName = "tmdb-appUITests";
-			productReference = 47DDB7E42F0C1CC700946C49 /* tmdb-appUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			productName = TMDBUIKit;
+			productReference = 49580C922FEE827300EFE953 /* TMDBUIKit.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -190,19 +161,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
-					47DDB7C32F0C1CC400946C49 = {
-						CreatedOnToolsVersion = 16.4;
+					494CC0422FEE7BAA000C93C2 = {
+						CreatedOnToolsVersion = 27.0;
 					};
-					47DDB7D92F0C1CC600946C49 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 47DDB7C32F0C1CC400946C49;
-					};
-					47DDB7E32F0C1CC700946C49 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 47DDB7C32F0C1CC400946C49;
+					49580C912FEE827300EFE953 = {
+						CreatedOnToolsVersion = 27.0;
 					};
 				};
 			};
@@ -221,30 +187,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				47DDB7C32F0C1CC400946C49 /* tmdb-app */,
-				47DDB7D92F0C1CC600946C49 /* tmdb-appTests */,
-				47DDB7E32F0C1CC700946C49 /* tmdb-appUITests */,
+				494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */,
+				49580C912FEE827300EFE953 /* TMDBUIKit */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		47DDB7C22F0C1CC400946C49 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				49FAFA982FD8A54A00A4D174 /* CLAUDE.md in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7D82F0C1CC600946C49 /* Resources */ = {
+		494CC0412FEE7BAA000C93C2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47DDB7E22F0C1CC700946C49 /* Resources */ = {
+		49580C902FEE827300EFE953 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -254,21 +211,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		47DDB7C02F0C1CC400946C49 /* Sources */ = {
+		494CC03F2FEE7BAA000C93C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47DDB7D62F0C1CC600946C49 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		47DDB7E02F0C1CC700946C49 /* Sources */ = {
+		49580C8E2FEE827300EFE953 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -277,82 +227,9 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		47DDB7DC2F0C1CC600946C49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
-			targetProxy = 47DDB7DB2F0C1CC600946C49 /* PBXContainerItemProxy */;
-		};
-		47DDB7E62F0C1CC700946C49 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 47DDB7C32F0C1CC400946C49 /* tmdb-app */;
-			targetProxy = 47DDB7E52F0C1CC700946C49 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		47DDB7EE2F0C1CC700946C49 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "tmdb-app/Info.plist";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-app";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		47DDB7EF2F0C1CC700946C49 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "tmdb-app/Info.plist";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-app";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		47DDB7F02F0C1CC700946C49 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 47DDB7C62F0C1CC400946C49 /* tmdb-app */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -419,8 +296,6 @@
 		};
 		47DDB7F12F0C1CC700946C49 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 47DDB7C62F0C1CC400946C49 /* tmdb-app */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -478,73 +353,141 @@
 			};
 			name = Release;
 		};
-		47DDB7F32F0C1CC700946C49 /* Debug */ = {
+		494CC05F2FEE7BAB000C93C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				INFOPLIST_FILE = TMDBSwiftUI/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tmdb-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tmdb-app";
 			};
 			name = Debug;
 		};
-		47DDB7F42F0C1CC700946C49 /* Release */ = {
+		494CC0602FEE7BAB000C93C2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				INFOPLIST_FILE = TMDBSwiftUI/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tmdb-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tmdb-app";
 			};
 			name = Release;
 		};
-		47DDB7F62F0C1CC700946C49 /* Debug */ = {
+		49580CB72FEE827400EFE953 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 49580C932FEE827300EFE953 /* TMDBUIKit */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				INFOPLIST_FILE = TMDBUIKit/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "tmdb-app";
 			};
 			name = Debug;
 		};
-		47DDB7F72F0C1CC700946C49 /* Release */ = {
+		49580CB82FEE827400EFE953 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 49580C932FEE827300EFE953 /* TMDBUIKit */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
+				INFOPLIST_FILE = TMDBUIKit/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.tmdb-appUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBUIKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "tmdb-app";
 			};
 			name = Release;
 		};
@@ -560,34 +503,36 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		47DDB7ED2F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-app" */ = {
+		494CC0652FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				47DDB7EE2F0C1CC700946C49 /* Debug */,
-				47DDB7EF2F0C1CC700946C49 /* Release */,
+				494CC05F2FEE7BAB000C93C2 /* Debug */,
+				494CC0602FEE7BAB000C93C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		47DDB7F22F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appTests" */ = {
+		49580CBE2FEE827400EFE953 /* Build configuration list for PBXNativeTarget "TMDBUIKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				47DDB7F32F0C1CC700946C49 /* Debug */,
-				47DDB7F42F0C1CC700946C49 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		47DDB7F52F0C1CC700946C49 /* Build configuration list for PBXNativeTarget "tmdb-appUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				47DDB7F62F0C1CC700946C49 /* Debug */,
-				47DDB7F72F0C1CC700946C49 /* Release */,
+				49580CB72FEE827400EFE953 /* Debug */,
+				49580CB82FEE827400EFE953 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		49580CC22FEE833600EFE953 /* TMDBCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TMDBCore;
+		};
+		49580CC42FEE835300EFE953 /* TMDBCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TMDBCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 47DDB7BC2F0C1CC400946C49 /* Project object */;
 }

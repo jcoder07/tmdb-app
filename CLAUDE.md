@@ -1,108 +1,127 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file gives coding-agent guidance for the current `tmdb-app` repository. It was written from the actual codebase structure and should be kept in sync when targets, architecture, or build validation changes.
 
-## Build & Validation Commands
+## Build & Validation
 
-Use the Xcode MCP tools — do not use `xcodebuild` directly.
+Use Xcode MCP tools for this project. Prefer these over direct `xcodebuild` calls:
 
-- **Build**: `BuildProject`
-- **Quick diagnostics** (faster than a full build): `XcodeRefreshCodeIssuesInFile` — catches type errors, missing imports, unresolved identifiers within seconds
-- **Run all tests**: `RunAllTests`
-- **Run specific tests**: `RunSomeTests`
+- `XcodeRefreshCodeIssuesInFile`: fast diagnostics for every Swift file you edit.
+- `BuildProject`: full project build; use before declaring broad changes complete.
+- `RunAllTests`: run the whole test suite when available.
+- `RunSomeTests`: run focused tests while iterating.
 
-Always run `XcodeRefreshCodeIssuesInFile` on every file you edit before declaring work done.
+The current `TMDBCoreTests.swift` only contains the default Swift Testing placeholder. Add real tests under `TMDBCore/Tests/TMDBCoreTests/` when changing core logic or ViewModel behavior.
 
-## API Key Setup
+## Configuration & Secrets
 
-The TMDB API key is **not** in source control. It lives in `tmdb-app/Config.xcconfig` (gitignored). Copy `Config.xcconfig.example` to `Config.xcconfig` and fill in the key. The xcconfig feeds `Info.plist`, which the app reads at runtime via `TMDBConfig.apiKey` (`Core/TMDBConfig.swift`).
+The TMDB API key is read from `Bundle.main.infoDictionary["TMDB_API_KEY"]` in `TMDBCore/Core/TMDBConfig.swift`. `TMDBSwiftUI/Config.xcconfig.example` shows the expected setup:
 
-## Architecture
-
-### Navigation (UIKit shell + SwiftUI screens)
-
-`SceneDelegate` is the **composition root** — the only place where concrete dependencies are instantiated. It owns a `UINavigationController` and two local factory functions (`makeLoginVC`, `makeMainTabVC`) that create `UIHostingController` wrappers around SwiftUI views.
-
-Screen transitions use `nav.setViewControllers(_:animated:)` (full replacement, not push/pop). Navigation callbacks are closure-injected at construction time — no Coordinator class needed at current scale.
-
-```
-SceneDelegate
-├── makeLoginVC()   → UIHostingController<LoginView>
-└── makeMainTabVC() → UIHostingController<MainTabView>
-                          └── TabView with 5 NavigationStacks
-                              (Home, Movies, Series, Watchlist, Search)
+```xcconfig
+TMDB_API_KEY = your_api_key_here
+INFOPLIST_KEY_TMDB_API_KEY = $(TMDB_API_KEY)
 ```
 
-### MVVM + Protocol-based DI
+Do not commit real API keys. Keep local `Config.xcconfig` files environment-specific.
 
-Every screen has a `ViewModel: ObservableObject` that owns all logic and state. Views are purely declarative. Dependencies are injected via initializer, always typed as protocols:
+## Targets & Module Layout
 
-| Protocol | Concrete | Purpose |
-|---|---|---|
-| `SessionManagerProtocol` | `SessionManager` | Reads/writes session ID from `UserDefaults` |
-| `TMDBAuthServiceProtocol` | `TMDBAuthService` | 3-step TMDB auth (completion-handler based) |
-| `HttpClientProtocol` | `HttpClient` | Generic async/await HTTP networking |
-| `WatchlistServiceProtocol` | `WatchlistService` | Watchlist TMDB API |
-| `ProfileServiceProtocol` | `ProfileService` | Facade over `AccountService` + `GenreService` |
+- `TMDBCore`: Swift Package, iOS 17+, Swift 6 mode, no third-party dependencies. Owns networking, session storage, services, DTOs, domain models, and ViewModels.
+- `TMDBSwiftUI`: SwiftUI app target and current primary UI. Feature folders: `Home`, `Login`, `Movies`, `Detail`, `Profile`, `Watchlist`, `Search`, `Series`.
+- `TMDBUIKit`: UIKit app target using the same `TMDBCore` ViewModels and services. It has a UIKit composition root, tab bar, and feature controllers.
 
-New services should use **async/await** via `HttpClient`. New ViewModels should be marked **`@MainActor`** (see `WatchlistViewModel` as the reference pattern). The older `LoginViewModel` uses completion handlers — do not copy that style.
+Keep business logic in `TMDBCore`. UI targets should compose dependencies, render state, and handle platform-specific navigation.
 
-### Networking Layer (`Core/`)
+## Composition Roots
 
-All HTTP calls go through `HttpClient`, which uses a `Resource<T: Decodable>` struct to describe a request and decodes responses automatically:
+`TMDBSwiftUI/Composition/TMDBSwiftUIApp.swift` is the SwiftUI composition root. `TMDBSwiftUIApp` creates app-lifetime `SessionManager` and `HttpClient`, then passes them into `AppRootView`.
+
+`AppRootView` owns `@State private var isLoggedIn` initialized from `sessionManager.isLoggedIn`. It switches between:
+
+```text
+logged out -> NavigationStack { LoginView }
+logged in  -> MainTabView with Home, Movies, Series, Watchlist, Search
+```
+
+Factory methods create `LoginViewModel`, `HomeViewModel`, `MoviesViewModel`, `WatchlistViewModel`, and `ProfileViewModel`. Logout clears the session in the relevant ViewModel and flips `isLoggedIn` through the injected closure.
+
+`TMDBUIKit/Composition/SceneDelegate.swift` mirrors this setup with `SessionManager` and `HttpClient` stored for app lifetime. It installs either a login navigation controller or a tab bar and transitions root controllers with a cross-dissolve.
+
+## Core Architecture
+
+ViewModels in `TMDBCore` use Observation:
 
 ```swift
-let resource = Resource(url: Constants.Urls.account(sessionId: id), modelType: AccountProfile.self)
-let profile = try await httpClient.load(resource)
+@MainActor
+@Observable
+public final class SomeViewModel { }
 ```
 
-`HttpClient.load` uses `JSONDecoder` with `.convertFromSnakeCase`, so models do **not** need `CodingKeys` for standard snake_case conversions (e.g. `poster_path` → `posterPath`). Only add `CodingKeys` when the Swift property name doesn't match the snake_case-converted JSON key (e.g. `AccountProfile` uses `languageCode` for `iso_639_1`).
+Dependencies are injected as protocols and stored as existentials, for example:
 
-All URLs live in `Constants.Urls` (`Core/Constants.swift`), grouped by feature (Auth, Account, Watchlist, Genres, Images). Never hardcode URLs in services.
-
-### TMDB Authentication Flow
-
-Three sequential API calls in `TMDBAuthService`, completion-handler based (legacy — do not copy):
-
-1. `createRequestToken()` → temporary token
-2. `validateLogin(username:password:requestToken:)` → validated token
-3. `createSession(requestToken:)` → persistent `sessionId` stored via `SessionManager`
-
-### Profile Feature Structure
-
-`ProfileService` is a **facade** — it implements `ProfileServiceProtocol` by delegating to two focused services, both injected via `HttpClientProtocol`:
-
-```
-ProfileService (facade)
-├── AccountService  — /account, /account/{id}/rated/movies, /account/{id}/rated/tv
-└── GenreService    — /genre/movie/list, /genre/tv/list
+```swift
+private let service: any MoviesServiceProtocol
+private let sessionManager: any SessionManagerProtocol
 ```
 
-The split means `ProfileViewModel` depends only on `ProfileServiceProtocol` and is unaware of the internal decomposition.
+Protocols such as `HttpClientProtocol`, service protocols, and `SessionManagerProtocol` conform to `Sendable`. Concrete services are `final class` types with immutable `httpClient` or facade dependencies.
 
-### Feature Structure
+Use `async`/`await`; do not introduce Combine for new app logic.
 
+## Networking Rules
+
+All network calls go through `HttpClient.load(_:)` with `Resource<T: Decodable>`.
+
+- `Resource(url:modelType:)` is used for GET-style requests.
+- `Resource(url:body:modelType:)` encodes request bodies using `.convertToSnakeCase` and creates POST requests.
+- `HttpClient` decodes responses using `.convertFromSnakeCase`.
+- URLs belong in `Constants.Urls`; do not hardcode TMDB API URLs inside services.
+- Image URLs are built by `Constants.Urls.poster`, `backdrop`, and `gravatar`.
+
+`NetworkError` maps invalid requests, invalid responses, server messages, and decoding failures into localized descriptions.
+
+## Models & DTO Mapping
+
+DTOs are internal `Decodable` structs in `*/Model/*DTO.swift`. Domain models are public `Sendable` structs in `*/Model/*Models.swift`, often also `Identifiable` for UI lists.
+
+Mapping is done with internal DTO initializers, for example:
+
+```swift
+extension Movie {
+    init(_ dto: PopularMovieDTO) { ... }
+}
 ```
-Core/               ← Shared infrastructure (HttpClient, Constants, TMDBConfig, SessionManager)
-Login/
-  Model/            ← RequestTokenResponse, CreateSessionResponse
-  LoginView / LoginViewModel / TMDBAuthService
-Home/               ← HomeView, HomeViewModel, MainTabView
-Profile/
-  Model/            ← AccountProfile, RatedMovie, RatedTVShow, GenreItem, etc.
-  ProfileView / ProfileViewModel
-  ProfileService (facade) / AccountService / GenreService
-Watchlist/
-  Model/            ← WatchlistMovie, WatchlistTVShow, WatchlistResponse
-  WatchlistView / WatchlistViewModel / WatchlistService
-```
 
-Movies, Series, and Search are currently placeholder views with no ViewModels.
+Keep this two-layer pattern when adding endpoints. Only add `CodingKeys` when Swift names cannot be handled by the decoder's snake-case conversion.
 
-### Localization
+## Feature Flow Notes
 
-All user-visible strings go in `tmdb-app/Localizable.xcstrings`. Source language is English; Spanish Latin America (`es-419`) is the only active translation. Pass `LocalizedStringKey` (not `String`) through custom view parameters that end up in `Text()`, otherwise localization is bypassed.
+- Login performs the TMDB three-step auth flow: create request token, validate login, create session, then save `sessionId` with `SessionManager`.
+- Movies loads popular movies with pagination and caches `MovieDetailViewModel` instances by movie ID.
+- Movie detail fetches detail, credits, and reviews concurrently with `async let`.
+- Watchlist fetches account ID first, then movies and TV shows concurrently.
+- Profile fetches account details first, then rated movies, rated TV, movie genres, and TV genres concurrently; it computes score summaries, rating distribution, and genre slices.
 
-## SwiftUI Previews Pattern
+## SwiftUI Conventions
 
-Use a configurable mock service to drive previews through the real `load()` path — do not bypass the ViewModel by setting `@Published` properties directly, because `.task` will overwrite them when the canvas renders. Use `shouldHang: true` for loading state and `shouldFail: true` for error state. See `WatchlistView.swift` and `ProfileView.swift` for the reference implementations.
+SwiftUI views receive `@Observable` ViewModels as plain stored properties when they only read state. Use `@Bindable` only when the view writes through bindings, such as `WatchlistContentView` binding the selected tab.
+
+Use `.task { await viewModel.load() }` for screen loading. Provide loading, error, empty, and content states where data is remote.
+
+Localized SwiftUI text lives in `TMDBSwiftUI/Localizable.xcstrings` with English as source language and `es-419` entries. When a custom view parameter will be rendered by `Text`, prefer `LocalizedStringKey` over `String`.
+
+`TMDBCore` must not import SwiftUI. Profile colors are represented as hex strings in core models and resolved in `TMDBSwiftUI/Support/Color+Hex.swift`.
+
+## UIKit Conventions
+
+UIKit controllers use the same `@Observable` ViewModels via `withObservationTracking` loops that call `render()` and resubscribe on change. Keep controller code focused on layout, actions, and rendering. Use descriptive local names for UIKit factories (`imageView`, `label`, `button`, `segmentedControl`).
+
+Async images in UIKit use `TMDBUIKit/Support/UIImageView+AsyncLoad.swift`; SwiftUI uses `AsyncImage`.
+
+## Preview Pattern
+
+SwiftUI previews should use protocol-backed mock services and real ViewModels. Prefer exercising the same `.task { await viewModel.load() }` path used at runtime. For loading and error previews, mock services can hang with `Task.sleep(nanoseconds: .max)` or throw an error, as in `WatchlistView.swift`.
+
+## Change Discipline
+
+Keep edits scoped to the requested target and feature. Do not move logic between `TMDBCore`, `TMDBSwiftUI`, and `TMDBUIKit` unless the task requires it. When changing shared protocols or domain models, update both app targets as needed and validate with `BuildProject`.
