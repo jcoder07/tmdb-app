@@ -216,9 +216,9 @@ private func previewViewModel(
     service: MockWatchlistService = MockWatchlistService(),
     selectedTab: WatchlistViewModel.Tab = .movies
 ) -> WatchlistViewModel {
-    let vm = WatchlistViewModel(service: service, sessionManager: MockSessionManager())
-    vm.selectedTab = selectedTab
-    return vm
+    let viewModel = WatchlistViewModel(service: service, sessionManager: MockSessionManager())
+    viewModel.selectedTab = selectedTab
+    return viewModel
 }
 
 private let sampleMovies: [WatchlistMovie] = [
