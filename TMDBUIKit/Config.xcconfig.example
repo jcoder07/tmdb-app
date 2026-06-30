@@ -1,2 +1,4 @@
 TMDB_API_KEY = your_api_key_here
+_SLASH = /
+TMDB_BASE_URL = https:$(_SLASH)$(_SLASH)api.themoviedb.org/3
 INFOPLIST_KEY_TMDB_API_KEY = $(TMDB_API_KEY)
