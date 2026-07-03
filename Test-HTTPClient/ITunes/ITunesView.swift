@@ -1,45 +1,39 @@
 //
-//  ContentView.swift
+//  ITunesView.swift
 //  Test-HTTPClient
 //
 //  Created by Juan Fernandez on 01-07-26.
 //
 
-//
-//  ITunesView.swift
-//  Test-HTTPClient
-
 import SwiftUI
 import TMDBCore
 
 struct ITunesView: View {
-    var viewModel: ITunesViewModel
-
-    var body: some View {
-        Group {
-            if viewModel.isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if let error = viewModel.errorMessage {
-                ITunesErrorView(message: error) {
-                    Task { await viewModel.load() }
-                }
-            } else {
-                ITunesContentView(viewModel: viewModel)
-            }
-        }
-        .navigationTitle("iTunes Search")
-        .navigationBarTitleDisplayMode(.inline)
-        .task { await viewModel.load() }
-    }
-}
-
-private struct ITunesContentView: View {
     @Bindable var viewModel: ITunesViewModel
 
     var body: some View {
-        if viewModel.tracks.isEmpty {
-            ITunesEmptyView(label: "No tracks found")
+        content
+            .navigationTitle("iTunes Search")
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $viewModel.searchTerm, prompt: "Search for music")
+            .onChange(of: viewModel.searchTerm) {
+                viewModel.search()
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isLoading {
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else if let error = viewModel.errorMessage {
+            ITunesErrorView(message: error) {
+                viewModel.search(immediate: true)
+            }
+        } else if viewModel.searchTerm.trimmingCharacters(in: .whitespaces).isEmpty {
+            ITunesEmptyView(label: "Search for music above", imageName: "magnifyingglass")
+        } else if viewModel.tracks.isEmpty {
+            ITunesEmptyView(label: "No results for \"\(viewModel.searchTerm)\"")
         } else {
             List(viewModel.tracks) { track in
                 ITunesTrackRow(
@@ -94,10 +88,11 @@ private struct ArtworkImage: View {
 
 private struct ITunesEmptyView: View {
     let label: LocalizedStringKey
+    var imageName: String = "music.note"
 
     var body: some View {
         VStack(spacing: 12) {
-            Image(systemName: "music.note")
+            Image(systemName: imageName)
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
             Text(label)
@@ -130,22 +125,22 @@ private struct ITunesErrorView: View {
 // MARK: - Previews
 
 private nonisolated struct MockITunesService: ITunesServiceProtocol {
-    var trackResults: [ITunesTrack] = []
-    var shouldFail = false
-    var shouldHang = false
-
-    func fetchTrack(searchTerm: String) async throws -> [ITunesTrack] {
-        if shouldHang { try await Task.sleep(nanoseconds: .max) }
-        if shouldFail { throw URLError(.notConnectedToInternet) }
-        return trackResults
-    }
+    func fetchTrack(searchTerm: String) async throws -> [ITunesTrack] { [] }
 }
 
 @MainActor
 private func previewViewModel(
-    service: MockITunesService = MockITunesService()
+    searchTerm: String = "",
+    tracks: [ITunesTrack] = [],
+    isLoading: Bool = false,
+    errorMessage: String? = nil
 ) -> ITunesViewModel {
-    ITunesViewModel(service: service)
+    let vm = ITunesViewModel(service: MockITunesService())
+    vm.searchTerm = searchTerm
+    vm.tracks = tracks
+    vm.isLoading = isLoading
+    vm.errorMessage = errorMessage
+    return vm
 }
 
 private let sampleTracks: [ITunesTrack] = [
@@ -156,16 +151,27 @@ private let sampleTracks: [ITunesTrack] = [
 
 #Preview("Tracks") {
     NavigationStack {
-        ITunesView(viewModel: previewViewModel(
-            service: MockITunesService(trackResults: sampleTracks)
-        ))
+        ITunesView(viewModel: previewViewModel(searchTerm: "Coldplay", tracks: sampleTracks))
     }
 }
 
 #Preview("Loading") {
     NavigationStack {
+        ITunesView(viewModel: previewViewModel(searchTerm: "Coldplay", isLoading: true))
+    }
+}
+
+#Preview("No Results") {
+    NavigationStack {
+        ITunesView(viewModel: previewViewModel(searchTerm: "xyzxyz"))
+    }
+}
+
+#Preview("Error") {
+    NavigationStack {
         ITunesView(viewModel: previewViewModel(
-            service: MockITunesService(shouldHang: true)
+            searchTerm: "Coldplay",
+            errorMessage: "The Internet connection appears to be offline."
         ))
     }
 }
@@ -173,13 +179,5 @@ private let sampleTracks: [ITunesTrack] = [
 #Preview("Empty") {
     NavigationStack {
         ITunesView(viewModel: previewViewModel())
-    }
-}
-
-#Preview("Error") {
-    NavigationStack {
-        ITunesView(viewModel: previewViewModel(
-            service: MockITunesService(shouldFail: true)
-        ))
     }
 }
