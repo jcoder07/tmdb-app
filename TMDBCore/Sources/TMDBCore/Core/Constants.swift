@@ -24,6 +24,7 @@ public struct Constants {
         public static func ratedTVShows(accountId: Int, sessionId: String) -> URL {
             URL(string: "\(base)/account/\(accountId)/rated/tv?api_key=\(key)&session_id=\(sessionId)")!
         }
+        
 
         // MARK: - Watchlist
         public static func watchlistMovies(accountId: Int, sessionId: String) -> URL {
@@ -69,3 +70,6 @@ public struct Constants {
         }
     }
 }
+
+ 
+
