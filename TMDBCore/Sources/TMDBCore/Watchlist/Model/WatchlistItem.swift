@@ -19,7 +19,7 @@ public struct WatchlistMovie: Identifiable, Sendable {
 }
 
 extension WatchlistMovie {
-    public init(_ dto: WatchlistMovieDTO) {
+    init(_ dto: WatchlistMovieDTO) {
         id = dto.id
         title = dto.title
         overview = dto.overview
@@ -48,7 +48,7 @@ public struct WatchlistTVShow: Identifiable, Sendable {
 }
 
 extension WatchlistTVShow {
-    public init(_ dto: WatchlistTVShowDTO) {
+    init(_ dto: WatchlistTVShowDTO) {
         id = dto.id
         name = dto.name
         overview = dto.overview

@@ -1,27 +1,25 @@
 import Foundation
 
-public struct WatchlistMovieDTO: Decodable {
-    public let id: Int
-    public let title: String
-    public let overview: String
-    public let posterPath: String?
-    public let voteAverage: Double
-    public let releaseDate: String?
+struct WatchlistMovieDTO: Decodable {
+    let id: Int
+    let title: String
+    let overview: String
+    let posterPath: String?
+    let voteAverage: Double
+    let releaseDate: String?
 }
 
-public struct WatchlistTVShowDTO: Decodable {
-    public let id: Int
-    public let name: String
-    public let overview: String
-    public let posterPath: String?
-    public let voteAverage: Double
-    public let firstAirDate: String?
+struct WatchlistTVShowDTO: Decodable {
+    let id: Int
+    let name: String
+    let overview: String
+    let posterPath: String?
+    let voteAverage: Double
+    let firstAirDate: String?
 }
 
-public struct WatchlistResponseDTO<T: Decodable>: Decodable {
-    public let results: [T]
-}
-
-public struct AccountDetailsDTO: Decodable {
-    public let id: Int
+struct WatchlistResponseDTO<T: Decodable>: Decodable {
+    let page: Int
+    let results: [T]
+    let totalPages: Int
 }
