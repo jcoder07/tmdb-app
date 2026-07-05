@@ -1,9 +1,8 @@
 import Foundation
 
 public protocol WatchlistServiceProtocol: Sendable {
-    func fetchAccountId(sessionId: String) async throws -> Int
-    func fetchMovies(accountId: Int, sessionId: String) async throws -> [WatchlistMovie]
-    func fetchTVShows(accountId: Int, sessionId: String) async throws -> [WatchlistTVShow]
+    func fetchMovies(accountId: Int, sessionId: String, page: Int) async throws -> (items: [WatchlistMovie], totalPages: Int)
+    func fetchTVShows(accountId: Int, sessionId: String, page: Int) async throws -> (items: [WatchlistTVShow], totalPages: Int)
 }
 
 public final class WatchlistService: WatchlistServiceProtocol {
@@ -14,18 +13,15 @@ public final class WatchlistService: WatchlistServiceProtocol {
         self.httpClient = httpClient
     }
 
-    public func fetchAccountId(sessionId: String) async throws -> Int {
-        let resource = Resource(url: Constants.Urls.account(sessionId: sessionId), modelType: AccountDetailsDTO.self)
-        return try await httpClient.load(resource).id
+    public func fetchMovies(accountId: Int, sessionId: String, page: Int) async throws -> (items: [WatchlistMovie], totalPages: Int) {
+        let resource = Resource(url: Constants.Urls.watchlistMovies(accountId: accountId, sessionId: sessionId, page: page), modelType: WatchlistResponseDTO<WatchlistMovieDTO>.self)
+        let response = try await httpClient.load(resource)
+        return (response.results.map(WatchlistMovie.init), totalPages: response.totalPages)
     }
 
-    public func fetchMovies(accountId: Int, sessionId: String) async throws -> [WatchlistMovie] {
-        let resource = Resource(url: Constants.Urls.watchlistMovies(accountId: accountId, sessionId: sessionId), modelType: WatchlistResponseDTO<WatchlistMovieDTO>.self)
-        return try await httpClient.load(resource).results.map(WatchlistMovie.init)
-    }
-
-    public func fetchTVShows(accountId: Int, sessionId: String) async throws -> [WatchlistTVShow] {
-        let resource = Resource(url: Constants.Urls.watchlistTVShows(accountId: accountId, sessionId: sessionId), modelType: WatchlistResponseDTO<WatchlistTVShowDTO>.self)
-        return try await httpClient.load(resource).results.map(WatchlistTVShow.init)
+    public func fetchTVShows(accountId: Int, sessionId: String, page: Int) async throws -> (items: [WatchlistTVShow], totalPages: Int) {
+        let resource = Resource(url: Constants.Urls.watchlistTVShows(accountId: accountId, sessionId: sessionId, page: page), modelType: WatchlistResponseDTO<WatchlistTVShowDTO>.self)
+        let response = try await httpClient.load(resource)
+        return (response.results.map(WatchlistTVShow.init), totalPages: response.totalPages)
     }
 }

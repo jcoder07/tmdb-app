@@ -27,12 +27,12 @@ public struct Constants {
         
 
         // MARK: - Watchlist
-        public static func watchlistMovies(accountId: Int, sessionId: String) -> URL {
-            URL(string: "\(base)/account/\(accountId)/watchlist/movies?api_key=\(key)&session_id=\(sessionId)")!
+        public static func watchlistMovies(accountId: Int, sessionId: String, page: Int = 1) -> URL {
+            URL(string: "\(base)/account/\(accountId)/watchlist/movies?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
         }
 
-        public static func watchlistTVShows(accountId: Int, sessionId: String) -> URL {
-            URL(string: "\(base)/account/\(accountId)/watchlist/tv?api_key=\(key)&session_id=\(sessionId)")!
+        public static func watchlistTVShows(accountId: Int, sessionId: String, page: Int = 1) -> URL {
+            URL(string: "\(base)/account/\(accountId)/watchlist/tv?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
         }
 
         // MARK: - Movies
