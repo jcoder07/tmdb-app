@@ -110,7 +110,17 @@ final class MoviesViewController: UIViewController {
     }
 
     private func setupShowMore() {
+        showMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        showMoreButton.backgroundColor = .systemBackground
+        showMoreButton.isHidden = true
         showMoreButton.addTarget(self, action: #selector(showMoreTapped), for: .touchUpInside)
+        view.addSubview(showMoreButton)
+        NSLayoutConstraint.activate([
+            showMoreButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            showMoreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            showMoreButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            showMoreButton.heightAnchor.constraint(equalToConstant: 50),
+        ])
     }
 
     @objc private func showMoreTapped() {
@@ -139,36 +149,47 @@ final class MoviesViewController: UIViewController {
 
         collectionView.isHidden = isInitialLoad || hasError
 
-        // Snapshot
+        let previousCount = dataSource.snapshot().numberOfItems
         var snapshot = NSDiffableDataSourceSnapshot<String, Int>()
         snapshot.appendSections(["main"])
         snapshot.appendItems(viewModel.displayedMovies.map(\.id))
         dataSource.apply(snapshot, animatingDifferences: false)
 
-        if viewModel.canShowMore {
+        updateFooter()
+
+        // After pagination, scroll to the first new item so the user sees the new content.
+        let newCount = snapshot.numberOfItems
+        if newCount > previousCount && previousCount > 0 {
+            let firstNewIndexPath = IndexPath(item: previousCount, section: 0)
+            collectionView.scrollToItem(at: firstNewIndexPath, at: .top, animated: true)
+        }
+    }
+
+    private func updateFooter() {
+        let canShowMore = viewModel.canShowMore
+        collectionView.contentInset.bottom = canShowMore ? 50 : 0
+
+        if canShowMore {
             var config = showMoreButton.configuration
             config?.showsActivityIndicator = viewModel.isLoadingMore
             config?.title = viewModel.isLoadingMore ? nil : "Show More"
             showMoreButton.configuration = config
+            // Force layout so contentSize is accurate before checking scroll position.
+            collectionView.layoutIfNeeded()
         }
-        updateFooter()
+        updateShowMoreVisibility()
     }
 
-    private func updateFooter() {
-        if viewModel.canShowMore {
-            collectionView.contentInset.bottom = 60
-            showMoreButton.frame = CGRect(
-                x: 0,
-                y: collectionView.contentSize.height,
-                width: collectionView.bounds.width,
-                height: 50
-            )
-            if showMoreButton.superview == nil { collectionView.addSubview(showMoreButton) }
-            showMoreButton.isHidden = false
-        } else {
-            collectionView.contentInset.bottom = 0
+    // Shows the button only when the user has scrolled to the bottom of the current results.
+    private func updateShowMoreVisibility() {
+        guard viewModel.canShowMore else {
             showMoreButton.isHidden = true
+            return
         }
+        let distanceToBottom = collectionView.contentSize.height
+            - collectionView.contentOffset.y
+            - collectionView.frame.height
+        showMoreButton.isHidden = distanceToBottom > 40
     }
 }
 
@@ -180,6 +201,10 @@ extension MoviesViewController: UICollectionViewDelegate {
         let movie = viewModel.displayedMovies[indexPath.item]
         let detailViewController = MovieDetailViewController(viewModel: viewModel.makeDetailViewModel(for: movie.id))
         navigationController?.pushViewController(detailViewController, animated: true)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateShowMoreVisibility()
     }
 }
 
