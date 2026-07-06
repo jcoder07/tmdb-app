@@ -47,6 +47,7 @@ public final class MoviesViewModel {
     }
 
     public func showMore() async {
+        guard !isLoadingMore else { return }
         let nextCount = displayedCount + 8
         if nextCount > movies.count && currentPage < totalPages {
             isLoadingMore = true
