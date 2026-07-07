@@ -11,7 +11,7 @@ import TMDBCore
 @main
 struct TMDBSwiftUIApp: App {
     private let sessionManager: SessionManagerProtocol = SessionManager()
-    private let httpClient: HttpClientProtocol = HttpClient()
+    private let httpClient: HttpClientProtocol = HttpClient2()
 
     var body: some Scene {
         WindowGroup {
