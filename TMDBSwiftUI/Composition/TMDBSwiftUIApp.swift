@@ -10,7 +10,9 @@ import TMDBCore
 
 @main
 struct TMDBSwiftUIApp: App {
-    private let sessionManager: SessionManagerProtocol = SessionManager()
+    private let sessionManager: SessionManagerProtocol = CoreDataSessionManager(
+        stack: SessionCoreDataStack()
+    )
     private let httpClient: HttpClientProtocol = HttpClient2()
 
     var body: some Scene {
