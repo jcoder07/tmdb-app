@@ -77,6 +77,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let watchlistVC = WatchlistViewController(
             viewModel: WatchlistViewModel(
                 service: WatchlistService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
                 sessionManager: sessionManager
             )
         )
