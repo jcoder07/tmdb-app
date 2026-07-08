@@ -10,6 +10,7 @@ struct MainTabView: View {
     let homeViewModel: HomeViewModel
     let moviesViewModel: MoviesViewModel
     let watchlistViewModel: WatchlistViewModel
+    let favoritesViewModel: FavoritesViewModel
     let profileViewModel: ProfileViewModel
     @State private var selectedTab = 0
 
@@ -31,8 +32,13 @@ struct MainTabView: View {
             .tabItem { Label("Series", systemImage: "tv") }
             .tag(2)
 
-            NavigationStack { WatchlistView(viewModel: watchlistViewModel) }
-            .tabItem { Label("Watchlist", systemImage: "bookmark") }
+            NavigationStack {
+                LibraryView(
+                    watchlistViewModel: watchlistViewModel,
+                    favoritesViewModel: favoritesViewModel
+                )
+            }
+            .tabItem { Label("My Lists", systemImage: "bookmark") }
             .tag(3)
 
             NavigationStack { SearchView() }
