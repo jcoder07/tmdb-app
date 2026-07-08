@@ -74,9 +74,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             )
         )
 
-        let watchlistVC = WatchlistViewController(
-            viewModel: WatchlistViewModel(
+        let libraryVC = LibraryViewController(
+            watchlistViewModel: WatchlistViewModel(
                 service: WatchlistService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
+                sessionManager: sessionManager
+            ),
+            favoritesViewModel: FavoritesViewModel(
+                service: FavoritesService(httpClient: httpClient),
                 accountService: AccountService(httpClient: httpClient),
                 sessionManager: sessionManager
             )
@@ -86,7 +91,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             (homeVC,                  "Home",      "house"),
             (moviesVC,                "Movies",    "film"),
             (SeriesViewController(),  "Series",    "tv"),
-            (watchlistVC,             "Watchlist", "bookmark"),
+            (libraryVC,               "My Lists",  "bookmark"),
             (SearchViewController(),  "Search",    "magnifyingglass"),
         ]
 

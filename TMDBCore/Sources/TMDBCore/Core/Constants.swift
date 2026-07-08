@@ -26,6 +26,15 @@ public struct Constants {
         }
         
 
+        // MARK: - Favorites
+        public static func favoriteMovies(accountId: Int, sessionId: String, page: Int = 1) -> URL {
+            URL(string: "\(base)/account/\(accountId)/favorite/movies?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
+        }
+
+        public static func favoriteTVShows(accountId: Int, sessionId: String, page: Int = 1) -> URL {
+            URL(string: "\(base)/account/\(accountId)/favorite/tv?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
+        }
+
         // MARK: - Watchlist
         public static func watchlistMovies(accountId: Int, sessionId: String, page: Int = 1) -> URL {
             URL(string: "\(base)/account/\(accountId)/watchlist/movies?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!

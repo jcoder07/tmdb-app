@@ -47,6 +47,7 @@ private struct AppRootView: View {
                     homeViewModel: makeHomeViewModel(),
                     moviesViewModel: makeMoviesViewModel(),
                     watchlistViewModel: makeWatchlistViewModel(),
+                    favoritesViewModel: makeFavoritesViewModel(),
                     profileViewModel: makeProfileViewModel()
                 )
             } else {
@@ -84,6 +85,14 @@ private struct AppRootView: View {
     private func makeWatchlistViewModel() -> WatchlistViewModel {
         WatchlistViewModel(
             service: WatchlistService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
+        )
+    }
+
+    private func makeFavoritesViewModel() -> FavoritesViewModel {
+        FavoritesViewModel(
+            service: FavoritesService(httpClient: httpClient),
             accountService: AccountService(httpClient: httpClient),
             sessionManager: sessionManager
         )
