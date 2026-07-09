@@ -26,7 +26,7 @@ struct MovieDetailView: View {
             } else if let detail = viewModel.detail {
                 ScrollView {
                     VStack(spacing: 0) {
-                        MovieDetailHeaderSection(detail: detail)
+                        MovieDetailHeaderSection(viewModel: viewModel, detail: detail)
 
                         VStack(alignment: .leading, spacing: 16) {
                             MovieDetailScoreSection(
@@ -55,6 +55,14 @@ struct MovieDetailView: View {
         }
         .toolbar(.hidden, for: .navigationBar)
         .task { await viewModel.load() }
+        .alert("Info", isPresented: Binding(
+            get: { viewModel.feedbackMessage != nil },
+            set: { if !$0 { viewModel.feedbackMessage = nil } }
+        )) {
+            Button("OK") { viewModel.feedbackMessage = nil }
+        } message: {
+            Text(viewModel.feedbackMessage ?? "")
+        }
     }
 }
 
@@ -88,10 +96,12 @@ private struct MovieDetailErrorView: View {
 // MARK: - MovieDetailHeaderSection
 
 private struct MovieDetailHeaderSection: View {
+    let viewModel: MovieDetailViewModel
     let detail: MovieDetail
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @State private var showListSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -177,15 +187,53 @@ private struct MovieDetailHeaderSection: View {
             .padding(.horizontal, 16)
 
             HStack(spacing: 0) {
-                HeaderActionButton(icon: "list.bullet.rectangle.portrait", label: "Add to List")
-                HeaderActionButton(icon: "heart",                           label: "Favorite")
-                HeaderActionButton(icon: "bookmark",                        label: "Watchlist")
-                HeaderActionButton(icon: "play.rectangle",                  label: "Trailer")
+                HeaderActionButton(
+                    icon: "list.bullet.rectangle.portrait",
+                    activeIcon: "list.bullet.rectangle.portrait.fill",
+                    label: "Add to List",
+                    isActive: false,
+                    isLoading: false
+                ) {
+                    showListSheet = true
+                    Task { await viewModel.loadUserLists() }
+                }
+
+                HeaderActionButton(
+                    icon: "heart",
+                    activeIcon: "heart.fill",
+                    label: "Favorite",
+                    isActive: viewModel.isFavorite,
+                    isLoading: viewModel.isTogglingFavorite
+                ) {
+                    Task { await viewModel.toggleFavorite() }
+                }
+
+                HeaderActionButton(
+                    icon: "bookmark",
+                    activeIcon: "bookmark.fill",
+                    label: "Watchlist",
+                    isActive: viewModel.isInWatchlist,
+                    isLoading: viewModel.isTogglingWatchlist
+                ) {
+                    Task { await viewModel.toggleWatchlist() }
+                }
+
+                HeaderActionButton(
+                    icon: "play.rectangle",
+                    activeIcon: "play.rectangle.fill",
+                    label: "Trailer",
+                    isActive: false,
+                    isLoading: false,
+                    action: {}
+                )
             }
             .padding(.top, 20)
             .padding(.bottom, 24)
         }
         .background(MovieDetailBackdrop(url: detail.backdropURL))
+        .sheet(isPresented: $showListSheet) {
+            AddToListSheet(viewModel: viewModel)
+        }
     }
 
     private func formatRuntime(_ minutes: Int) -> String {
@@ -224,19 +272,79 @@ private struct MovieDetailBackdrop: View {
 
 private struct HeaderActionButton: View {
     let icon: String
+    let activeIcon: String
     let label: String
+    let isActive: Bool
+    let isLoading: Bool
+    let action: () -> Void
 
     var body: some View {
-        VStack(spacing: 5) {
-            Image(systemName: icon)
-                .font(.system(size: 26))
-                .foregroundStyle(.white)
-            Text(label)
-                .font(.caption2)
-                .foregroundStyle(.white.opacity(0.8))
-                .multilineTextAlignment(.center)
+        Button(action: action) {
+            VStack(spacing: 5) {
+                if isLoading {
+                    ProgressView()
+                        .frame(width: 26, height: 26)
+                        .tint(.white)
+                } else {
+                    Image(systemName: isActive ? activeIcon : icon)
+                        .font(.system(size: 26))
+                        .foregroundStyle(isActive ? Color.yellow : Color.white)
+                }
+                Text(label)
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
         }
-        .frame(maxWidth: .infinity)
+        .disabled(isLoading)
+    }
+}
+
+// MARK: - AddToListSheet
+
+private struct AddToListSheet: View {
+    let viewModel: MovieDetailViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if viewModel.isLoadingLists {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.userLists.isEmpty {
+                    ContentUnavailableView(
+                        "No Lists",
+                        systemImage: "list.bullet.rectangle.portrait",
+                        description: Text("Create a list on TMDB to add movies to it.")
+                    )
+                } else {
+                    List(viewModel.userLists) { list in
+                        Button {
+                            Task { await viewModel.addToList(listId: list.id) }
+                            dismiss()
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(list.name)
+                                    .foregroundStyle(.primary)
+                                Text("\(list.itemCount) items")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .listStyle(.plain)
+                }
+            }
+            .navigationTitle("Add to List")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+        }
     }
 }
 

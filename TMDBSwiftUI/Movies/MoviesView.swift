@@ -159,6 +159,11 @@ private struct MockMovieDetailService: MovieDetailServiceProtocol {
     func fetchMovieDetail(id: Int) async throws -> MovieDetail { fatalError("not used in preview") }
     func fetchCredits(id: Int) async throws -> [CastMember] { [] }
     func fetchReviews(id: Int) async throws -> [Review] { [] }
+    func fetchAccountStates(movieId: Int, sessionId: String) async throws -> (isFavorite: Bool, isInWatchlist: Bool) { (false, false) }
+    func markFavorite(accountId: Int, movieId: Int, sessionId: String, isFavorite: Bool) async throws {}
+    func markWatchlist(accountId: Int, movieId: Int, sessionId: String, inWatchlist: Bool) async throws {}
+    func fetchUserLists(accountId: Int, sessionId: String) async throws -> [UserList] { [] }
+    func addMovieToList(listId: Int, movieId: Int, sessionId: String) async throws {}
 }
 
 private let sampleMovies: [Movie] = [
