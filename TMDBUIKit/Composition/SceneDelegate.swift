@@ -70,7 +70,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let moviesVC = MoviesViewController(
             viewModel: MoviesViewModel(
                 service: MoviesService(httpClient: httpClient),
-                detailService: MovieDetailService(httpClient: httpClient)
+                detailService: MovieDetailService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
+                sessionManager: sessionManager
             )
         )
 

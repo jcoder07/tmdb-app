@@ -11,7 +11,7 @@ import TMDBCore
 @main
 struct TMDBSwiftUIApp: App {
     private let sessionManager: SessionManagerProtocol = SwiftDataSessionManager()
-    private let httpClient: HttpClientProtocol = HttpClient2()
+    private let httpClient: HttpClientProtocol = HttpClient()
 
     var body: some Scene {
         WindowGroup {
@@ -78,7 +78,9 @@ private struct AppRootView: View {
     private func makeMoviesViewModel() -> MoviesViewModel {
         MoviesViewModel(
             service: MoviesService(httpClient: httpClient),
-            detailService: MovieDetailService(httpClient: httpClient)
+            detailService: MovieDetailService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
         )
     }
 

@@ -26,6 +26,27 @@ public struct Constants {
         }
         
 
+        // MARK: - Account States & Actions
+        public static func accountStates(movieId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/movie/\(movieId)/account_states?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
+        public static func markFavorite(accountId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/account/\(accountId)/favorite?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
+        public static func markWatchlist(accountId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/account/\(accountId)/watchlist?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
+        public static func accountLists(accountId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/account/\(accountId)/lists?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
+        public static func addToList(listId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/list/\(listId)/add_item?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
         // MARK: - Favorites
         public static func favoriteMovies(accountId: Int, sessionId: String, page: Int = 1) -> URL {
             URL(string: "\(base)/account/\(accountId)/favorite/movies?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
