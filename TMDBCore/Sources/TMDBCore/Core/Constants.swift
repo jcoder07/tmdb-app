@@ -31,6 +31,10 @@ public struct Constants {
             URL(string: "\(base)/movie/\(movieId)/account_states?api_key=\(key)&session_id=\(sessionId)")!
         }
 
+        public static func seriesAccountStates(seriesId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/tv/\(seriesId)/account_states?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
         public static func markFavorite(accountId: Int, sessionId: String) -> URL {
             URL(string: "\(base)/account/\(accountId)/favorite?api_key=\(key)&session_id=\(sessionId)")!
         }
@@ -63,6 +67,23 @@ public struct Constants {
 
         public static func watchlistTVShows(accountId: Int, sessionId: String, page: Int = 1) -> URL {
             URL(string: "\(base)/account/\(accountId)/watchlist/tv?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
+        }
+
+        // MARK: - Series
+        public static func popularSeries(page: Int = 1) -> URL {
+            URL(string: "\(base)/tv/popular?api_key=\(key)&page=\(page)")!
+        }
+
+        public static func seriesDetail(id: Int) -> URL {
+            URL(string: "\(base)/tv/\(id)?api_key=\(key)")!
+        }
+
+        public static func seriesCredits(id: Int) -> URL {
+            URL(string: "\(base)/tv/\(id)/credits?api_key=\(key)")!
+        }
+
+        public static func seriesReviews(id: Int) -> URL {
+            URL(string: "\(base)/tv/\(id)/reviews?api_key=\(key)")!
         }
 
         // MARK: - Movies

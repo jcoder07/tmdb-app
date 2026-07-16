@@ -9,6 +9,7 @@ import TMDBCore
 struct MainTabView: View {
     let homeViewModel: HomeViewModel
     let moviesViewModel: MoviesViewModel
+    let seriesViewModel: SeriesViewModel
     let watchlistViewModel: WatchlistViewModel
     let favoritesViewModel: FavoritesViewModel
     let profileViewModel: ProfileViewModel
@@ -28,7 +29,7 @@ struct MainTabView: View {
             .tabItem { Label("Movies", systemImage: "film") }
             .tag(1)
 
-            NavigationStack { SeriesView() }
+            NavigationStack { SeriesView(viewModel: seriesViewModel) }
             .tabItem { Label("Series", systemImage: "tv") }
             .tag(2)
 

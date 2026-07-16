@@ -89,12 +89,21 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             )
         )
 
+        let seriesVC = SeriesViewController(
+            viewModel: SeriesViewModel(
+                service: SeriesService(httpClient: httpClient),
+                detailService: SeriesDetailService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
+                sessionManager: sessionManager
+            )
+        )
+
         let tabs: [(UIViewController, String, String)] = [
-            (homeVC,                  "Home",      "house"),
-            (moviesVC,                "Movies",    "film"),
-            (SeriesViewController(),  "Series",    "tv"),
-            (libraryVC,               "My Lists",  "bookmark"),
-            (SearchViewController(),  "Search",    "magnifyingglass"),
+            (homeVC,      "Home",      "house"),
+            (moviesVC,    "Movies",    "film"),
+            (seriesVC,    "Series",    "tv"),
+            (libraryVC,   "My Lists",  "bookmark"),
+            (SearchViewController(), "Search", "magnifyingglass"),
         ]
 
         tabBar.viewControllers = tabs.enumerated().map { index, entry in
