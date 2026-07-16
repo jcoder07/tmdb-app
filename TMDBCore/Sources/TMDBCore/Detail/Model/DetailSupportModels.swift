@@ -23,6 +23,12 @@ struct MarkFavoriteRequest: Encodable {
         mediaId = movieId
         favorite = isFavorite
     }
+
+    init(seriesId: Int, isFavorite: Bool) {
+        mediaType = "tv"
+        mediaId = seriesId
+        favorite = isFavorite
+    }
 }
 
 struct MarkWatchlistRequest: Encodable {
@@ -33,6 +39,12 @@ struct MarkWatchlistRequest: Encodable {
     init(movieId: Int, inWatchlist: Bool) {
         mediaType = "movie"
         mediaId = movieId
+        watchlist = inWatchlist
+    }
+
+    init(seriesId: Int, inWatchlist: Bool) {
+        mediaType = "tv"
+        mediaId = seriesId
         watchlist = inWatchlist
     }
 }

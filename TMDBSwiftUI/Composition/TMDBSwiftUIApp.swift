@@ -46,6 +46,7 @@ private struct AppRootView: View {
                 MainTabView(
                     homeViewModel: makeHomeViewModel(),
                     moviesViewModel: makeMoviesViewModel(),
+                    seriesViewModel: makeSeriesViewModel(),
                     watchlistViewModel: makeWatchlistViewModel(),
                     favoritesViewModel: makeFavoritesViewModel(),
                     profileViewModel: makeProfileViewModel()
@@ -72,6 +73,15 @@ private struct AppRootView: View {
         HomeViewModel(
             sessionManager: sessionManager,
             onLogout: logout
+        )
+    }
+
+    private func makeSeriesViewModel() -> SeriesViewModel {
+        SeriesViewModel(
+            service: SeriesService(httpClient: httpClient),
+            detailService: SeriesDetailService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
         )
     }
 
