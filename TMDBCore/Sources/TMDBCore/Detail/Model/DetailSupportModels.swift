@@ -53,6 +53,65 @@ struct AddToListRequest: Encodable {
     let mediaId: Int
 }
 
+struct RemoveFromListRequest: Encodable {
+    let mediaId: Int
+}
+
+struct CreateListRequest: Encodable {
+    let name: String
+    let description: String
+    let language: String
+}
+
+struct CreateListResponseDTO: Decodable {
+    let listId: Int?
+    let success: Bool?
+    let statusMessage: String?
+}
+
+struct ListItemDTO: Decodable {
+    let id: Int
+    let title: String?
+    let name: String?
+    let mediaType: String
+    let posterPath: String?
+    let voteAverage: Double
+}
+
+struct ListDetailDTO: Decodable {
+    let id: Int
+    let name: String
+    let items: [ListItemDTO]
+}
+
+// MARK: - Public domain model
+
+public struct ListItem: Identifiable, Sendable {
+    public let id: Int
+    public let displayTitle: String
+    public let mediaType: String
+    public let posterURL: URL?
+    public let voteAverage: Double
+
+    public init(id: Int, displayTitle: String, mediaType: String, posterURL: URL?, voteAverage: Double) {
+        self.id = id
+        self.displayTitle = displayTitle
+        self.mediaType = mediaType
+        self.posterURL = posterURL
+        self.voteAverage = voteAverage
+    }
+}
+
+extension ListItem {
+    init(_ dto: ListItemDTO) {
+        id = dto.id
+        displayTitle = dto.title ?? dto.name ?? ""
+        mediaType = dto.mediaType
+        posterURL = dto.posterPath.flatMap { Constants.Urls.poster(path: $0) }
+        voteAverage = dto.voteAverage
+    }
+}
+
 struct UserListDTO: Decodable {
     let id: Int
     let name: String

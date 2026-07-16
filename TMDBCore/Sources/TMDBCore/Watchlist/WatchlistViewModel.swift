@@ -89,4 +89,28 @@ public final class WatchlistViewModel {
         } catch { }
         isLoadingMore = false
     }
+
+    public func removeMovie(id: Int) async {
+        guard let sessionId = sessionManager.getSession(),
+              let accountId = cachedAccountId else { return }
+        let removed = movies.first(where: { $0.id == id })
+        movies.removeAll(where: { $0.id == id })
+        do {
+            try await service.removeMovie(accountId: accountId, movieId: id, sessionId: sessionId)
+        } catch {
+            if let item = removed { movies.insert(item, at: 0) }
+        }
+    }
+
+    public func removeTVShow(id: Int) async {
+        guard let sessionId = sessionManager.getSession(),
+              let accountId = cachedAccountId else { return }
+        let removed = tvShows.first(where: { $0.id == id })
+        tvShows.removeAll(where: { $0.id == id })
+        do {
+            try await service.removeTVShow(accountId: accountId, seriesId: id, sessionId: sessionId)
+        } catch {
+            if let item = removed { tvShows.insert(item, at: 0) }
+        }
+    }
 }

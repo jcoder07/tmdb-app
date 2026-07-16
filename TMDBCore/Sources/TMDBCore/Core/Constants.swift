@@ -51,6 +51,22 @@ public struct Constants {
             URL(string: "\(base)/list/\(listId)/add_item?api_key=\(key)&session_id=\(sessionId)")!
         }
 
+        public static func removeFromList(listId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/list/\(listId)/remove_item?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
+        public static func createList(sessionId: String) -> URL {
+            URL(string: "\(base)/list?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
+        public static func listItems(listId: Int) -> URL {
+            URL(string: "\(base)/list/\(listId)?api_key=\(key)")!
+        }
+
+        public static func deleteList(listId: Int, sessionId: String) -> URL {
+            URL(string: "\(base)/list/\(listId)?api_key=\(key)&session_id=\(sessionId)")!
+        }
+
         // MARK: - Favorites
         public static func favoriteMovies(accountId: Int, sessionId: String, page: Int = 1) -> URL {
             URL(string: "\(base)/account/\(accountId)/favorite/movies?api_key=\(key)&session_id=\(sessionId)&page=\(page)")!
