@@ -102,7 +102,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             (homeVC,      "Home",      "house"),
             (moviesVC,    "Movies",    "film"),
             (seriesVC,    "Series",    "tv"),
-            (libraryVC,   "My Lists",  "bookmark"),
+            (libraryVC,   "My Stuff",  "bookmark"),
             (SearchViewController(), "Search", "magnifyingglass"),
         ]
 
@@ -122,4 +122,3 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 }
-

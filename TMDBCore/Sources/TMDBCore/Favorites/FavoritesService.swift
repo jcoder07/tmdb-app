@@ -3,6 +3,8 @@ import Foundation
 public protocol FavoritesServiceProtocol: Sendable {
     func fetchMovies(accountId: Int, sessionId: String, page: Int) async throws -> (items: [FavoriteMovie], totalPages: Int)
     func fetchTVShows(accountId: Int, sessionId: String, page: Int) async throws -> (items: [FavoriteTVShow], totalPages: Int)
+    func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws
+    func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws
 }
 
 public final class FavoritesService: FavoritesServiceProtocol {
@@ -23,5 +25,17 @@ public final class FavoritesService: FavoritesServiceProtocol {
         let resource = Resource(url: Constants.Urls.favoriteTVShows(accountId: accountId, sessionId: sessionId, page: page), modelType: WatchlistResponseDTO<FavoriteTVShowDTO>.self)
         let response = try await httpClient.load(resource)
         return (response.results.map(FavoriteTVShow.init), totalPages: response.totalPages)
+    }
+
+    public func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws {
+        let body = MarkFavoriteRequest(movieId: movieId, isFavorite: false)
+        let resource = try Resource(url: Constants.Urls.markFavorite(accountId: accountId, sessionId: sessionId), body: body, modelType: TMDBStatusResponse.self)
+        _ = try await httpClient.load(resource)
+    }
+
+    public func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws {
+        let body = MarkFavoriteRequest(seriesId: seriesId, isFavorite: false)
+        let resource = try Resource(url: Constants.Urls.markFavorite(accountId: accountId, sessionId: sessionId), body: body, modelType: TMDBStatusResponse.self)
+        _ = try await httpClient.load(resource)
     }
 }

@@ -26,6 +26,9 @@ private struct MockWatchlistService: WatchlistServiceProtocol {
         if shouldFail { throw URLError(.notConnectedToInternet) }
         return (tvShowResults, totalPages)
     }
+
+    func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws {}
+    func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws {}
 }
 
 private struct MockFavoritesService: FavoritesServiceProtocol {
@@ -46,6 +49,9 @@ private struct MockFavoritesService: FavoritesServiceProtocol {
         if shouldFail { throw URLError(.notConnectedToInternet) }
         return (tvShowResults, totalPages)
     }
+
+    func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws {}
+    func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws {}
 }
 
 private struct MockAccountService: AccountServiceProtocol {
@@ -197,17 +203,3 @@ private func previewFavoritesViewModel(
     }
 }
 
-// MARK: - LibraryView preview
-
-#Preview("Library") {
-    NavigationStack {
-        LibraryView(
-            watchlistViewModel: previewWatchlistViewModel(
-                service: MockWatchlistService(movieResults: sampleMovies, tvShowResults: sampleTVShows)
-            ),
-            favoritesViewModel: previewFavoritesViewModel(
-                service: MockFavoritesService(movieResults: sampleFavoriteMovies, tvShowResults: sampleFavoriteTVShows)
-            )
-        )
-    }
-}
