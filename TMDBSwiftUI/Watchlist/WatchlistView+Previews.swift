@@ -6,6 +6,8 @@
 import SwiftUI
 import TMDBCore
 
+// MARK: - Shared mock infrastructure
+
 private struct MockWatchlistService: WatchlistServiceProtocol {
     var movieResults: [WatchlistMovie] = []
     var tvShowResults: [WatchlistTVShow] = []
@@ -24,6 +26,32 @@ private struct MockWatchlistService: WatchlistServiceProtocol {
         if shouldFail { throw URLError(.notConnectedToInternet) }
         return (tvShowResults, totalPages)
     }
+
+    func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws {}
+    func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws {}
+}
+
+private struct MockFavoritesService: FavoritesServiceProtocol {
+    var movieResults: [FavoriteMovie] = []
+    var tvShowResults: [FavoriteTVShow] = []
+    var totalPages: Int = 1
+    var shouldFail = false
+    var shouldHang = false
+
+    func fetchMovies(accountId: Int, sessionId: String, page: Int) async throws -> (items: [FavoriteMovie], totalPages: Int) {
+        if shouldHang { try await Task.sleep(nanoseconds: .max) }
+        if shouldFail { throw URLError(.notConnectedToInternet) }
+        return (movieResults, totalPages)
+    }
+
+    func fetchTVShows(accountId: Int, sessionId: String, page: Int) async throws -> (items: [FavoriteTVShow], totalPages: Int) {
+        if shouldHang { try await Task.sleep(nanoseconds: .max) }
+        if shouldFail { throw URLError(.notConnectedToInternet) }
+        return (tvShowResults, totalPages)
+    }
+
+    func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws {}
+    func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws {}
 }
 
 private struct MockAccountService: AccountServiceProtocol {
@@ -42,15 +70,7 @@ private struct MockSessionManager: SessionManagerProtocol {
     var isLoggedIn: Bool { true }
 }
 
-@MainActor
-private func previewViewModel(
-    service: MockWatchlistService = MockWatchlistService(),
-    selectedTab: WatchlistViewModel.Tab = .movies
-) -> WatchlistViewModel {
-    let viewModel = WatchlistViewModel(service: service, accountService: MockAccountService(), sessionManager: MockSessionManager())
-    viewModel.selectedTab = selectedTab
-    return viewModel
-}
+// MARK: - Sample data
 
 private let sampleMovies: [WatchlistMovie] = [
     WatchlistMovie(
@@ -83,41 +103,103 @@ private let sampleTVShows: [WatchlistTVShow] = [
     )
 ]
 
-#Preview("Movies") {
+private let sampleFavoriteMovies: [FavoriteMovie] = [
+    FavoriteMovie(
+        id: 10, title: "The Godfather",
+        overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+        posterURL: nil, voteAverage: 9.2, releaseDate: "1972-03-24"
+    ),
+    FavoriteMovie(
+        id: 11, title: "Pulp Fiction",
+        overview: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+        posterURL: nil, voteAverage: 8.9, releaseDate: "1994-10-14"
+    )
+]
+
+private let sampleFavoriteTVShows: [FavoriteTVShow] = [
+    FavoriteTVShow(
+        id: 20, name: "Chernobyl",
+        overview: "In April 1986, an explosion at the Chernobyl nuclear power plant in the USSR becomes one of the world's worst man-made catastrophes.",
+        posterURL: nil, voteAverage: 9.4, firstAirDate: "2019-05-06"
+    )
+]
+
+// MARK: - View model helpers
+
+@MainActor
+private func previewWatchlistViewModel(
+    service: MockWatchlistService = MockWatchlistService(),
+    selectedTab: WatchlistViewModel.Tab = .movies
+) -> WatchlistViewModel {
+    let vm = WatchlistViewModel(service: service, accountService: MockAccountService(), sessionManager: MockSessionManager())
+    vm.selectedTab = selectedTab
+    return vm
+}
+
+@MainActor
+private func previewFavoritesViewModel(
+    service: MockFavoritesService = MockFavoritesService(),
+    selectedTab: FavoritesViewModel.Tab = .movies
+) -> FavoritesViewModel {
+    let vm = FavoritesViewModel(service: service, accountService: MockAccountService(), sessionManager: MockSessionManager())
+    vm.selectedTab = selectedTab
+    return vm
+}
+
+// MARK: - WatchlistView previews
+
+#Preview("Watchlist – Movies") {
     NavigationStack {
-        WatchlistView(viewModel: previewViewModel(
+        WatchlistView(viewModel: previewWatchlistViewModel(
             service: MockWatchlistService(movieResults: sampleMovies, tvShowResults: sampleTVShows)
         ))
     }
 }
 
-#Preview("TV Shows") {
+#Preview("Watchlist – TV Shows") {
     NavigationStack {
-        WatchlistView(viewModel: previewViewModel(
+        WatchlistView(viewModel: previewWatchlistViewModel(
             service: MockWatchlistService(movieResults: sampleMovies, tvShowResults: sampleTVShows),
             selectedTab: .tvShows
         ))
     }
 }
 
-#Preview("Loading") {
+#Preview("Watchlist – Loading") {
     NavigationStack {
-        WatchlistView(viewModel: previewViewModel(
+        WatchlistView(viewModel: previewWatchlistViewModel(
             service: MockWatchlistService(shouldHang: true)
         ))
     }
 }
 
-#Preview("Empty") {
+#Preview("Watchlist – Empty") {
     NavigationStack {
-        WatchlistView(viewModel: previewViewModel())
+        WatchlistView(viewModel: previewWatchlistViewModel())
     }
 }
 
-#Preview("Error") {
+#Preview("Watchlist – Error") {
     NavigationStack {
-        WatchlistView(viewModel: previewViewModel(
+        WatchlistView(viewModel: previewWatchlistViewModel(
             service: MockWatchlistService(shouldFail: true)
         ))
     }
 }
+
+// MARK: - FavoritesView previews
+
+#Preview("Favorites – Movies") {
+    NavigationStack {
+        FavoritesView(viewModel: previewFavoritesViewModel(
+            service: MockFavoritesService(movieResults: sampleFavoriteMovies, tvShowResults: sampleFavoriteTVShows)
+        ))
+    }
+}
+
+#Preview("Favorites – Empty") {
+    NavigationStack {
+        FavoritesView(viewModel: previewFavoritesViewModel())
+    }
+}
+

@@ -2,10 +2,10 @@ import Observation
 
 @MainActor
 @Observable
-public final class MovieDetailViewModel {
+public final class SeriesDetailViewModel {
 
     // MARK: - Content state
-    public var detail: MovieDetail?
+    public var detail: SeriesDetail?
     public private(set) var cast: [CastMember] = []       { didSet { recomputeDisplayedCast() } }
     public private(set) var displayedCast: [CastMember] = []
     public var reviews: [Review] = []
@@ -23,19 +23,19 @@ public final class MovieDetailViewModel {
     public var feedbackMessage: String?
 
     // MARK: - Private
-    private let movieId: Int
-    private let service: any MovieDetailServiceProtocol
+    private let seriesId: Int
+    private let service: any SeriesDetailServiceProtocol
     private let accountService: (any AccountServiceProtocol)?
     private let sessionManager: (any SessionManagerProtocol)?
     private var cachedAccountId: Int?
 
     public init(
-        movieId: Int,
-        service: MovieDetailServiceProtocol,
+        seriesId: Int,
+        service: SeriesDetailServiceProtocol,
         accountService: AccountServiceProtocol? = nil,
         sessionManager: SessionManagerProtocol? = nil
     ) {
-        self.movieId = movieId
+        self.seriesId = seriesId
         self.service = service
         self.accountService = accountService
         self.sessionManager = sessionManager
@@ -48,9 +48,9 @@ public final class MovieDetailViewModel {
         isLoading = true
         errorMessage = nil
         do {
-            async let detailTask  = service.fetchMovieDetail(id: movieId)
-            async let creditsTask = service.fetchCredits(id: movieId)
-            async let reviewsTask = service.fetchReviews(id: movieId)
+            async let detailTask  = service.fetchSeriesDetail(id: seriesId)
+            async let creditsTask = service.fetchCredits(id: seriesId)
+            async let reviewsTask = service.fetchReviews(id: seriesId)
             (detail, cast, reviews) = try await (detailTask, creditsTask, reviewsTask)
         } catch {
             errorMessage = error.localizedDescription
@@ -70,7 +70,7 @@ public final class MovieDetailViewModel {
         isFavorite = newValue
         do {
             let accountId = try await resolvedAccountId(sessionId: sessionId, accountService: accService)
-            try await service.markFavorite(accountId: accountId, movieId: movieId, sessionId: sessionId, isFavorite: newValue)
+            try await service.markFavorite(accountId: accountId, seriesId: seriesId, sessionId: sessionId, isFavorite: newValue)
         } catch {
             isFavorite = !newValue
             feedbackMessage = "Failed to update favorites."
@@ -87,7 +87,7 @@ public final class MovieDetailViewModel {
         isInWatchlist = newValue
         do {
             let accountId = try await resolvedAccountId(sessionId: sessionId, accountService: accService)
-            try await service.markWatchlist(accountId: accountId, movieId: movieId, sessionId: sessionId, inWatchlist: newValue)
+            try await service.markWatchlist(accountId: accountId, seriesId: seriesId, sessionId: sessionId, inWatchlist: newValue)
         } catch {
             isInWatchlist = !newValue
             feedbackMessage = "Failed to update watchlist."
@@ -112,10 +112,10 @@ public final class MovieDetailViewModel {
     public func addToList(listId: Int) async {
         guard let sessionId = sessionManager?.getSession() else { return }
         do {
-            try await service.addMovieToList(listId: listId, movieId: movieId, sessionId: sessionId)
-            feedbackMessage = "Movie added to list."
+            try await service.addToList(listId: listId, seriesId: seriesId, sessionId: sessionId)
+            feedbackMessage = "Series added to list."
         } catch {
-            feedbackMessage = "Failed to add movie to list."
+            feedbackMessage = "Failed to add series to list."
         }
     }
 
@@ -126,7 +126,7 @@ public final class MovieDetailViewModel {
               let accService = accountService else { return }
         do {
             let accountId = try await resolvedAccountId(sessionId: sessionId, accountService: accService)
-            let states = try await service.fetchAccountStates(movieId: movieId, sessionId: sessionId)
+            let states = try await service.fetchAccountStates(seriesId: seriesId, sessionId: sessionId)
             _ = accountId
             isFavorite = states.isFavorite
             isInWatchlist = states.isInWatchlist

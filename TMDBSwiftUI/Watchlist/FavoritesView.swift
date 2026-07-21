@@ -1,8 +1,8 @@
 import SwiftUI
 import TMDBCore
 
-struct WatchlistView: View {
-    let viewModel: WatchlistViewModel
+struct FavoritesView: View {
+    let viewModel: FavoritesViewModel
 
     var body: some View {
         Group {
@@ -14,7 +14,7 @@ struct WatchlistView: View {
                     Task { await viewModel.load() }
                 }
             } else {
-                WatchlistContentView(viewModel: viewModel)
+                FavoritesContentView(viewModel: viewModel)
             }
         }
         .task { await viewModel.load() }
@@ -22,14 +22,14 @@ struct WatchlistView: View {
     }
 }
 
-private struct WatchlistContentView: View {
-    @Bindable var viewModel: WatchlistViewModel
+private struct FavoritesContentView: View {
+    @Bindable var viewModel: FavoritesViewModel
 
     var body: some View {
         VStack(spacing: 0) {
             Picker("Type", selection: $viewModel.selectedTab) {
-                Text("Movies").tag(WatchlistViewModel.Tab.movies)
-                Text("TV Shows").tag(WatchlistViewModel.Tab.tvShows)
+                Text("Movies").tag(FavoritesViewModel.Tab.movies)
+                Text("TV Shows").tag(FavoritesViewModel.Tab.tvShows)
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
@@ -39,7 +39,7 @@ private struct WatchlistContentView: View {
             case .movies:
                 MediaListView(
                     isEmpty: viewModel.movies.isEmpty,
-                    emptyLabel: "No movies in your watchlist",
+                    emptyLabel: "No movies in your favorites",
                     canLoadMore: viewModel.canLoadMoreMovies,
                     isLoadingMore: viewModel.isLoadingMore,
                     onLoadMore: { Task { await viewModel.loadMore() } }
@@ -57,7 +57,7 @@ private struct WatchlistContentView: View {
             case .tvShows:
                 MediaListView(
                     isEmpty: viewModel.tvShows.isEmpty,
-                    emptyLabel: "No TV shows in your watchlist",
+                    emptyLabel: "No TV shows in your favorites",
                     canLoadMore: viewModel.canLoadMoreTVShows,
                     isLoadingMore: viewModel.isLoadingMore,
                     onLoadMore: { Task { await viewModel.loadMore() } }

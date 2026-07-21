@@ -1,7 +1,6 @@
 //
 //  MainTabView.swift
 //  tmdb-app
-//
 
 import SwiftUI
 import TMDBCore
@@ -9,7 +8,10 @@ import TMDBCore
 struct MainTabView: View {
     let homeViewModel: HomeViewModel
     let moviesViewModel: MoviesViewModel
+    let seriesViewModel: SeriesViewModel
     let watchlistViewModel: WatchlistViewModel
+    let favoritesViewModel: FavoritesViewModel
+    let myStuffViewModel: MyStuffViewModel
     let profileViewModel: ProfileViewModel
     @State private var selectedTab = 0
 
@@ -27,12 +29,20 @@ struct MainTabView: View {
             .tabItem { Label("Movies", systemImage: "film") }
             .tag(1)
 
-            NavigationStack { SeriesView() }
+            NavigationStack { SeriesView(viewModel: seriesViewModel) }
             .tabItem { Label("Series", systemImage: "tv") }
             .tag(2)
 
-            NavigationStack { WatchlistView(viewModel: watchlistViewModel) }
-            .tabItem { Label("Watchlist", systemImage: "bookmark") }
+            NavigationStack {
+                MyStuffView(
+                    watchlistViewModel: watchlistViewModel,
+                    favoritesViewModel: favoritesViewModel,
+                    myStuffViewModel: myStuffViewModel,
+                    moviesViewModel: moviesViewModel,
+                    seriesViewModel: seriesViewModel
+                )
+            }
+            .tabItem { Label("My Stuff", systemImage: "bookmark") }
             .tag(3)
 
             NavigationStack { SearchView() }

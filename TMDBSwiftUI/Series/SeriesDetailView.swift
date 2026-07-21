@@ -1,16 +1,16 @@
 //
-//  MovieDetailView.swift
+//  SeriesDetailView.swift
 //  tmdb-app
 //
 
 import SwiftUI
 import TMDBCore
 
-// MARK: - MovieDetailView
+// MARK: - SeriesDetailView
 
-struct MovieDetailView: View {
+struct SeriesDetailView: View {
 
-    var viewModel: MovieDetailViewModel
+    var viewModel: SeriesDetailViewModel
 
     var body: some View {
         ZStack {
@@ -20,21 +20,21 @@ struct MovieDetailView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let message = viewModel.errorMessage {
-                MovieDetailErrorView(message: message) {
+                SeriesDetailErrorView(message: message) {
                     Task { await viewModel.load() }
                 }
             } else if let detail = viewModel.detail {
                 ScrollView {
                     VStack(spacing: 0) {
-                        MovieDetailHeaderSection(viewModel: viewModel, detail: detail)
+                        SeriesDetailHeaderSection(viewModel: viewModel, detail: detail)
 
                         VStack(alignment: .leading, spacing: 16) {
-                            MovieDetailScoreSection(
+                            SeriesDetailScoreSection(
                                 voteAverage: detail.voteAverage,
                                 voteCount: detail.voteCount,
                                 tagline: detail.tagline
                             )
-                            MovieDetailCastSection(
+                            SeriesDetailCastSection(
                                 displayedCast: viewModel.displayedCast,
                                 showMoreButton: viewModel.cast.count > 6,
                                 showFullCast: viewModel.showFullCast,
@@ -44,7 +44,7 @@ struct MovieDetailView: View {
                                     }
                                 }
                             )
-                            MovieDetailSocialSection(reviews: viewModel.reviews)
+                            SeriesDetailSocialSection(reviews: viewModel.reviews)
                         }
                         .padding(.top, 16)
                         .padding(.bottom, 40)
@@ -66,9 +66,9 @@ struct MovieDetailView: View {
     }
 }
 
-// MARK: - MovieDetailErrorView
+// MARK: - SeriesDetailErrorView
 
-private struct MovieDetailErrorView: View {
+private struct SeriesDetailErrorView: View {
     let message: String
     let onRetry: () -> Void
 
@@ -81,9 +81,7 @@ private struct MovieDetailErrorView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
-            Button {
-                onRetry()
-            } label: {
+            Button { onRetry() } label: {
                 Text("Retry")
                     .fontWeight(.semibold)
                     .foregroundStyle(.red)
@@ -93,11 +91,11 @@ private struct MovieDetailErrorView: View {
     }
 }
 
-// MARK: - MovieDetailHeaderSection
+// MARK: - SeriesDetailHeaderSection
 
-private struct MovieDetailHeaderSection: View {
-    let viewModel: MovieDetailViewModel
-    let detail: MovieDetail
+private struct SeriesDetailHeaderSection: View {
+    let viewModel: SeriesDetailViewModel
+    let detail: SeriesDetail
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.verticalSizeClass) private var verticalSizeClass
@@ -112,7 +110,7 @@ private struct MovieDetailHeaderSection: View {
                 HStack(spacing: 6) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 14, weight: .semibold))
-                    Text("Movies")
+                    Text("Series")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                 }
@@ -134,7 +132,7 @@ private struct MovieDetailHeaderSection: View {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color(.systemGray5))
                             .overlay {
-                                Image(systemName: "film").foregroundStyle(.secondary)
+                                Image(systemName: "tv").foregroundStyle(.secondary)
                             }
                     }
                 }
@@ -143,19 +141,17 @@ private struct MovieDetailHeaderSection: View {
                 .shadow(color: .black.opacity(0.5), radius: 8, y: 4)
 
                 VStack(alignment: .leading, spacing: 7) {
-                    Text(detail.title)
+                    Text(detail.name)
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
 
                     HStack(spacing: 6) {
-                        if let year = detail.releaseDate?.prefix(4) {
+                        if let year = detail.firstAirDate?.prefix(4) {
                             Text(year)
                         }
-                        if let runtime = detail.runtime, runtime > 0 {
-                            Text("·")
-                            Text(formatRuntime(runtime))
-                        }
+                        Text("·")
+                        Text("\(detail.numberOfSeasons) Season\(detail.numberOfSeasons == 1 ? "" : "s")")
                     }
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.75))
@@ -187,7 +183,7 @@ private struct MovieDetailHeaderSection: View {
             .padding(.horizontal, 16)
 
             HStack(spacing: 0) {
-                HeaderActionButton(
+                SeriesHeaderActionButton(
                     icon: "list.bullet.rectangle.portrait",
                     activeIcon: "list.bullet.rectangle.portrait.fill",
                     label: "Add to List",
@@ -198,7 +194,7 @@ private struct MovieDetailHeaderSection: View {
                     Task { await viewModel.loadUserLists() }
                 }
 
-                HeaderActionButton(
+                SeriesHeaderActionButton(
                     icon: "heart",
                     activeIcon: "heart.fill",
                     label: "Favorite",
@@ -208,7 +204,7 @@ private struct MovieDetailHeaderSection: View {
                     Task { await viewModel.toggleFavorite() }
                 }
 
-                HeaderActionButton(
+                SeriesHeaderActionButton(
                     icon: "bookmark",
                     activeIcon: "bookmark.fill",
                     label: "Watchlist",
@@ -218,7 +214,7 @@ private struct MovieDetailHeaderSection: View {
                     Task { await viewModel.toggleWatchlist() }
                 }
 
-                HeaderActionButton(
+                SeriesHeaderActionButton(
                     icon: "play.rectangle",
                     activeIcon: "play.rectangle.fill",
                     label: "Trailer",
@@ -230,29 +226,21 @@ private struct MovieDetailHeaderSection: View {
             .padding(.top, 20)
             .padding(.bottom, 24)
         }
-        .background(MovieDetailBackdrop(url: detail.backdropURL))
+        .background(SeriesDetailBackdrop(url: detail.backdropURL))
         .sheet(isPresented: $showListSheet) {
-            AddToListSheet(viewModel: viewModel)
+            SeriesAddToListSheet(viewModel: viewModel)
         }
-    }
-
-    private func formatRuntime(_ minutes: Int) -> String {
-        let hours = minutes / 60
-        let mins  = minutes % 60
-        return hours > 0 ? "\(hours)h \(mins)m" : "\(mins)m"
     }
 }
 
-private struct MovieDetailBackdrop: View {
+private struct SeriesDetailBackdrop: View {
     let url: URL?
 
     var body: some View {
         AsyncImage(url: url) { phase in
             switch phase {
             case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
+                image.resizable().scaledToFill()
             default:
                 Color(hex: "0D253F")
             }
@@ -268,9 +256,9 @@ private struct MovieDetailBackdrop: View {
     }
 }
 
-// MARK: - HeaderActionButton
+// MARK: - SeriesHeaderActionButton
 
-private struct HeaderActionButton: View {
+private struct SeriesHeaderActionButton: View {
     let icon: String
     let activeIcon: String
     let label: String
@@ -301,10 +289,10 @@ private struct HeaderActionButton: View {
     }
 }
 
-// MARK: - AddToListSheet
+// MARK: - SeriesAddToListSheet
 
-private struct AddToListSheet: View {
-    let viewModel: MovieDetailViewModel
+private struct SeriesAddToListSheet: View {
+    let viewModel: SeriesDetailViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -317,7 +305,7 @@ private struct AddToListSheet: View {
                     ContentUnavailableView(
                         "No Lists",
                         systemImage: "list.bullet.rectangle.portrait",
-                        description: Text("Create a list on TMDB to add movies to it.")
+                        description: Text("Create a list on TMDB to add series to it.")
                     )
                 } else {
                     List(viewModel.userLists) { list in
@@ -348,9 +336,9 @@ private struct AddToListSheet: View {
     }
 }
 
-// MARK: - MovieDetailScoreSection
+// MARK: - SeriesDetailScoreSection
 
-private struct MovieDetailScoreSection: View {
+private struct SeriesDetailScoreSection: View {
     let voteAverage: Double
     let voteCount: Int
     let tagline: String?
@@ -410,9 +398,9 @@ private struct MovieDetailScoreSection: View {
     }
 }
 
-// MARK: - MovieDetailCastSection
+// MARK: - SeriesDetailCastSection
 
-private struct MovieDetailCastSection: View {
+private struct SeriesDetailCastSection: View {
     let displayedCast: [CastMember]
     let showMoreButton: Bool
     let showFullCast: Bool
@@ -428,7 +416,7 @@ private struct MovieDetailCastSection: View {
             VStack(spacing: 0) {
                 ForEach(Array(displayedCast.enumerated()), id: \.element.id) { index, member in
                     VStack(spacing: 0) {
-                        CastRow(member: member)
+                        SeriesCastRow(member: member)
                         if index < displayedCast.count - 1 {
                             Divider().padding(.leading, 76)
                         }
@@ -459,54 +447,7 @@ private struct MovieDetailCastSection: View {
     }
 }
 
-// MARK: - MovieDetailSocialSection
-
-private struct MovieDetailSocialSection: View {
-    let reviews: [Review]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Social")
-                .font(.title3)
-                .fontWeight(.bold)
-                .padding(.horizontal, 16)
-
-            if reviews.isEmpty {
-                Text("No reviews yet.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity)
-                    .padding(20)
-                    .background(Color(.systemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 16)
-            } else {
-                VStack(spacing: 12) {
-                    ForEach(reviews) { review in
-                        ReviewCard(review: review)
-                    }
-                }
-                .padding(.horizontal, 16)
-
-                Button { } label: {
-                    Text("Read All Reviews")
-                        .fontWeight(.medium)
-                        .foregroundStyle(Color(hex: "01B4E4"))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                        .background(Color(.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-                .padding(.horizontal, 16)
-            }
-        }
-    }
-}
-
-// MARK: - CastRow
-
-private struct CastRow: View {
-
+private struct SeriesCastRow: View {
     let member: CastMember
 
     var body: some View {
@@ -519,8 +460,7 @@ private struct CastRow: View {
                     Circle()
                         .fill(Color(.systemGray5))
                         .overlay {
-                            Image(systemName: "person.fill")
-                                .foregroundStyle(.secondary)
+                            Image(systemName: "person.fill").foregroundStyle(.secondary)
                         }
                 }
             }
@@ -544,10 +484,40 @@ private struct CastRow: View {
     }
 }
 
-// MARK: - ReviewCard
+// MARK: - SeriesDetailSocialSection
 
-private struct ReviewCard: View {
+private struct SeriesDetailSocialSection: View {
+    let reviews: [Review]
 
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Social")
+                .font(.title3)
+                .fontWeight(.bold)
+                .padding(.horizontal, 16)
+
+            if reviews.isEmpty {
+                Text("No reviews yet.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity)
+                    .padding(20)
+                    .background(Color(.systemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, 16)
+            } else {
+                VStack(spacing: 12) {
+                    ForEach(reviews) { review in
+                        SeriesReviewCard(review: review)
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+        }
+    }
+}
+
+private struct SeriesReviewCard: View {
     let review: Review
     @State private var isExpanded = false
 
@@ -589,9 +559,7 @@ private struct ReviewCard: View {
                 .lineLimit(isExpanded ? nil : 3)
 
             Button {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    isExpanded.toggle()
-                }
+                withAnimation(.easeInOut(duration: 0.2)) { isExpanded.toggle() }
             } label: {
                 Text(isExpanded ? "Show less" : "Read more")
                     .font(.caption)

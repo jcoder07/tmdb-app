@@ -70,24 +70,40 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let moviesVC = MoviesViewController(
             viewModel: MoviesViewModel(
                 service: MoviesService(httpClient: httpClient),
-                detailService: MovieDetailService(httpClient: httpClient)
+                detailService: MovieDetailService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
+                sessionManager: sessionManager
             )
         )
 
-        let watchlistVC = WatchlistViewController(
-            viewModel: WatchlistViewModel(
+        let libraryVC = LibraryViewController(
+            watchlistViewModel: WatchlistViewModel(
                 service: WatchlistService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
+                sessionManager: sessionManager
+            ),
+            favoritesViewModel: FavoritesViewModel(
+                service: FavoritesService(httpClient: httpClient),
+                accountService: AccountService(httpClient: httpClient),
+                sessionManager: sessionManager
+            )
+        )
+
+        let seriesVC = SeriesViewController(
+            viewModel: SeriesViewModel(
+                service: SeriesService(httpClient: httpClient),
+                detailService: SeriesDetailService(httpClient: httpClient),
                 accountService: AccountService(httpClient: httpClient),
                 sessionManager: sessionManager
             )
         )
 
         let tabs: [(UIViewController, String, String)] = [
-            (homeVC,                  "Home",      "house"),
-            (moviesVC,                "Movies",    "film"),
-            (SeriesViewController(),  "Series",    "tv"),
-            (watchlistVC,             "Watchlist", "bookmark"),
-            (SearchViewController(),  "Search",    "magnifyingglass"),
+            (homeVC,      "Home",      "house"),
+            (moviesVC,    "Movies",    "film"),
+            (seriesVC,    "Series",    "tv"),
+            (libraryVC,   "My Stuff",  "bookmark"),
+            (SearchViewController(), "Search", "magnifyingglass"),
         ]
 
         tabBar.viewControllers = tabs.enumerated().map { index, entry in
@@ -106,4 +122,3 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 }
-

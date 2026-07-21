@@ -10,10 +10,8 @@ import TMDBCore
 
 @main
 struct TMDBSwiftUIApp: App {
-    private let sessionManager: SessionManagerProtocol = CoreDataSessionManager(
-        stack: SessionCoreDataStack()
-    )
-    private let httpClient: HttpClientProtocol = HttpClient2()
+    private let sessionManager: SessionManagerProtocol = SwiftDataSessionManager()
+    private let httpClient: HttpClientProtocol = HttpClient()
 
     var body: some Scene {
         WindowGroup {
@@ -48,7 +46,10 @@ private struct AppRootView: View {
                 MainTabView(
                     homeViewModel: makeHomeViewModel(),
                     moviesViewModel: makeMoviesViewModel(),
+                    seriesViewModel: makeSeriesViewModel(),
                     watchlistViewModel: makeWatchlistViewModel(),
+                    favoritesViewModel: makeFavoritesViewModel(),
+                    myStuffViewModel: makeMyStuffViewModel(),
                     profileViewModel: makeProfileViewModel()
                 )
             } else {
@@ -76,16 +77,43 @@ private struct AppRootView: View {
         )
     }
 
+    private func makeSeriesViewModel() -> SeriesViewModel {
+        SeriesViewModel(
+            service: SeriesService(httpClient: httpClient),
+            detailService: SeriesDetailService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
+        )
+    }
+
     private func makeMoviesViewModel() -> MoviesViewModel {
         MoviesViewModel(
             service: MoviesService(httpClient: httpClient),
-            detailService: MovieDetailService(httpClient: httpClient)
+            detailService: MovieDetailService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
         )
     }
 
     private func makeWatchlistViewModel() -> WatchlistViewModel {
         WatchlistViewModel(
             service: WatchlistService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
+        )
+    }
+
+    private func makeFavoritesViewModel() -> FavoritesViewModel {
+        FavoritesViewModel(
+            service: FavoritesService(httpClient: httpClient),
+            accountService: AccountService(httpClient: httpClient),
+            sessionManager: sessionManager
+        )
+    }
+
+    private func makeMyStuffViewModel() -> MyStuffViewModel {
+        MyStuffViewModel(
+            service: MyStuffService(httpClient: httpClient),
             accountService: AccountService(httpClient: httpClient),
             sessionManager: sessionManager
         )

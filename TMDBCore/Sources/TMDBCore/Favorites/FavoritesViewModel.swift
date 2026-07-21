@@ -3,20 +3,20 @@ import Observation
 
 @MainActor
 @Observable
-public final class WatchlistViewModel {
+public final class FavoritesViewModel {
 
     public enum Tab { case movies, tvShows }
 
     public var selectedTab: Tab = .movies
-    public var movies: [WatchlistMovie] = []
-    public var tvShows: [WatchlistTVShow] = []
+    public var movies: [FavoriteMovie] = []
+    public var tvShows: [FavoriteTVShow] = []
     public var isLoading = false
     public var isLoadingMore = false
     public var errorMessage: String?
     public var canLoadMoreMovies = false
     public var canLoadMoreTVShows = false
 
-    private let service: any WatchlistServiceProtocol
+    private let service: any FavoritesServiceProtocol
     private let accountService: any AccountServiceProtocol
     private let sessionManager: any SessionManagerProtocol
     private var cachedAccountId: Int?
@@ -25,7 +25,7 @@ public final class WatchlistViewModel {
     private var tvPage = 0
     private var tvTotalPages = 0
 
-    public init(service: WatchlistServiceProtocol, accountService: AccountServiceProtocol, sessionManager: SessionManagerProtocol) {
+    public init(service: FavoritesServiceProtocol, accountService: AccountServiceProtocol, sessionManager: SessionManagerProtocol) {
         self.service = service
         self.accountService = accountService
         self.sessionManager = sessionManager

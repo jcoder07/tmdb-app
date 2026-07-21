@@ -2,9 +2,9 @@ import UIKit
 import Observation
 import TMDBCore
 
-final class WatchlistViewController: UIViewController {
+final class FavoritesViewController: UIViewController {
 
-    private let viewModel: WatchlistViewModel
+    private let viewModel: FavoritesViewModel
 
     // MARK: - UI
 
@@ -22,7 +22,7 @@ final class WatchlistViewController: UIViewController {
 
     // MARK: - Init
 
-    init(viewModel: WatchlistViewModel) {
+    init(viewModel: FavoritesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -148,13 +148,12 @@ final class WatchlistViewController: UIViewController {
         }
         dataSource.apply(snapshot, animatingDifferences: false)
 
-        // Empty state
         if !viewModel.isLoading && !hasError {
             let isEmpty = (viewModel.selectedTab == .movies && viewModel.movies.isEmpty)
                        || (viewModel.selectedTab == .tvShows && viewModel.tvShows.isEmpty)
             if isEmpty {
                 let label = UILabel()
-                label.text = viewModel.selectedTab == .movies ? "No movies in your watchlist" : "No TV shows in your watchlist"
+                label.text = viewModel.selectedTab == .movies ? "No movies in your favorites" : "No TV shows in your favorites"
                 label.textColor = .secondaryLabel
                 label.textAlignment = .center
                 tableView.backgroundView = label
@@ -164,4 +163,3 @@ final class WatchlistViewController: UIViewController {
         }
     }
 }
-
