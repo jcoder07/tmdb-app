@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - Domain Model
 public struct WatchlistMovie: Identifiable, Sendable {
     public let id: Int
     public let title: String
@@ -18,6 +19,7 @@ public struct WatchlistMovie: Identifiable, Sendable {
     }
 }
 
+// MARK: - Mapper
 extension WatchlistMovie {
     init(_ dto: WatchlistMovieDTO) {
         id = dto.id

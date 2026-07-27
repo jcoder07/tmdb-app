@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - Data Model
 struct WatchlistMovieDTO: Decodable {
     let id: Int
     let title: String
