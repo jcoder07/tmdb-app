@@ -9,6 +9,7 @@ import TMDBCore
 // MARK: - Shared mock infrastructure
 
 private struct MockWatchlistService: WatchlistServiceProtocol {
+    
     var movieResults: [WatchlistMovie] = []
     var tvShowResults: [WatchlistTVShow] = []
     var totalPages: Int = 1

@@ -1,11 +1,25 @@
 import Foundation
 
-public protocol WatchlistServiceProtocol: Sendable {
+public protocol WatchlistFetchMoviesProtocol: Sendable {
     func fetchMovies(accountId: Int, sessionId: String, page: Int) async throws -> (items: [WatchlistMovie], totalPages: Int)
+}
+
+public protocol WatchlistFetchTVShowsProtocol: Sendable {
     func fetchTVShows(accountId: Int, sessionId: String, page: Int) async throws -> (items: [WatchlistTVShow], totalPages: Int)
+}
+
+public protocol WatchlistRemoveMovieProtocol: Sendable {
     func removeMovie(accountId: Int, movieId: Int, sessionId: String) async throws
+}
+
+public protocol WatchlistRemoveTVShowProtocol: Sendable {
     func removeTVShow(accountId: Int, seriesId: Int, sessionId: String) async throws
 }
+
+public typealias WatchlistServiceProtocol = WatchlistFetchMoviesProtocol
+    & WatchlistFetchTVShowsProtocol
+    & WatchlistRemoveMovieProtocol
+    & WatchlistRemoveTVShowProtocol
 
 public final class WatchlistService: WatchlistServiceProtocol {
 
@@ -38,4 +52,5 @@ public final class WatchlistService: WatchlistServiceProtocol {
         let resource = try Resource(url: Constants.Urls.markWatchlist(accountId: accountId, sessionId: sessionId), body: body, modelType: TMDBStatusResponse.self)
         _ = try await httpClient.load(resource)
     }
+
 }
