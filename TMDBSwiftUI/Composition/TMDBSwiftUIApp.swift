@@ -27,6 +27,7 @@ private struct AppRootView: View {
     private let sessionManager: SessionManagerProtocol
     private let httpClient: HttpClientProtocol
     private let authService: TMDBAuthServiceProtocol
+    private let accountService: AccountServiceProtocol
 
     @State private var isLoggedIn: Bool
 
@@ -38,6 +39,7 @@ private struct AppRootView: View {
         self.httpClient = httpClient
         self.authService = TMDBAuthService(httpClient: httpClient)
         self._isLoggedIn = State(initialValue: sessionManager.isLoggedIn)
+        self.accountService = AccountService(httpClient: httpClient)
     }
 
     var body: some View {
@@ -81,7 +83,7 @@ private struct AppRootView: View {
         SeriesViewModel(
             service: SeriesService(httpClient: httpClient),
             detailService: SeriesDetailService(httpClient: httpClient),
-            accountService: AccountService(httpClient: httpClient),
+            accountService: accountService,
             sessionManager: sessionManager
         )
     }
@@ -90,15 +92,15 @@ private struct AppRootView: View {
         MoviesViewModel(
             service: MoviesService(httpClient: httpClient),
             detailService: MovieDetailService(httpClient: httpClient),
-            accountService: AccountService(httpClient: httpClient),
+            accountService: accountService,
             sessionManager: sessionManager
         )
     }
 
     private func makeWatchlistViewModel() -> WatchlistViewModel {
         WatchlistViewModel(
-            service: WatchlistService(httpClient: httpClient),
-            accountService: AccountService(httpClient: httpClient),
+            service: WatchlistService2(httpClient: HttpClient()),
+            accountService: accountService,
             sessionManager: sessionManager
         )
     }
@@ -106,7 +108,7 @@ private struct AppRootView: View {
     private func makeFavoritesViewModel() -> FavoritesViewModel {
         FavoritesViewModel(
             service: FavoritesService(httpClient: httpClient),
-            accountService: AccountService(httpClient: httpClient),
+            accountService: accountService,
             sessionManager: sessionManager
         )
     }
@@ -114,7 +116,7 @@ private struct AppRootView: View {
     private func makeMyStuffViewModel() -> MyStuffViewModel {
         MyStuffViewModel(
             service: MyStuffService(httpClient: httpClient),
-            accountService: AccountService(httpClient: httpClient),
+            accountService: accountService,
             sessionManager: sessionManager
         )
     }
@@ -122,7 +124,7 @@ private struct AppRootView: View {
     private func makeProfileViewModel() -> ProfileViewModel {
         ProfileViewModel(
             service: ProfileService(
-                accountService: AccountService(httpClient: httpClient),
+                accountService: accountService,
                 genreService: GenreService(httpClient: httpClient)
             ),
             sessionManager: sessionManager,
