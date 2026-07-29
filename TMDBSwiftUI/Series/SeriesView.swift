@@ -9,6 +9,7 @@ import TMDBCore
 struct SeriesView: View {
 
     var viewModel: SeriesViewModel
+    let makeSeriesDetailViewModel: (Int) -> SeriesDetailViewModel
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -58,7 +59,7 @@ struct SeriesView: View {
                     }
                 }
                 .navigationDestination(for: Int.self) { seriesId in
-                    SeriesDetailView(viewModel: viewModel.makeDetailViewModel(for: seriesId))
+                    SeriesDetailView(viewModel: makeSeriesDetailViewModel(seriesId))
                 }
             }
         }
@@ -175,25 +176,38 @@ private let sampleSeries: [Series] = [
 
 @MainActor
 private func makeViewModel(service: MockSeriesService) -> SeriesViewModel {
-    SeriesViewModel(service: service, detailService: MockSeriesDetailService())
+    SeriesViewModel(service: service)
+}
+
+private let previewDetailFactory: (Int) -> SeriesDetailViewModel = {
+    SeriesDetailViewModel(seriesId: $0, service: MockSeriesDetailService())
 }
 
 #Preview("Content") {
     NavigationStack {
-        SeriesView(viewModel: makeViewModel(service: MockSeriesService(
-            page: SeriesPage(series: sampleSeries, page: 1, totalPages: 3)
-        )))
+        SeriesView(
+            viewModel: makeViewModel(service: MockSeriesService(
+                page: SeriesPage(series: sampleSeries, page: 1, totalPages: 3)
+            )),
+            makeSeriesDetailViewModel: previewDetailFactory
+        )
     }
 }
 
 #Preview("Loading") {
     NavigationStack {
-        SeriesView(viewModel: makeViewModel(service: MockSeriesService(shouldHang: true)))
+        SeriesView(
+            viewModel: makeViewModel(service: MockSeriesService(shouldHang: true)),
+            makeSeriesDetailViewModel: previewDetailFactory
+        )
     }
 }
 
 #Preview("Error") {
     NavigationStack {
-        SeriesView(viewModel: makeViewModel(service: MockSeriesService(shouldFail: true)))
+        SeriesView(
+            viewModel: makeViewModel(service: MockSeriesService(shouldFail: true)),
+            makeSeriesDetailViewModel: previewDetailFactory
+        )
     }
 }

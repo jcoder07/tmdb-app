@@ -10,7 +10,11 @@ import TMDBCore
 
 struct MovieDetailView: View {
 
-    var viewModel: MovieDetailViewModel
+    @State private var viewModel: MovieDetailViewModel
+
+    init(viewModel: @autoclosure () -> MovieDetailViewModel) {
+        _viewModel = State(wrappedValue: viewModel())
+    }
 
     var body: some View {
         ZStack {

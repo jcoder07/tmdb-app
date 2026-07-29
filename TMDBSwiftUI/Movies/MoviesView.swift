@@ -9,6 +9,7 @@ import TMDBCore
 struct MoviesView: View {
 
     var viewModel: MoviesViewModel
+    let makeMovieDetailViewModel: (Int) -> MovieDetailViewModel
 
     private let columns = [
         GridItem(.flexible(), spacing: 12),
@@ -58,7 +59,7 @@ struct MoviesView: View {
                     }
                 }
                 .navigationDestination(for: Int.self) { movieId in
-                    MovieDetailView(viewModel: viewModel.makeDetailViewModel(for: movieId))
+                    MovieDetailView(viewModel: makeMovieDetailViewModel(movieId))
                 }
             }
         }
@@ -175,25 +176,38 @@ private let sampleMovies: [Movie] = [
 
 @MainActor
 private func makeViewModel(service: MockMoviesService) -> MoviesViewModel {
-    MoviesViewModel(service: service, detailService: MockMovieDetailService())
+    MoviesViewModel(service: service)
+}
+
+private let previewDetailFactory: (Int) -> MovieDetailViewModel = {
+    MovieDetailViewModel(movieId: $0, service: MockMovieDetailService())
 }
 
 #Preview("Content") {
     NavigationStack {
-        MoviesView(viewModel: makeViewModel(service: MockMoviesService(
-            page: MoviesPage(movies: sampleMovies, page: 1, totalPages: 3)
-        )))
+        MoviesView(
+            viewModel: makeViewModel(service: MockMoviesService(
+                page: MoviesPage(movies: sampleMovies, page: 1, totalPages: 3)
+            )),
+            makeMovieDetailViewModel: previewDetailFactory
+        )
     }
 }
 
 #Preview("Loading") {
     NavigationStack {
-        MoviesView(viewModel: makeViewModel(service: MockMoviesService(shouldHang: true)))
+        MoviesView(
+            viewModel: makeViewModel(service: MockMoviesService(shouldHang: true)),
+            makeMovieDetailViewModel: previewDetailFactory
+        )
     }
 }
 
 #Preview("Error") {
     NavigationStack {
-        MoviesView(viewModel: makeViewModel(service: MockMoviesService(shouldFail: true)))
+        MoviesView(
+            viewModel: makeViewModel(service: MockMoviesService(shouldFail: true)),
+            makeMovieDetailViewModel: previewDetailFactory
+        )
     }
 }

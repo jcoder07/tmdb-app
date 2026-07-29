@@ -13,6 +13,8 @@ struct MainTabView: View {
     let favoritesViewModel: FavoritesViewModel
     let myStuffViewModel: MyStuffViewModel
     let profileViewModel: ProfileViewModel
+    let makeMovieDetailViewModel: (Int) -> MovieDetailViewModel
+    let makeSeriesDetailViewModel: (Int) -> SeriesDetailViewModel
     @State private var selectedTab = 0
 
     var body: some View {
@@ -25,11 +27,21 @@ struct MainTabView: View {
             .tabItem { Label("Home", systemImage: "house") }
             .tag(0)
 
-            NavigationStack { MoviesView(viewModel: moviesViewModel) }
+            NavigationStack {
+                MoviesView(
+                    viewModel: moviesViewModel,
+                    makeMovieDetailViewModel: makeMovieDetailViewModel
+                )
+            }
             .tabItem { Label("Movies", systemImage: "film") }
             .tag(1)
 
-            NavigationStack { SeriesView(viewModel: seriesViewModel) }
+            NavigationStack {
+                SeriesView(
+                    viewModel: seriesViewModel,
+                    makeSeriesDetailViewModel: makeSeriesDetailViewModel
+                )
+            }
             .tabItem { Label("Series", systemImage: "tv") }
             .tag(2)
 
@@ -39,7 +51,9 @@ struct MainTabView: View {
                     favoritesViewModel: favoritesViewModel,
                     myStuffViewModel: myStuffViewModel,
                     moviesViewModel: moviesViewModel,
-                    seriesViewModel: seriesViewModel
+                    seriesViewModel: seriesViewModel,
+                    makeMovieDetailViewModel: makeMovieDetailViewModel,
+                    makeSeriesDetailViewModel: makeSeriesDetailViewModel
                 )
             }
             .tabItem { Label("My Stuff", systemImage: "bookmark") }

@@ -10,7 +10,11 @@ import TMDBCore
 
 struct SeriesDetailView: View {
 
-    var viewModel: SeriesDetailViewModel
+    @State private var viewModel: SeriesDetailViewModel
+
+    init(viewModel: @autoclosure () -> SeriesDetailViewModel) {
+        _viewModel = State(wrappedValue: viewModel())
+    }
 
     var body: some View {
         ZStack {

@@ -5,6 +5,7 @@ import TMDBCore
 final class MoviesViewController: UIViewController {
 
     private let viewModel: MoviesViewModel
+    private let makeDetailViewModel: (Int) -> MovieDetailViewModel
 
     // MARK: - UI
 
@@ -32,8 +33,9 @@ final class MoviesViewController: UIViewController {
 
     // MARK: - Init
 
-    init(viewModel: MoviesViewModel) {
+    init(viewModel: MoviesViewModel, makeDetailViewModel: @escaping (Int) -> MovieDetailViewModel) {
         self.viewModel = viewModel
+        self.makeDetailViewModel = makeDetailViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -199,7 +201,7 @@ extension MoviesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.item < viewModel.displayedMovies.count else { return }
         let movie = viewModel.displayedMovies[indexPath.item]
-        let detailViewController = MovieDetailViewController(viewModel: viewModel.makeDetailViewModel(for: movie.id))
+        let detailViewController = MovieDetailViewController(viewModel: makeDetailViewModel(movie.id))
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 

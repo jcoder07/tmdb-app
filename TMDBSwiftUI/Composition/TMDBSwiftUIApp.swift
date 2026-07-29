@@ -52,7 +52,9 @@ private struct AppRootView: View {
                     watchlistViewModel: makeWatchlistViewModel(),
                     favoritesViewModel: makeFavoritesViewModel(),
                     myStuffViewModel: makeMyStuffViewModel(),
-                    profileViewModel: makeProfileViewModel()
+                    profileViewModel: makeProfileViewModel(),
+                    makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
+                    makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) }
                 )
             } else {
                 NavigationStack {
@@ -80,18 +82,26 @@ private struct AppRootView: View {
     }
 
     private func makeSeriesViewModel() -> SeriesViewModel {
-        SeriesViewModel(
-            service: SeriesService(httpClient: httpClient),
-            detailService: SeriesDetailService(httpClient: httpClient),
+        SeriesViewModel(service: SeriesService(httpClient: httpClient))
+    }
+
+    private func makeMoviesViewModel() -> MoviesViewModel {
+        MoviesViewModel(service: MoviesService(httpClient: httpClient))
+    }
+
+    private func makeMovieDetailViewModel(for movieId: Int) -> MovieDetailViewModel {
+        MovieDetailViewModel(
+            movieId: movieId,
+            service: MovieDetailService(httpClient: httpClient),
             accountService: accountService,
             sessionManager: sessionManager
         )
     }
 
-    private func makeMoviesViewModel() -> MoviesViewModel {
-        MoviesViewModel(
-            service: MoviesService(httpClient: httpClient),
-            detailService: MovieDetailService(httpClient: httpClient),
+    private func makeSeriesDetailViewModel(for seriesId: Int) -> SeriesDetailViewModel {
+        SeriesDetailViewModel(
+            seriesId: seriesId,
+            service: SeriesDetailService(httpClient: httpClient),
             accountService: accountService,
             sessionManager: sessionManager
         )

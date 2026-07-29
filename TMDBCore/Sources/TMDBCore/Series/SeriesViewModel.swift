@@ -15,33 +15,9 @@ public final class SeriesViewModel {
     private var currentPage = 1   { didSet { recomputeDerived() } }
     private var totalPages = 1    { didSet { recomputeDerived() } }
     private let service: any SeriesServiceProtocol
-    private let detailService: any SeriesDetailServiceProtocol
-    private let accountService: (any AccountServiceProtocol)?
-    private let sessionManager: (any SessionManagerProtocol)?
-    private var detailViewModels: [Int: SeriesDetailViewModel] = [:]
 
-    public init(
-        service: SeriesServiceProtocol,
-        detailService: SeriesDetailServiceProtocol,
-        accountService: AccountServiceProtocol? = nil,
-        sessionManager: SessionManagerProtocol? = nil
-    ) {
+    public init(service: SeriesServiceProtocol) {
         self.service = service
-        self.detailService = detailService
-        self.accountService = accountService
-        self.sessionManager = sessionManager
-    }
-
-    public func makeDetailViewModel(for seriesId: Int) -> SeriesDetailViewModel {
-        if let existing = detailViewModels[seriesId] { return existing }
-        let vm = SeriesDetailViewModel(
-            seriesId: seriesId,
-            service: detailService,
-            accountService: accountService,
-            sessionManager: sessionManager
-        )
-        detailViewModels[seriesId] = vm
-        return vm
     }
 
     public func load() async {
