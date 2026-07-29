@@ -5,6 +5,7 @@ import TMDBCore
 final class SeriesViewController: UIViewController {
 
     private let viewModel: SeriesViewModel
+    private let makeDetailViewModel: (Int) -> SeriesDetailViewModel
 
     // MARK: - UI
 
@@ -31,8 +32,9 @@ final class SeriesViewController: UIViewController {
 
     // MARK: - Init
 
-    init(viewModel: SeriesViewModel) {
+    init(viewModel: SeriesViewModel, makeDetailViewModel: @escaping (Int) -> SeriesDetailViewModel) {
         self.viewModel = viewModel
+        self.makeDetailViewModel = makeDetailViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -194,7 +196,7 @@ extension SeriesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.item < viewModel.displayedSeries.count else { return }
         let show = viewModel.displayedSeries[indexPath.item]
-        let detailVC = SeriesDetailViewController(viewModel: viewModel.makeDetailViewModel(for: show.id))
+        let detailVC = SeriesDetailViewController(viewModel: makeDetailViewModel(show.id))
         navigationController?.pushViewController(detailVC, animated: true)
     }
 

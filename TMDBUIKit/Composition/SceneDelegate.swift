@@ -68,12 +68,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         let moviesVC = MoviesViewController(
-            viewModel: MoviesViewModel(
-                service: MoviesService(httpClient: httpClient),
-                detailService: MovieDetailService(httpClient: httpClient),
-                accountService: AccountService(httpClient: httpClient),
-                sessionManager: sessionManager
-            )
+            viewModel: MoviesViewModel(service: MoviesService(httpClient: httpClient)),
+            makeDetailViewModel: { [httpClient, sessionManager] movieId in
+                MovieDetailViewModel(
+                    movieId: movieId,
+                    service: MovieDetailService(httpClient: httpClient),
+                    accountService: AccountService(httpClient: httpClient),
+                    sessionManager: sessionManager
+                )
+            }
         )
 
         let libraryVC = LibraryViewController(
@@ -90,12 +93,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         let seriesVC = SeriesViewController(
-            viewModel: SeriesViewModel(
-                service: SeriesService(httpClient: httpClient),
-                detailService: SeriesDetailService(httpClient: httpClient),
-                accountService: AccountService(httpClient: httpClient),
-                sessionManager: sessionManager
-            )
+            viewModel: SeriesViewModel(service: SeriesService(httpClient: httpClient)),
+            makeDetailViewModel: { [httpClient, sessionManager] seriesId in
+                SeriesDetailViewModel(
+                    seriesId: seriesId,
+                    service: SeriesDetailService(httpClient: httpClient),
+                    accountService: AccountService(httpClient: httpClient),
+                    sessionManager: sessionManager
+                )
+            }
         )
 
         let tabs: [(UIViewController, String, String)] = [

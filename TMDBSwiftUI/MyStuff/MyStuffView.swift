@@ -18,6 +18,8 @@ struct MyStuffView: View {
     let myStuffViewModel: MyStuffViewModel
     let moviesViewModel: MoviesViewModel
     let seriesViewModel: SeriesViewModel
+    let makeMovieDetailViewModel: (Int) -> MovieDetailViewModel
+    let makeSeriesDetailViewModel: (Int) -> SeriesDetailViewModel
 
     @State private var showAddListSheet = false
     @State private var newListName = ""
@@ -94,9 +96,9 @@ struct MyStuffView: View {
                     seriesViewModel: seriesViewModel
                 )
             case .movieDetail(let id):
-                MovieDetailView(viewModel: moviesViewModel.makeDetailViewModel(for: id))
+                MovieDetailView(viewModel: makeMovieDetailViewModel(id))
             case .seriesDetail(let id):
-                SeriesDetailView(viewModel: seriesViewModel.makeDetailViewModel(for: id))
+                SeriesDetailView(viewModel: makeSeriesDetailViewModel(id))
             }
         }
         .sheet(isPresented: $showAddListSheet) {

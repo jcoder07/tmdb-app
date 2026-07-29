@@ -15,33 +15,9 @@ public final class MoviesViewModel {
     private var currentPage = 1     { didSet { recomputeDerived() } }
     private var totalPages = 1      { didSet { recomputeDerived() } }
     private let service: any MoviesServiceProtocol
-    private let detailService: any MovieDetailServiceProtocol
-    private let accountService: (any AccountServiceProtocol)?
-    private let sessionManager: (any SessionManagerProtocol)?
-    private var detailViewModels: [Int: MovieDetailViewModel] = [:]
 
-    public init(
-        service: MoviesServiceProtocol,
-        detailService: MovieDetailServiceProtocol,
-        accountService: AccountServiceProtocol? = nil,
-        sessionManager: SessionManagerProtocol? = nil
-    ) {
+    public init(service: MoviesServiceProtocol) {
         self.service = service
-        self.detailService = detailService
-        self.accountService = accountService
-        self.sessionManager = sessionManager
-    }
-
-    public func makeDetailViewModel(for movieId: Int) -> MovieDetailViewModel {
-        if let existing = detailViewModels[movieId] { return existing }
-        let vm = MovieDetailViewModel(
-            movieId: movieId,
-            service: detailService,
-            accountService: accountService,
-            sessionManager: sessionManager
-        )
-        detailViewModels[movieId] = vm
-        return vm
     }
 
     public func load() async {
