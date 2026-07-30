@@ -109,7 +109,7 @@ private struct AppRootView: View {
 
     private func makeWatchlistViewModel() -> WatchlistViewModel {
         WatchlistViewModel(
-            service: WatchlistService2(httpClient: HttpClient()),
+            service: WatchlistService(httpClient: HttpClient()),
             accountService: accountService,
             sessionManager: sessionManager
         )
