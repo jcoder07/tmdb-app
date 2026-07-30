@@ -39,10 +39,8 @@ private struct AppRootView: View {
         self.httpClient = httpClient
         self.authService = TMDBAuthService(httpClient: httpClient)
         self._isLoggedIn = State(initialValue: sessionManager.isLoggedIn)
-        self.accountService = AccountServiceAnalyticsDecorator(
-            decoratee: AccountServiceCacheDecorator(
-                decoratee: AccountServiceLoggerDecorator(decoratee: AccountService(httpClient: httpClient))
-            )
+        self.accountService = AccountServiceCacheDecorator(
+                decoratee: AccountService(httpClient: httpClient)
         )
     }
 
