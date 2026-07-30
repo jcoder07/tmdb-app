@@ -70,7 +70,7 @@ extension RatedTVShow {
 
 // MARK: - Genre
 
-public struct GenreItem: Sendable {
+public struct GenreItem: Hashable, Sendable {
     public let id: Int
     public let name: String
 

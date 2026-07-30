@@ -13,8 +13,12 @@ struct MainTabView: View {
     let favoritesViewModel: FavoritesViewModel
     let myStuffViewModel: MyStuffViewModel
     let profileViewModel: ProfileViewModel
+    let searchViewModel: SearchViewModel
     let makeMovieDetailViewModel: (Int) -> MovieDetailViewModel
     let makeSeriesDetailViewModel: (Int) -> SeriesDetailViewModel
+    let makePersonDetailViewModel: (Int) -> PersonDetailViewModel
+    let makeGenreResultsViewModel: (GenreItem) -> GenreResultsViewModel
+    let makeBrowseResultsViewModel: (BrowseKind) -> BrowseResultsViewModel
     @State private var selectedTab = 0
 
     var body: some View {
@@ -59,7 +63,16 @@ struct MainTabView: View {
             .tabItem { Label("My Stuff", systemImage: "bookmark") }
             .tag(3)
 
-            NavigationStack { SearchView() }
+            NavigationStack {
+                SearchView(
+                    viewModel: searchViewModel,
+                    makeMovieDetailViewModel: makeMovieDetailViewModel,
+                    makeSeriesDetailViewModel: makeSeriesDetailViewModel,
+                    makePersonDetailViewModel: makePersonDetailViewModel,
+                    makeGenreResultsViewModel: makeGenreResultsViewModel,
+                    makeBrowseResultsViewModel: makeBrowseResultsViewModel
+                )
+            }
             .tabItem { Label("Search", systemImage: "magnifyingglass") }
             .tag(4)
         }

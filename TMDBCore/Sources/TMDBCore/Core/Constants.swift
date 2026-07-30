@@ -24,7 +24,6 @@ public struct Constants {
         public static func ratedTVShows(accountId: Int, sessionId: String) -> URL {
             URL(string: "\(base)/account/\(accountId)/rated/tv?api_key=\(key)&session_id=\(sessionId)")!
         }
-        
 
         // MARK: - Account States & Actions
         public static func accountStates(movieId: Int, sessionId: String) -> URL {
@@ -127,8 +126,39 @@ public struct Constants {
         public static let movieGenres = URL(string: "\(base)/genre/movie/list?api_key=\(key)")!
         public static let tvGenres = URL(string: "\(base)/genre/tv/list?api_key=\(key)")!
 
+        // MARK: - Search
+        public static func searchMulti(query: String, page: Int = 1) -> URL {
+            let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+            return URL(string: "\(base)/search/multi?api_key=\(key)&query=\(encoded)&page=\(page)&include_adult=false")!
+        }
+
+        public static func discoverMovies(genreId: Int, page: Int = 1) -> URL {
+            URL(string: "\(base)/discover/movie?api_key=\(key)&with_genres=\(genreId)&page=\(page)")!
+        }
+
+        public static func discoverTVShows(genreId: Int, page: Int = 1) -> URL {
+            URL(string: "\(base)/discover/tv?api_key=\(key)&with_genres=\(genreId)&page=\(page)")!
+        }
+
+        // MARK: - People
+        public static func personDetail(id: Int) -> URL {
+            URL(string: "\(base)/person/\(id)?api_key=\(key)")!
+        }
+
+        public static func personCombinedCredits(id: Int) -> URL {
+            URL(string: "\(base)/person/\(id)/combined_credits?api_key=\(key)")!
+        }
+
+        public static func popularPeople(page: Int = 1) -> URL {
+            URL(string: "\(base)/person/popular?api_key=\(key)&page=\(page)")!
+        }
+
         // MARK: - Images
         public static func poster(path: String) -> URL? {
+            URL(string: "https://image.tmdb.org/t/p/w185\(path)")
+        }
+
+        public static func profile(path: String) -> URL? {
             URL(string: "https://image.tmdb.org/t/p/w185\(path)")
         }
 
@@ -137,6 +167,3 @@ public struct Constants {
         }
     }
 }
-
- 
-

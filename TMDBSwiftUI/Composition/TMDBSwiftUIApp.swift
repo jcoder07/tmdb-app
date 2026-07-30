@@ -55,8 +55,12 @@ private struct AppRootView: View {
                     favoritesViewModel: makeFavoritesViewModel(),
                     myStuffViewModel: makeMyStuffViewModel(),
                     profileViewModel: makeProfileViewModel(),
+                    searchViewModel: makeSearchViewModel(),
                     makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
-                    makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) }
+                    makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) },
+                    makePersonDetailViewModel: { self.makePersonDetailViewModel(for: $0) },
+                    makeGenreResultsViewModel: { self.makeGenreResultsViewModel(for: $0) },
+                    makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) }
                 )
             } else {
                 NavigationStack {
@@ -141,6 +145,30 @@ private struct AppRootView: View {
             ),
             sessionManager: sessionManager,
             onLogout: logout
+        )
+    }
+
+    private func makeSearchViewModel() -> SearchViewModel {
+        SearchViewModel(
+            searchService: SearchService(httpClient: httpClient),
+            genreService: GenreService(httpClient: httpClient)
+        )
+    }
+
+    private func makePersonDetailViewModel(for personId: Int) -> PersonDetailViewModel {
+        PersonDetailViewModel(personId: personId, service: PersonService(httpClient: httpClient))
+    }
+
+    private func makeGenreResultsViewModel(for genre: GenreItem) -> GenreResultsViewModel {
+        GenreResultsViewModel(genre: genre, service: SearchService(httpClient: httpClient))
+    }
+
+    private func makeBrowseResultsViewModel(for kind: BrowseKind) -> BrowseResultsViewModel {
+        BrowseResultsViewModel(
+            kind: kind,
+            moviesService: MoviesService(httpClient: httpClient),
+            seriesService: SeriesService(httpClient: httpClient),
+            personService: PersonService(httpClient: httpClient)
         )
     }
 
