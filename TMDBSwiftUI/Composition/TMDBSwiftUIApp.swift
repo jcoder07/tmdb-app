@@ -28,7 +28,7 @@ private struct AppRootView: View {
     private let httpClient: HttpClientProtocol
     private let authService: TMDBAuthServiceProtocol
     private let accountService: AccountServiceProtocol
-
+    
     @State private var isLoggedIn: Bool
 
     init(
@@ -39,7 +39,11 @@ private struct AppRootView: View {
         self.httpClient = httpClient
         self.authService = TMDBAuthService(httpClient: httpClient)
         self._isLoggedIn = State(initialValue: sessionManager.isLoggedIn)
-        self.accountService = AccountService(httpClient: httpClient)
+        self.accountService = AccountServiceAnalyticsDecorator(
+            decoratee: AccountServiceCacheDecorator(
+                decoratee: AccountServiceLoggerDecorator(decoratee: AccountService(httpClient: httpClient))
+            )
+        )
     }
 
     var body: some View {
