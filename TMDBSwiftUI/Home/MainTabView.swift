@@ -24,9 +24,13 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                HomeView(viewModel: homeViewModel, profileViewModel: profileViewModel, onGoToWatchlist: {
-                    selectedTab = 3
-                })
+                HomeView(
+                    viewModel: homeViewModel,
+                    profileViewModel: profileViewModel,
+                    makeMovieDetailViewModel: makeMovieDetailViewModel,
+                    makeSeriesDetailViewModel: makeSeriesDetailViewModel,
+                    onGoToWatchlist: { selectedTab = 3 }
+                )
             }
             .tabItem { Label("Home", systemImage: "house") }
             .tag(0)

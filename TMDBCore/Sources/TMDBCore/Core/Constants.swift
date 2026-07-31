@@ -153,6 +153,38 @@ public struct Constants {
             URL(string: "\(base)/person/popular?api_key=\(key)&page=\(page)")!
         }
 
+        // MARK: - Trending
+        public static func trending(timeWindow: String, page: Int = 1) -> URL {
+            URL(string: "\(base)/trending/all/\(timeWindow)?api_key=\(key)&page=\(page)")!
+        }
+
+        // MARK: - Home
+        public static func nowPlayingMovies(page: Int = 1) -> URL {
+            URL(string: "\(base)/movie/now_playing?api_key=\(key)&page=\(page)")!
+        }
+
+        public static func onTheAirTV(page: Int = 1) -> URL {
+            URL(string: "\(base)/tv/on_the_air?api_key=\(key)&page=\(page)")!
+        }
+
+        // MARK: - Videos
+        public static func movieVideos(id: Int) -> URL {
+            URL(string: "\(base)/movie/\(id)/videos?api_key=\(key)")!
+        }
+
+        public static func tvVideos(id: Int) -> URL {
+            URL(string: "\(base)/tv/\(id)/videos?api_key=\(key)")!
+        }
+
+        // MARK: - Discover by watch monetization
+        public static func discoverMoviesBy(monetizationType: String, watchRegion: String = "US", page: Int = 1) -> URL {
+            URL(string: "\(base)/discover/movie?api_key=\(key)&with_watch_monetization_types=\(monetizationType)&watch_region=\(watchRegion)&page=\(page)")!
+        }
+
+        public static func discoverTVBy(monetizationType: String, watchRegion: String = "US", page: Int = 1) -> URL {
+            URL(string: "\(base)/discover/tv?api_key=\(key)&with_watch_monetization_types=\(monetizationType)&watch_region=\(watchRegion)&page=\(page)")!
+        }
+
         // MARK: - Images
         public static func poster(path: String) -> URL? {
             URL(string: "https://image.tmdb.org/t/p/w185\(path)")

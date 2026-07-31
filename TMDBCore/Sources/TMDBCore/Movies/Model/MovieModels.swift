@@ -6,13 +6,15 @@ public struct Movie: Identifiable, Sendable {
     public let id: Int
     public let title: String
     public let posterURL: URL?
+    public let backdropURL: URL?
     public let voteAverage: Double
     public let releaseDate: String?
 
-    public init(id: Int, title: String, posterURL: URL?, voteAverage: Double, releaseDate: String?) {
+    public init(id: Int, title: String, posterURL: URL?, voteAverage: Double, releaseDate: String?, backdropURL: URL? = nil) {
         self.id = id
         self.title = title
         self.posterURL = posterURL
+        self.backdropURL = backdropURL
         self.voteAverage = voteAverage
         self.releaseDate = releaseDate
     }
@@ -23,6 +25,7 @@ extension Movie {
         id = dto.id
         title = dto.title
         posterURL = dto.posterPath.flatMap { Constants.Urls.poster(path: $0) }
+        backdropURL = dto.backdropPath.flatMap { Constants.Urls.backdrop(path: $0) }
         voteAverage = dto.voteAverage
         releaseDate = dto.releaseDate
     }
