@@ -4,6 +4,7 @@ struct PopularSeriesDTO: Decodable {
     let id: Int
     let name: String
     let posterPath: String?
+    let backdropPath: String?
     let voteAverage: Double
     let firstAirDate: String?
 }

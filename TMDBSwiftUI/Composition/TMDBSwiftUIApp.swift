@@ -82,6 +82,7 @@ private struct AppRootView: View {
 
     private func makeHomeViewModel() -> HomeViewModel {
         HomeViewModel(
+            service: HomeService(httpClient: httpClient),
             sessionManager: sessionManager,
             onLogout: logout
         )
