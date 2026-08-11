@@ -33,8 +33,26 @@ private struct YouTubeWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
-        let urlString = "https://www.youtube.com/embed/\(key)?autoplay=1&playsinline=1"
-        guard let url = URL(string: urlString) else { return }
-        webView.load(URLRequest(url: url))
+        guard webView.url == nil else { return }
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        * { margin: 0; padding: 0; background: #000; }
+        iframe { position: absolute; width: 100%; height: 100%; border: 0; }
+        </style>
+        </head>
+        <body>
+        <iframe
+            src="https://www.youtube.com/embed/\(key)?autoplay=1&playsinline=1&rel=0"
+            allow="autoplay; encrypted-media; fullscreen"
+            allowfullscreen>
+        </iframe>
+        </body>
+        </html>
+        """
+        webView.loadHTMLString(html, baseURL: URL(string: "https://www.youtube.com"))
     }
 }

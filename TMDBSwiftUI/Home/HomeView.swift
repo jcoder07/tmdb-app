@@ -8,12 +8,8 @@ struct HomeView: View {
     let makeSeriesDetailViewModel: (Int) -> SeriesDetailViewModel
     let onGoToWatchlist: () -> Void
 
+    @Environment(\.openURL) private var openURL
     @State private var showingProfile = false
-    @State private var playingTrailerKey: TrailerKey?
-
-    private struct TrailerKey: Identifiable {
-        let id: String
-    }
 
     var body: some View {
         Group {
@@ -40,9 +36,6 @@ struct HomeView: View {
                 showingProfile = false
                 onGoToWatchlist()
             })
-        }
-        .sheet(item: $playingTrailerKey) { key in
-            TrailerPlayerView(youtubeKey: key.id)
         }
         .navigationDestination(for: SearchRoute.self) { route in
             switch route {
@@ -102,7 +95,9 @@ struct HomeView: View {
                     items: viewModel.trailerItems,
                     trailerKeys: viewModel.trailerKeys,
                     onPlayTap: { key in
-                        playingTrailerKey = TrailerKey(id: key)
+                        if let url = URL(string: "https://www.youtube.com/watch?v=\(key)") {
+                            openURL(url)
+                        }
                     },
                     onCardAppear: { result in
                         Task { await viewModel.loadTrailerKey(for: result) }
