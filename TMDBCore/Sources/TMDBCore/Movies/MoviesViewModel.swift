@@ -4,16 +4,14 @@ import Observation
 @Observable
 public final class MoviesViewModel {
 
-    public private(set) var movies: [Movie] = []       { didSet { recomputeDerived() } }
-    public private(set) var displayedMovies: [Movie] = []
-    public private(set) var canShowMore = false
+    public private(set) var movies: [Movie] = []
+    public private(set) var hasMorePages = false
     public var isLoading = false
     public var isLoadingMore = false
     public var errorMessage: String?
 
-    private var displayedCount = 8  { didSet { recomputeDerived() } }
-    private var currentPage = 1     { didSet { recomputeDerived() } }
-    private var totalPages = 1      { didSet { recomputeDerived() } }
+    private var currentPage = 1
+    private var totalPages = 1
     private let service: any MoviesServiceProtocol
 
     public init(service: MoviesServiceProtocol) {
@@ -29,30 +27,23 @@ public final class MoviesViewModel {
             movies = page.movies
             totalPages = page.totalPages
             currentPage = 1
-            displayedCount = min(8, page.movies.count)
+            hasMorePages = currentPage < totalPages
         } catch {
             errorMessage = error.localizedDescription
         }
         isLoading = false
     }
 
-    public func showMore() async {
-        guard !isLoadingMore else { return }
-        let nextCount = displayedCount + 8
-        if nextCount > movies.count && currentPage < totalPages {
-            isLoadingMore = true
-            do {
-                let page = try await service.fetchPopularMovies(page: currentPage + 1)
-                movies += page.movies
-                currentPage += 1
-            } catch { }
-            isLoadingMore = false
-        }
-        displayedCount = min(nextCount, movies.count)
-    }
-
-    private func recomputeDerived() {
-        displayedMovies = Array(movies.prefix(displayedCount))
-        canShowMore = displayedCount < movies.count || currentPage < totalPages
+    public func loadNextPage() async {
+        guard !isLoadingMore, hasMorePages else { return }
+        isLoadingMore = true
+        do {
+            let page = try await service.fetchPopularMovies(page: currentPage + 1)
+            let existingIds = Set(movies.map(\.id))
+            movies += page.movies.filter { !existingIds.contains($0.id) }
+            currentPage += 1
+            hasMorePages = currentPage < totalPages
+        } catch { }
+        isLoadingMore = false
     }
 }

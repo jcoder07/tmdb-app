@@ -4,16 +4,14 @@ import Observation
 @Observable
 public final class SeriesViewModel {
 
-    public private(set) var series: [Series] = []         { didSet { recomputeDerived() } }
-    public private(set) var displayedSeries: [Series] = []
-    public private(set) var canShowMore = false
+    public private(set) var series: [Series] = []
+    public private(set) var hasMorePages = false
     public var isLoading = false
     public var isLoadingMore = false
     public var errorMessage: String?
 
-    private var displayedCount = 8 { didSet { recomputeDerived() } }
-    private var currentPage = 1   { didSet { recomputeDerived() } }
-    private var totalPages = 1    { didSet { recomputeDerived() } }
+    private var currentPage = 1
+    private var totalPages = 1
     private let service: any SeriesServiceProtocol
 
     public init(service: SeriesServiceProtocol) {
@@ -29,30 +27,23 @@ public final class SeriesViewModel {
             series = page.series
             totalPages = page.totalPages
             currentPage = 1
-            displayedCount = min(8, page.series.count)
+            hasMorePages = currentPage < totalPages
         } catch {
             errorMessage = error.localizedDescription
         }
         isLoading = false
     }
 
-    public func showMore() async {
-        guard !isLoadingMore else { return }
-        let nextCount = displayedCount + 8
-        if nextCount > series.count && currentPage < totalPages {
-            isLoadingMore = true
-            do {
-                let page = try await service.fetchPopularSeries(page: currentPage + 1)
-                series += page.series
-                currentPage += 1
-            } catch { }
-            isLoadingMore = false
-        }
-        displayedCount = min(nextCount, series.count)
-    }
-
-    private func recomputeDerived() {
-        displayedSeries = Array(series.prefix(displayedCount))
-        canShowMore = displayedCount < series.count || currentPage < totalPages
+    public func loadNextPage() async {
+        guard !isLoadingMore, hasMorePages else { return }
+        isLoadingMore = true
+        do {
+            let page = try await service.fetchPopularSeries(page: currentPage + 1)
+            let existingIds = Set(series.map(\.id))
+            series += page.series.filter { !existingIds.contains($0.id) }
+            currentPage += 1
+            hasMorePages = currentPage < totalPages
+        } catch { }
+        isLoadingMore = false
     }
 }
