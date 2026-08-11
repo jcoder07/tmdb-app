@@ -27,7 +27,7 @@ struct MediaPosterCard: View {
             Text(title)
                 .font(.caption)
                 .fontWeight(.semibold)
-                .lineLimit(2)
+                .lineLimit(2, reservesSpace: true)
                 .foregroundStyle(.primary)
 
             HStack(spacing: 4) {

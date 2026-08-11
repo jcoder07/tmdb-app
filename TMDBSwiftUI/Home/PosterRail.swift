@@ -6,7 +6,7 @@ struct PosterRail: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
                 ForEach(items) { result in
                     if let config = config(for: result) {
                         NavigationLink(value: config.route) {
