@@ -28,7 +28,7 @@ struct MoviesView: View {
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.displayedMovies) { movie in
+                        ForEach(viewModel.movies) { movie in
                             NavigationLink(value: movie.id) {
                                 MovieCard(
                                     title: movie.title,
@@ -37,25 +37,18 @@ struct MoviesView: View {
                                 )
                             }
                             .buttonStyle(.plain)
+                            .onAppear {
+                                if movie.id == viewModel.movies.last?.id {
+                                    Task { await viewModel.loadNextPage() }
+                                }
+                            }
                         }
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
 
-                    if viewModel.canShowMore {
-                        Button {
-                            Task { await viewModel.showMore() }
-                        } label: {
-                            if viewModel.isLoadingMore {
-                                ProgressView()
-                                    .padding(.vertical, 20)
-                            } else {
-                                Text("Show More")
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(Color(hex: "01B4E4"))
-                                    .padding(.vertical, 20)
-                            }
-                        }
+                    if viewModel.isLoadingMore {
+                        ProgressView().padding(.vertical, 20)
                     }
                 }
                 .navigationDestination(for: Int.self) { movieId in
