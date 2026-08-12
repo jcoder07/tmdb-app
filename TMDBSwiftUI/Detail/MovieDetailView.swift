@@ -132,7 +132,7 @@ private struct MovieDetailHeaderSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Color.clear.frame(height: topSafeArea)
+            Color.clear.frame(height: topSafeArea + 120)
 
             HStack(alignment: .bottom, spacing: 14) {
                 AsyncImage(url: detail.posterURL) { phase in
