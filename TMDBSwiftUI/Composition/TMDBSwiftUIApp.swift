@@ -12,6 +12,15 @@ import TMDBCore
 struct TMDBSwiftUIApp: App {
     private let sessionManager: SessionManagerProtocol = SessionManager()
     private let httpClient: HttpClientProtocol = HttpClient()
+    @AppStorage("appColorScheme") private var storedScheme: Int = 0
+
+    private var preferredScheme: ColorScheme? {
+        switch storedScheme {
+        case 1: return .light
+        case 2: return .dark
+        default: return nil
+        }
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -19,6 +28,7 @@ struct TMDBSwiftUIApp: App {
                 sessionManager: sessionManager,
                 httpClient: httpClient
             )
+            .preferredColorScheme(preferredScheme)
         }
     }
 }
