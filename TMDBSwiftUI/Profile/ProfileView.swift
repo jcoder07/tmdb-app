@@ -174,7 +174,7 @@ private struct ProfileHeaderSection: View {
 
             Button(action: onDismiss) {
                 Image(systemName: "xmark.circle.fill")
-                    .imageScale(.large)
+                    .font(.system(size: 32))
                     .foregroundStyle(.white.opacity(0.8))
             }
             .padding(.top, 40)
@@ -190,7 +190,7 @@ private struct ProfileHeaderSection: View {
                         .foregroundStyle(.white)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 60)
+                .padding(.top, 40)
 
                 HStack(alignment: .center, spacing: 16) {
                     ScoreCircle(value: avgMovieScore, label: "Average Movie Score", accentHex: accentHex)
