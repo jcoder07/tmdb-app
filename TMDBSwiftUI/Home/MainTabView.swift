@@ -20,6 +20,7 @@ struct MainTabView: View {
     let makeGenreResultsViewModel: (GenreItem) -> GenreResultsViewModel
     let makeBrowseResultsViewModel: (BrowseKind) -> BrowseResultsViewModel
     @State private var selectedTab = 0
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -80,5 +81,6 @@ struct MainTabView: View {
             .tabItem { Label("Search", systemImage: "magnifyingglass") }
             .tag(4)
         }
+        .tint(colorScheme == .dark ? Color(hex: "8B6B1F") : .accentColor)
     }
 }
