@@ -11,6 +11,8 @@ import TMDBCore
 struct MovieDetailView: View {
 
     @State private var viewModel: MovieDetailViewModel
+    @State private var topSafeArea: CGFloat = 100
+    @Environment(\.dismiss) private var dismiss
 
     init(viewModel: @autoclosure () -> MovieDetailViewModel) {
         _viewModel = State(wrappedValue: viewModel())
@@ -30,7 +32,7 @@ struct MovieDetailView: View {
             } else if let detail = viewModel.detail {
                 ScrollView {
                     VStack(spacing: 0) {
-                        MovieDetailHeaderSection(viewModel: viewModel, detail: detail)
+                        MovieDetailHeaderSection(viewModel: viewModel, detail: detail, topSafeArea: topSafeArea)
 
                         VStack(alignment: .leading, spacing: 16) {
                             MovieDetailScoreSection(
@@ -57,7 +59,29 @@ struct MovieDetailView: View {
                 .ignoresSafeArea(edges: .top)
             }
         }
-        .toolbar(.hidden, for: .navigationBar)
+        .background {
+            GeometryReader { geo in
+                Color.clear.onAppear { topSafeArea = geo.safeAreaInsets.top }
+            }
+            .ignoresSafeArea()
+        }
+        .toolbarBackground(.clear, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button { dismiss() } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .background(.black.opacity(0.35))
+                        .clipShape(Circle())
+                }
+            }
+        }
         .task { await viewModel.load() }
         .alert("Info", isPresented: Binding(
             get: { viewModel.feedbackMessage != nil },
@@ -102,32 +126,13 @@ private struct MovieDetailErrorView: View {
 private struct MovieDetailHeaderSection: View {
     let viewModel: MovieDetailViewModel
     let detail: MovieDetail
+    let topSafeArea: CGFloat
 
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var showListSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Color.clear
-                .frame(height: verticalSizeClass == .compact ? 16 : 52)
-
-            Button { dismiss() } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 14, weight: .semibold))
-                    Text("Movies")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                }
-                .foregroundStyle(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(.black.opacity(0.35))
-                .clipShape(Capsule())
-            }
-            .padding(.leading, 16)
-            .padding(.bottom, 16)
+            Color.clear.frame(height: topSafeArea)
 
             HStack(alignment: .bottom, spacing: 14) {
                 AsyncImage(url: detail.posterURL) { phase in
