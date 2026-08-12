@@ -177,7 +177,7 @@ private struct ProfileHeaderSection: View {
                     .imageScale(.large)
                     .foregroundStyle(.white.opacity(0.8))
             }
-            .padding(.top, 56)
+            .padding(.top, 40)
             .padding(.trailing, 16)
             .frame(maxWidth: .infinity, alignment: .trailing)
 
