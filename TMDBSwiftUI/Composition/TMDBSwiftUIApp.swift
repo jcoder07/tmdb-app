@@ -55,29 +55,23 @@ private struct AppRootView: View {
     }
 
     var body: some View {
-        Group {
-            if isLoggedIn {
-                MainTabView(
-                    homeViewModel: makeHomeViewModel(),
-                    moviesViewModel: makeMoviesViewModel(),
-                    seriesViewModel: makeSeriesViewModel(),
-                    watchlistViewModel: makeWatchlistViewModel(),
-                    favoritesViewModel: makeFavoritesViewModel(),
-                    myStuffViewModel: makeMyStuffViewModel(),
-                    profileViewModel: makeProfileViewModel(),
-                    searchViewModel: makeSearchViewModel(),
-                    makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
-                    makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) },
-                    makePersonDetailViewModel: { self.makePersonDetailViewModel(for: $0) },
-                    makeGenreResultsViewModel: { self.makeGenreResultsViewModel(for: $0) },
-                    makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) }
-                )
-            } else {
-                NavigationStack {
-                    LoginView(viewModel: makeLoginViewModel())
-                }
-            }
-        }
+        MainTabView(
+            homeViewModel: makeHomeViewModel(),
+            moviesViewModel: makeMoviesViewModel(),
+            seriesViewModel: makeSeriesViewModel(),
+            watchlistViewModel: makeWatchlistViewModel(),
+            favoritesViewModel: makeFavoritesViewModel(),
+            myStuffViewModel: makeMyStuffViewModel(),
+            profileViewModel: makeProfileViewModel(),
+            searchViewModel: makeSearchViewModel(),
+            makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
+            makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) },
+            makePersonDetailViewModel: { self.makePersonDetailViewModel(for: $0) },
+            makeGenreResultsViewModel: { self.makeGenreResultsViewModel(for: $0) },
+            makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) },
+            isLoggedIn: isLoggedIn,
+            makeLoginViewModel: { self.makeLoginViewModel() }
+        )
     }
 
     private func makeLoginViewModel() -> LoginViewModel {

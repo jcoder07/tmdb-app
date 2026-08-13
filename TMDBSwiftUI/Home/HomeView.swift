@@ -7,9 +7,12 @@ struct HomeView: View {
     let makeMovieDetailViewModel: (Int) -> MovieDetailViewModel
     let makeSeriesDetailViewModel: (Int) -> SeriesDetailViewModel
     let onGoToWatchlist: () -> Void
+    let isLoggedIn: Bool
+    let makeLoginViewModel: () -> LoginViewModel
 
     @Environment(\.openURL) private var openURL
     @State private var showingProfile = false
+    @State private var showingLogin = false
 
     var body: some View {
         Group {
@@ -26,7 +29,9 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button { showingProfile = true } label: {
+                Button {
+                    if isLoggedIn { showingProfile = true } else { showingLogin = true }
+                } label: {
                     Image(systemName: "person.circle.fill").imageScale(.large)
                 }
             }
@@ -36,6 +41,14 @@ struct HomeView: View {
                 showingProfile = false
                 onGoToWatchlist()
             })
+        }
+        .sheet(isPresented: $showingLogin) {
+            NavigationStack {
+                LoginView(viewModel: makeLoginViewModel())
+            }
+        }
+        .onChange(of: isLoggedIn) { _, newValue in
+            if newValue { showingLogin = false }
         }
         .navigationDestination(for: SearchRoute.self) { route in
             switch route {
