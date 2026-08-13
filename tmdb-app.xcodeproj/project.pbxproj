@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4738F1E62FF5A2B000A97316 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4738F1E52FF5A2B000A97316 /* TMDBCore */; };
 		49580CC32FEE833600EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC22FEE833600EFE953 /* TMDBCore */; };
 		49580CC52FEE835300EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC42FEE835300EFE953 /* TMDBCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4738F1DA2FF5A18000A97316 /* Test-HTTPClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test-HTTPClient.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		490375882FEE7E0300C6DB3C /* TMDBCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TMDBCore; sourceTree = "<group>"; };
 		4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 		494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -25,6 +23,8 @@
 		4939C9272FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "TMDBSwiftUI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Config.xcconfig,
+				Config.xcconfig.example,
 				Info.plist,
 				Localizable.xcstrings,
 			);
@@ -33,6 +33,8 @@
 		49580CBD2FEE827400EFE953 /* Exceptions for "TMDBUIKit" folder in "TMDBUIKit" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Config.xcconfig,
+				Config.xcconfig.example,
 				Info.plist,
 			);
 			target = 49580C912FEE827300EFE953 /* TMDBUIKit */;
@@ -40,11 +42,6 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4738F1DB2FF5A18000A97316 /* Test-HTTPClient */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Test-HTTPClient";
-			sourceTree = "<group>";
-		};
 		494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -64,14 +61,6 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4738F1D72FF5A18000A97316 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4738F1E62FF5A2B000A97316 /* TMDBCore in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		494CC0402FEE7BAA000C93C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,7 +88,6 @@
 				49FAFA972FD8A54A00A4D174 /* CLAUDE.md */,
 				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				49580C932FEE827300EFE953 /* TMDBUIKit */,
-				4738F1DB2FF5A18000A97316 /* Test-HTTPClient */,
 				49580CC12FEE833600EFE953 /* Frameworks */,
 				47DDB7C52F0C1CC400946C49 /* Products */,
 			);
@@ -110,7 +98,6 @@
 			children = (
 				494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */,
 				49580C922FEE827300EFE953 /* TMDBUIKit.app */,
-				4738F1DA2FF5A18000A97316 /* Test-HTTPClient.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,29 +112,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4738F1D92FF5A18000A97316 /* Test-HTTPClient */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4738F1E42FF5A18200A97316 /* Build configuration list for PBXNativeTarget "Test-HTTPClient" */;
-			buildPhases = (
-				4738F1D62FF5A18000A97316 /* Sources */,
-				4738F1D72FF5A18000A97316 /* Frameworks */,
-				4738F1D82FF5A18000A97316 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				4738F1DB2FF5A18000A97316 /* Test-HTTPClient */,
-			);
-			name = "Test-HTTPClient";
-			packageProductDependencies = (
-				4738F1E52FF5A2B000A97316 /* TMDBCore */,
-			);
-			productName = "Test-HTTPClient";
-			productReference = 4738F1DA2FF5A18000A97316 /* Test-HTTPClient.app */;
-			productType = "com.apple.product-type.application";
-		};
 		494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 494CC0652FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUI" */;
@@ -204,9 +168,6 @@
 				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
-					4738F1D92FF5A18000A97316 = {
-						CreatedOnToolsVersion = 27.0;
-					};
 					494CC0422FEE7BAA000C93C2 = {
 						CreatedOnToolsVersion = 27.0;
 					};
@@ -232,19 +193,11 @@
 			targets = (
 				494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				49580C912FEE827300EFE953 /* TMDBUIKit */,
-				4738F1D92FF5A18000A97316 /* Test-HTTPClient */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4738F1D82FF5A18000A97316 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		494CC0412FEE7BAA000C93C2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -262,13 +215,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4738F1D62FF5A18000A97316 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		494CC03F2FEE7BAA000C93C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -286,70 +232,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4738F1E22FF5A18200A97316 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.Test-HTTPClient";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		4738F1E32FF5A18200A97316 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.juanfernandez.Test-HTTPClient";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		47DDB7F02F0C1CC700946C49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -616,15 +498,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4738F1E42FF5A18200A97316 /* Build configuration list for PBXNativeTarget "Test-HTTPClient" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4738F1E22FF5A18200A97316 /* Debug */,
-				4738F1E32FF5A18200A97316 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		47DDB7BF2F0C1CC400946C49 /* Build configuration list for PBXProject "tmdb-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -655,10 +528,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4738F1E52FF5A2B000A97316 /* TMDBCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TMDBCore;
-		};
 		49580CC22FEE833600EFE953 /* TMDBCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TMDBCore;
