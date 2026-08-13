@@ -2,8 +2,6 @@
 //  TMDBSwiftUIApp.swift
 //  TMDBSwiftUI
 //
-//  Created by Miguel Duran on 26-06-26.
-//
 
 import SwiftUI
 import TMDBCore
@@ -33,73 +31,119 @@ struct TMDBSwiftUIApp: App {
     }
 }
 
+// Holds isLoggedIn as @Observable so login/logout closures always update
+// the single preserved instance regardless of how many times AppRootView.init runs.
+@Observable
+private final class AppSessionState {
+    var isLoggedIn: Bool
+    init(isLoggedIn: Bool) { self.isLoggedIn = isLoggedIn }
+}
+
 private struct AppRootView: View {
-    private let sessionManager: SessionManagerProtocol
-    private let httpClient: HttpClientProtocol
-    private let authService: TMDBAuthServiceProtocol
-    private let accountService: AccountServiceProtocol
-    
-    @State private var isLoggedIn: Bool
+    // Services — stable references passed from TMDBSwiftUIApp
+    private let sessionManager: any SessionManagerProtocol
+    private let httpClient: any HttpClientProtocol
+    private let authService: any TMDBAuthServiceProtocol
+    private let accountService: any AccountServiceProtocol
+
+    // Auth state lives in an @Observable class so closures captured at init
+    // time always point to the one preserved instance.
+    @State private var sessionState: AppSessionState
+
+    // Long-lived ViewModels stored as @State so they survive body re-evaluations
+    // triggered by theme changes or other environment updates.
+    @State private var homeViewModel: HomeViewModel
+    @State private var moviesViewModel: MoviesViewModel
+    @State private var seriesViewModel: SeriesViewModel
+    @State private var watchlistViewModel: WatchlistViewModel
+    @State private var favoritesViewModel: FavoritesViewModel
+    @State private var myStuffViewModel: MyStuffViewModel
+    @State private var profileViewModel: ProfileViewModel
+    @State private var searchViewModel: SearchViewModel
 
     init(
-        sessionManager: SessionManagerProtocol,
-        httpClient: HttpClientProtocol
+        sessionManager: any SessionManagerProtocol,
+        httpClient: any HttpClientProtocol
     ) {
+        let authService: any TMDBAuthServiceProtocol = TMDBAuthService(httpClient: httpClient)
+        let accountService: any AccountServiceProtocol = AccountServiceCacheDecorator(
+            decoratee: AccountService(httpClient: httpClient)
+        )
+        let sessionState = AppSessionState(isLoggedIn: sessionManager.isLoggedIn)
+
         self.sessionManager = sessionManager
         self.httpClient = httpClient
-        self.authService = TMDBAuthService(httpClient: httpClient)
-        self._isLoggedIn = State(initialValue: sessionManager.isLoggedIn)
-        self.accountService = AccountServiceCacheDecorator(
-                decoratee: AccountService(httpClient: httpClient)
-        )
+        self.authService = authService
+        self.accountService = accountService
+        self._sessionState = State(initialValue: sessionState)
+
+        self._homeViewModel = State(initialValue: HomeViewModel(
+            service: HomeService(httpClient: httpClient),
+            sessionManager: sessionManager,
+            onLogout: {}
+        ))
+        self._moviesViewModel = State(initialValue: MoviesViewModel(
+            service: MoviesService(httpClient: httpClient)
+        ))
+        self._seriesViewModel = State(initialValue: SeriesViewModel(
+            service: SeriesService(httpClient: httpClient)
+        ))
+        self._watchlistViewModel = State(initialValue: WatchlistViewModel(
+            service: WatchlistService(httpClient: HttpClient()),
+            accountService: accountService,
+            sessionManager: sessionManager
+        ))
+        self._favoritesViewModel = State(initialValue: FavoritesViewModel(
+            service: FavoritesService(httpClient: httpClient),
+            accountService: accountService,
+            sessionManager: sessionManager
+        ))
+        self._myStuffViewModel = State(initialValue: MyStuffViewModel(
+            service: MyStuffService(httpClient: httpClient),
+            accountService: accountService,
+            sessionManager: sessionManager
+        ))
+        self._profileViewModel = State(initialValue: ProfileViewModel(
+            service: ProfileService(
+                accountService: accountService,
+                genreService: GenreService(httpClient: httpClient)
+            ),
+            sessionManager: sessionManager,
+            onLogout: { sessionState.isLoggedIn = false }
+        ))
+        self._searchViewModel = State(initialValue: SearchViewModel(
+            searchService: SearchService(httpClient: httpClient),
+            genreService: GenreService(httpClient: httpClient)
+        ))
     }
 
     var body: some View {
         MainTabView(
-            homeViewModel: makeHomeViewModel(),
-            moviesViewModel: makeMoviesViewModel(),
-            seriesViewModel: makeSeriesViewModel(),
-            watchlistViewModel: makeWatchlistViewModel(),
-            favoritesViewModel: makeFavoritesViewModel(),
-            myStuffViewModel: makeMyStuffViewModel(),
-            profileViewModel: makeProfileViewModel(),
-            searchViewModel: makeSearchViewModel(),
+            homeViewModel: homeViewModel,
+            moviesViewModel: moviesViewModel,
+            seriesViewModel: seriesViewModel,
+            watchlistViewModel: watchlistViewModel,
+            favoritesViewModel: favoritesViewModel,
+            myStuffViewModel: myStuffViewModel,
+            profileViewModel: profileViewModel,
+            searchViewModel: searchViewModel,
             makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
             makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) },
             makePersonDetailViewModel: { self.makePersonDetailViewModel(for: $0) },
             makeGenreResultsViewModel: { self.makeGenreResultsViewModel(for: $0) },
             makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) },
-            isLoggedIn: isLoggedIn,
-            makeLoginViewModel: { self.makeLoginViewModel() }
-        )
-    }
-
-    private func makeLoginViewModel() -> LoginViewModel {
-        LoginViewModel(
-            sessionManager: sessionManager,
-            authService: authService,
-            onLoginSuccess: {
-                isLoggedIn = true
+            isLoggedIn: sessionState.isLoggedIn,
+            makeLoginViewModel: {
+                LoginViewModel(
+                    sessionManager: self.sessionManager,
+                    authService: self.authService,
+                    onLoginSuccess: { self.sessionState.isLoggedIn = true }
+                )
             }
         )
     }
 
-    private func makeHomeViewModel() -> HomeViewModel {
-        HomeViewModel(
-            service: HomeService(httpClient: httpClient),
-            sessionManager: sessionManager,
-            onLogout: logout
-        )
-    }
-
-    private func makeSeriesViewModel() -> SeriesViewModel {
-        SeriesViewModel(service: SeriesService(httpClient: httpClient))
-    }
-
-    private func makeMoviesViewModel() -> MoviesViewModel {
-        MoviesViewModel(service: MoviesService(httpClient: httpClient))
-    }
-
+    // Detail ViewModels are created per-use (not long-lived)
     private func makeMovieDetailViewModel(for movieId: Int) -> MovieDetailViewModel {
         MovieDetailViewModel(
             movieId: movieId,
@@ -118,48 +162,6 @@ private struct AppRootView: View {
         )
     }
 
-    private func makeWatchlistViewModel() -> WatchlistViewModel {
-        WatchlistViewModel(
-            service: WatchlistService(httpClient: HttpClient()),
-            accountService: accountService,
-            sessionManager: sessionManager
-        )
-    }
-
-    private func makeFavoritesViewModel() -> FavoritesViewModel {
-        FavoritesViewModel(
-            service: FavoritesService(httpClient: httpClient),
-            accountService: accountService,
-            sessionManager: sessionManager
-        )
-    }
-
-    private func makeMyStuffViewModel() -> MyStuffViewModel {
-        MyStuffViewModel(
-            service: MyStuffService(httpClient: httpClient),
-            accountService: accountService,
-            sessionManager: sessionManager
-        )
-    }
-
-    private func makeProfileViewModel() -> ProfileViewModel {
-        ProfileViewModel(
-            service: ProfileService(
-                accountService: accountService,
-                genreService: GenreService(httpClient: httpClient)
-            ),
-            sessionManager: sessionManager,
-            onLogout: logout
-        )
-    }
-
-    private func makeSearchViewModel() -> SearchViewModel {
-        SearchViewModel(
-            searchService: SearchService(httpClient: httpClient),
-            genreService: GenreService(httpClient: httpClient)
-        )
-    }
-
     private func makePersonDetailViewModel(for personId: Int) -> PersonDetailViewModel {
         PersonDetailViewModel(personId: personId, service: PersonService(httpClient: httpClient))
     }
@@ -175,9 +177,5 @@ private struct AppRootView: View {
             seriesService: SeriesService(httpClient: httpClient),
             personService: PersonService(httpClient: httpClient)
         )
-    }
-
-    private func logout() {
-        isLoggedIn = false
     }
 }
