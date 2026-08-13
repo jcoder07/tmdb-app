@@ -19,6 +19,8 @@ struct MainTabView: View {
     let makePersonDetailViewModel: (Int) -> PersonDetailViewModel
     let makeGenreResultsViewModel: (GenreItem) -> GenreResultsViewModel
     let makeBrowseResultsViewModel: (BrowseKind) -> BrowseResultsViewModel
+    let isLoggedIn: Bool
+    let makeLoginViewModel: () -> LoginViewModel
     @State private var selectedTab = 0
     @Environment(\.colorScheme) private var colorScheme
 
@@ -30,7 +32,9 @@ struct MainTabView: View {
                     profileViewModel: profileViewModel,
                     makeMovieDetailViewModel: makeMovieDetailViewModel,
                     makeSeriesDetailViewModel: makeSeriesDetailViewModel,
-                    onGoToWatchlist: { selectedTab = 3 }
+                    onGoToWatchlist: { selectedTab = 3 },
+                    isLoggedIn: isLoggedIn,
+                    makeLoginViewModel: makeLoginViewModel
                 )
             }
             .tabItem { Label("Home", systemImage: "house") }

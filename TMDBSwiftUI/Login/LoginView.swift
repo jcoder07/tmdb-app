@@ -10,7 +10,6 @@ struct LoginView: View {
 
     @Bindable var viewModel: LoginViewModel
     @Environment(\.colorScheme) private var colorScheme
-    @AppStorage("appColorScheme") private var storedScheme: Int = 0
     @State private var showPassword = false
 
     private var bg: Color {
@@ -153,25 +152,6 @@ struct LoginView: View {
 
                 Spacer()
             }
-        }
-        .overlay(alignment: .topTrailing) {
-            Button {
-                storedScheme = colorScheme == .dark ? 1 : 2
-            } label: {
-                Image(systemName: colorScheme == .dark ? "sun.max.fill" : "moon.fill")
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(accent)
-                    .frame(width: 40, height: 40)
-                    .background(fieldBg)
-                    .clipShape(Circle())
-                    .overlay {
-                        if colorScheme == .light {
-                            Circle().stroke(fieldBorder, lineWidth: 1)
-                        }
-                    }
-            }
-            .padding(.top, 20)
-            .padding(.trailing, 20)
         }
         .toolbar(.hidden, for: .navigationBar)
     }
