@@ -60,6 +60,7 @@ private struct AppRootView: View {
     @State private var myStuffViewModel: MyStuffViewModel
     @State private var profileViewModel: ProfileViewModel
     @State private var searchViewModel: SearchViewModel
+    @State private var showSplash = true
 
     init(
         sessionManager: any SessionManagerProtocol,
@@ -118,29 +119,43 @@ private struct AppRootView: View {
     }
 
     var body: some View {
-        MainTabView(
-            homeViewModel: homeViewModel,
-            moviesViewModel: moviesViewModel,
-            seriesViewModel: seriesViewModel,
-            watchlistViewModel: watchlistViewModel,
-            favoritesViewModel: favoritesViewModel,
-            myStuffViewModel: myStuffViewModel,
-            profileViewModel: profileViewModel,
-            searchViewModel: searchViewModel,
-            makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
-            makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) },
-            makePersonDetailViewModel: { self.makePersonDetailViewModel(for: $0) },
-            makeGenreResultsViewModel: { self.makeGenreResultsViewModel(for: $0) },
-            makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) },
-            isLoggedIn: sessionState.isLoggedIn,
-            makeLoginViewModel: {
-                LoginViewModel(
-                    sessionManager: self.sessionManager,
-                    authService: self.authService,
-                    onLoginSuccess: { self.sessionState.isLoggedIn = true }
-                )
+        ZStack {
+            // Main content loads in the background during the splash so it's
+            // ready as soon as the animation finishes.
+            MainTabView(
+                homeViewModel: homeViewModel,
+                moviesViewModel: moviesViewModel,
+                seriesViewModel: seriesViewModel,
+                watchlistViewModel: watchlistViewModel,
+                favoritesViewModel: favoritesViewModel,
+                myStuffViewModel: myStuffViewModel,
+                profileViewModel: profileViewModel,
+                searchViewModel: searchViewModel,
+                makeMovieDetailViewModel: { self.makeMovieDetailViewModel(for: $0) },
+                makeSeriesDetailViewModel: { self.makeSeriesDetailViewModel(for: $0) },
+                makePersonDetailViewModel: { self.makePersonDetailViewModel(for: $0) },
+                makeGenreResultsViewModel: { self.makeGenreResultsViewModel(for: $0) },
+                makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) },
+                isLoggedIn: sessionState.isLoggedIn,
+                makeLoginViewModel: {
+                    LoginViewModel(
+                        sessionManager: self.sessionManager,
+                        authService: self.authService,
+                        onLoginSuccess: { self.sessionState.isLoggedIn = true }
+                    )
+                }
+            )
+
+            if showSplash {
+                SplashView {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        showSplash = false
+                    }
+                }
+                .zIndex(1)
+                .transition(.opacity)
             }
-        )
+        }
     }
 
     // Detail ViewModels are created per-use (not long-lived)
@@ -177,5 +192,64 @@ private struct AppRootView: View {
             seriesService: SeriesService(httpClient: httpClient),
             personService: PersonService(httpClient: httpClient)
         )
+    }
+}
+
+// MARK: - SplashView
+
+private struct SplashView: View {
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var logoScale: CGFloat = 0.75
+    @State private var logoOpacity: Double = 0
+    @State private var textOpacity: Double = 0
+
+    let onFinished: () -> Void
+
+    private var bgColor: Color {
+        colorScheme == .dark ? Color(hex: "1C1812") : Color(hex: "F5EDD8")
+    }
+    private let gold = Color(hex: "C5A55A")
+
+    var body: some View {
+        ZStack {
+            bgColor.ignoresSafeArea()
+
+            VStack(spacing: 28) {
+                Image("AppLogo")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(gold)
+                    .scaledToFit()
+                    .frame(width: 150, height: 150)
+                    .scaleEffect(logoScale)
+                    .opacity(logoOpacity)
+
+                VStack(spacing: 8) {
+                    Text("TMDB")
+                        .font(.system(size: 32, weight: .bold, design: .serif))
+                        .foregroundStyle(gold)
+                        .tracking(12)
+
+                    Text("THE MOVIE DATABASE")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(gold.opacity(0.6))
+                        .tracking(4)
+                }
+                .opacity(textOpacity)
+            }
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.8)) {
+                logoScale = 1.0
+                logoOpacity = 1.0
+            }
+            withAnimation(.easeOut(duration: 0.8).delay(0.3)) {
+                textOpacity = 1.0
+            }
+            Task {
+                try? await Task.sleep(nanoseconds: 2_300_000_000)
+                onFinished()
+            }
+        }
     }
 }
