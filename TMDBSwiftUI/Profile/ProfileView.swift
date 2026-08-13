@@ -7,6 +7,8 @@ import SwiftUI
 import Charts
 import TMDBCore
 
+private let goldAccent = Color(hex: "C5A55A")
+
 // MARK: - Preview Data
 
 extension UserProfile {
@@ -30,13 +32,13 @@ extension UserProfile {
             RatingBar(rating: 10, count: 0),
         ],
         topGenres: [
-            GenreSlice(name: "Action",    colorHex: "01B4E4", opacity: 1.00, percentage: 0.35),
-            GenreSlice(name: "Drama",     colorHex: "01B4E4", opacity: 0.81, percentage: 0.25),
-            GenreSlice(name: "Adventure", colorHex: "01B4E4", opacity: 0.62, percentage: 0.20),
-            GenreSlice(name: "Comedy",    colorHex: "01B4E4", opacity: 0.44, percentage: 0.12),
-            GenreSlice(name: "Thriller",  colorHex: "01B4E4", opacity: 0.25, percentage: 0.08),
+            GenreSlice(name: "Action",    colorHex: "C5A55A", opacity: 1.00, percentage: 0.35),
+            GenreSlice(name: "Drama",     colorHex: "C5A55A", opacity: 0.81, percentage: 0.25),
+            GenreSlice(name: "Adventure", colorHex: "C5A55A", opacity: 0.62, percentage: 0.20),
+            GenreSlice(name: "Comedy",    colorHex: "C5A55A", opacity: 0.44, percentage: 0.12),
+            GenreSlice(name: "Thriller",  colorHex: "C5A55A", opacity: 0.25, percentage: 0.08),
         ],
-        accentHex: "01B4E4"
+        accentHex: "C5A55A"
     )
 }
 
@@ -45,28 +47,45 @@ extension UserProfile {
 struct ProfileView: View {
     var viewModel: ProfileViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showLogoutAlert = false
     let onGoToWatchlist: () -> Void
 
     var body: some View {
-        Group {
-            if viewModel.isLoading && viewModel.profile == nil {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(.systemGroupedBackground))
-            } else if let message = viewModel.errorMessage, viewModel.profile == nil {
-                ProfileErrorView(
-                    message: message,
-                    onRetry: { Task { await viewModel.load() } },
-                    onDismiss: { dismiss() }
-                )
-            } else {
-                ProfileMainView(
-                    profile: viewModel.profile ?? .preview,
-                    showLogoutAlert: $showLogoutAlert,
-                    onGoToWatchlist: onGoToWatchlist,
-                    onDismiss: { dismiss() }
-                )
+        NavigationStack {
+            Group {
+                if viewModel.isLoading && viewModel.profile == nil {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(.systemGroupedBackground))
+                } else if let message = viewModel.errorMessage, viewModel.profile == nil {
+                    ProfileErrorView(
+                        message: message,
+                        onRetry: { Task { await viewModel.load() } }
+                    )
+                } else {
+                    ProfileMainView(
+                        profile: viewModel.profile ?? .preview,
+                        showLogoutAlert: $showLogoutAlert,
+                        onGoToWatchlist: onGoToWatchlist
+                    )
+                }
+            }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.clear, for: .navigationBar)
+            .toolbarColorScheme(colorScheme == .dark ? .dark : .light, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { dismiss() } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(colorScheme == .dark ? .white : Color(hex: "3D2E10"))
+                            .frame(width: 36, height: 36)
+                            .background(colorScheme == .dark ? .black.opacity(0.35) : goldAccent.opacity(0.15))
+                            .clipShape(Circle())
+                    }
+                }
             }
         }
         .task { await viewModel.load() }
@@ -86,36 +105,25 @@ struct ProfileView: View {
 private struct ProfileErrorView: View {
     let message: String
     let onRetry: () -> Void
-    let onDismiss: () -> Void
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(spacing: 16) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.system(size: 40))
-                    .foregroundStyle(.secondary)
-                Text(message)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                Button {
-                    onRetry()
-                } label: {
-                    Text("Retry")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.red)
-                }
+        VStack(spacing: 16) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 40))
+                .foregroundStyle(.secondary)
+            Text(message)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            Button {
+                onRetry()
+            } label: {
+                Text("Retry")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(goldAccent)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            Button(action: onDismiss) {
-                Image(systemName: "xmark.circle.fill")
-                    .imageScale(.large)
-                    .foregroundStyle(.black.opacity(0.8))
-            }
-            .padding(.top, 56)
-            .padding(.trailing, 16)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -125,7 +133,7 @@ private struct ProfileMainView: View {
     let profile: UserProfile
     @Binding var showLogoutAlert: Bool
     let onGoToWatchlist: () -> Void
-    let onDismiss: () -> Void
+    @State private var topSafeArea: CGFloat = 56
 
     var body: some View {
         VStack(spacing: 0) {
@@ -134,8 +142,7 @@ private struct ProfileMainView: View {
                 avatarURL: profile.avatarURL,
                 avgMovieScore: profile.avgMovieScore,
                 avgTVScore: profile.avgTVScore,
-                accentHex: profile.accentHex,
-                onDismiss: onDismiss
+                topSafeArea: topSafeArea
             )
             .fixedSize(horizontal: false, vertical: true)
             ScrollView {
@@ -148,6 +155,12 @@ private struct ProfileMainView: View {
             .background(Color(.systemGroupedBackground))
         }
         .ignoresSafeArea(edges: .top)
+        .background {
+            GeometryReader { geo in
+                Color.clear.onAppear { topSafeArea = geo.safeAreaInsets.top }
+            }
+            .ignoresSafeArea()
+        }
     }
 }
 
@@ -158,28 +171,33 @@ private struct ProfileHeaderSection: View {
     let avatarURL: URL?
     let avgMovieScore: Double
     let avgTVScore: Double
-    let accentHex: String
-    let onDismiss: () -> Void
+    let topSafeArea: CGFloat
+    @Environment(\.colorScheme) private var colorScheme
 
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            LinearGradient(
-                colors: [Color(hex: "0D253F"), Color(hex: "1A3A5C")],
+    private var headerGradient: LinearGradient {
+        colorScheme == .dark
+            ? LinearGradient(
+                colors: [Color(hex: "1C1812"), Color(hex: "2A2118")],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            .frame(maxWidth: .infinity)
+            : LinearGradient(
+                colors: [Color(hex: "F5EDD8"), Color(hex: "EDE0C4")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+    }
 
-            DiagonalDecorations(accentHex: accentHex)
+    private var primaryText: Color {
+        colorScheme == .dark ? .white : Color(hex: "1A1A1A")
+    }
 
-            Button(action: onDismiss) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 32))
-                    .foregroundStyle(.white.opacity(0.8))
-            }
-            .padding(.top, 40)
-            .padding(.trailing, 16)
-            .frame(maxWidth: .infinity, alignment: .trailing)
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            headerGradient
+                .frame(maxWidth: .infinity)
+
+            DiagonalDecorations()
 
             VStack(alignment: .leading, spacing: 16) {
                 HStack(alignment: .center, spacing: 20) {
@@ -187,14 +205,14 @@ private struct ProfileHeaderSection: View {
                     Text(username)
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(primaryText)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 40)
+                .padding(.top, topSafeArea + 16)
 
                 HStack(alignment: .center, spacing: 16) {
-                    ScoreCircle(value: avgMovieScore, label: "Average Movie Score", accentHex: accentHex)
-                    ScoreCircle(value: avgTVScore, label: "Average TV Score", accentHex: accentHex)
+                    ScoreCircle(value: avgMovieScore, label: "Average Movie Score")
+                    ScoreCircle(value: avgTVScore, label: "Average TV Score")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 20)
@@ -221,7 +239,7 @@ private struct AvatarView: View {
             default:
                 ZStack {
                     Circle()
-                        .fill(Color(hex: "0668E1"))
+                        .fill(goldAccent)
                         .frame(width: 80, height: 80)
                     Image(systemName: "person.fill")
                         .font(.system(size: 34))
@@ -242,29 +260,39 @@ private struct AvatarView: View {
 private struct ScoreCircle: View {
     let value: Double
     let label: LocalizedStringKey
-    let accentHex: String
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var primaryText: Color {
+        colorScheme == .dark ? .white : Color(hex: "1A1A1A")
+    }
+    private var trackColor: Color {
+        colorScheme == .dark ? .white.opacity(0.2) : Color(hex: "3D2E10").opacity(0.15)
+    }
+    private var labelColor: Color {
+        colorScheme == .dark ? .white.opacity(0.85) : Color(hex: "3D2E10").opacity(0.85)
+    }
 
     var body: some View {
         HStack(spacing: 10) {
             ZStack {
                 Circle()
-                    .stroke(Color.white.opacity(0.2), lineWidth: 3)
+                    .stroke(trackColor, lineWidth: 3)
                     .frame(width: 48, height: 48)
                 Circle()
                     .trim(from: 0, to: value / 100)
                     .stroke(
-                        value > 0 ? Color(hex: accentHex) : Color.gray,
+                        value > 0 ? goldAccent : Color.gray,
                         style: StrokeStyle(lineWidth: 3, lineCap: .round)
                     )
                     .frame(width: 48, height: 48)
                     .rotationEffect(.degrees(-90))
                 Text(value / 100, format: .percent.precision(.fractionLength(0)))
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(primaryText)
             }
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.white.opacity(0.85))
+                .foregroundStyle(labelColor)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -274,22 +302,20 @@ private struct ScoreCircle: View {
 // MARK: - DiagonalDecorations
 
 private struct DiagonalDecorations: View {
-    let accentHex: String
-
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: accentHex).opacity(0.7))
+                .fill(goldAccent.opacity(0.7))
                 .frame(width: 6, height: 60)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -40, y: 20)
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: accentHex).opacity(0.5))
+                .fill(goldAccent.opacity(0.5))
                 .frame(width: 6, height: 40)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -70, y: 10)
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color(hex: accentHex).opacity(0.6))
+                .fill(goldAccent.opacity(0.6))
                 .frame(width: 6, height: 50)
                 .rotationEffect(.degrees(-45))
                 .offset(x: -15, y: 40)
@@ -318,7 +344,7 @@ private struct ProfileContentSection: View {
                 Button(action: onGoToWatchlist) {
                     Text("Go To Watchlist")
                         .fontWeight(.medium)
-                        .foregroundStyle(Color(hex: "01B4E4"))
+                        .foregroundStyle(goldAccent)
                         .font(.subheadline)
                 }
                 .padding(.top, 20)
@@ -328,13 +354,13 @@ private struct ProfileContentSection: View {
             .padding(.bottom, 4)
 
             HStack(spacing: 16) {
-                StatCard(title: "Rated Movies", value: profile.totalMovieRatings, accentHex: profile.accentHex)
-                StatCard(title: "Rated TV", value: profile.totalTVRatings, accentHex: profile.accentHex)
+                StatCard(title: "Rated Movies", value: profile.totalMovieRatings)
+                StatCard(title: "Rated TV", value: profile.totalTVRatings)
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
 
-            ProfileRatingOverviewCard(distribution: profile.ratingDistribution, accentHex: profile.accentHex)
+            ProfileRatingOverviewCard(distribution: profile.ratingDistribution)
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
 
@@ -369,7 +395,6 @@ private struct ProfileContentSection: View {
 private struct StatCard: View {
     let title: LocalizedStringKey
     let value: Int
-    let accentHex: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -378,7 +403,7 @@ private struct StatCard: View {
                 .foregroundStyle(.secondary)
             Text(value, format: .number)
                 .font(.system(size: 36, weight: .bold))
-                .foregroundStyle(Color(hex: accentHex))
+                .foregroundStyle(goldAccent)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
@@ -391,7 +416,6 @@ private struct StatCard: View {
 
 private struct ProfileRatingOverviewCard: View {
     let distribution: [RatingBar]
-    let accentHex: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -403,7 +427,7 @@ private struct ProfileRatingOverviewCard: View {
                     x: .value("Rating", "\(bar.rating)"),
                     y: .value("Count", bar.count)
                 )
-                .foregroundStyle(Color(hex: accentHex))
+                .foregroundStyle(goldAccent)
                 .cornerRadius(3)
             }
             .chartXAxis {
