@@ -11,6 +11,8 @@ struct HomeView: View {
     let makeLoginViewModel: () -> LoginViewModel
 
     @Environment(\.openURL) private var openURL
+    @Environment(\.colorScheme) private var colorScheme
+    @AppStorage("appColorScheme") private var storedScheme: Int = 0
     @State private var showingProfile = false
     @State private var showingLogin = false
 
@@ -28,6 +30,15 @@ struct HomeView: View {
         .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    storedScheme = colorScheme == .dark ? 1 : 2
+                } label: {
+                    Image(systemName: colorScheme == .dark ? "sun.max.fill" : "moon.fill")
+                        .imageScale(.large)
+                        .foregroundStyle(Color(hex: "C5A55A"))
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     if isLoggedIn { showingProfile = true } else { showingLogin = true }
