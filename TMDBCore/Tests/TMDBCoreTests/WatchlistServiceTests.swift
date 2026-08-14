@@ -9,30 +9,7 @@ import Testing
 import Foundation
 @testable import TMDBCore
 
-// MARK: - Mock
-
-final class MockHttpClient: HttpClientProtocol, @unchecked Sendable {
-    var stubbedResponses: [Any] = []
-    var errorToThrow: Error?
-    private(set) var capturedURLs: [URL] = []
-    private var callCount = 0
-
-    func load<T: Decodable>(_ resource: Resource<T>) async throws -> T {
-        capturedURLs.append(resource.url)
-        if let error = errorToThrow {
-            throw error
-        }
-        guard callCount < stubbedResponses.count else {
-            throw NetworkError.decodingError
-        }
-        let response = stubbedResponses[callCount]
-        callCount += 1
-        guard let result = response as? T else {
-            throw NetworkError.decodingError
-        }
-        return result
-    }
-}
+// MockHttpClient (Spy HttpClient) is defined in TestDoubles.swift
 
 // MARK: - Tests
 
