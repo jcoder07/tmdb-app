@@ -138,7 +138,7 @@ private struct AppRootView: View {
                 makeBrowseResultsViewModel: { self.makeBrowseResultsViewModel(for: $0) },
                 isLoggedIn: sessionState.isLoggedIn,
                 makeLoginViewModel: {
-                    LoginViewModel(
+                    return LoginViewModel(
                         sessionManager: self.sessionManager,
                         authService: self.authService,
                         onLoginSuccess: { self.sessionState.isLoggedIn = true }
