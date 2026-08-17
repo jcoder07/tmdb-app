@@ -5,9 +5,12 @@ import TMDBCore
 public final class SwiftDataSessionManager: SessionManagerProtocol {
     private let container: ModelContainer
 
-    public init() {
+    public init(isStoredInMemoryOnly: Bool = false) {
         do {
-            container = try ModelContainer(for: SessionEntry.self)
+            container = try ModelContainer(
+                for: SessionEntry.self,
+                configurations: ModelConfiguration(isStoredInMemoryOnly: isStoredInMemoryOnly)
+            )
         } catch {
             fatalError("Failed to create SwiftData ModelContainer: \(error)")
         }

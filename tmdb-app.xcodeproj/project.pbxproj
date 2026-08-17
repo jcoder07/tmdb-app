@@ -11,7 +11,19 @@
 		49580CC52FEE835300EFE953 /* TMDBCore in Frameworks */ = {isa = PBXBuildFile; productRef = 49580CC42FEE835300EFE953 /* TMDBCore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		47C1561C30339DF00081EEBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47DDB7BC2F0C1CC400946C49 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 494CC0422FEE7BAA000C93C2;
+			remoteInfo = TMDBSwiftUI;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		47C1561830339DF00081EEBC /* TMDBSwiftUIIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBSwiftUIIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		47C156323033A93C0081EEBC /* tmdb-app.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tmdb-app.xctestplan"; sourceTree = "<group>"; };
 		490375882FEE7E0300C6DB3C /* TMDBCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TMDBCore; sourceTree = "<group>"; };
 		4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 		494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,6 +54,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		47C1561930339DF00081EEBC /* TMDBSwiftUIIntegrationTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TMDBSwiftUIIntegrationTests;
+			sourceTree = "<group>";
+		};
 		494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -61,6 +78,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		47C1561530339DF00081EEBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		494CC0402FEE7BAA000C93C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -83,11 +107,13 @@
 		47DDB7BB2F0C1CC400946C49 = {
 			isa = PBXGroup;
 			children = (
+				47C156323033A93C0081EEBC /* tmdb-app.xctestplan */,
 				490375882FEE7E0300C6DB3C /* TMDBCore */,
 				4939C9B22FF0BC5A000B5CF1 /* AGENTS.md */,
 				49FAFA972FD8A54A00A4D174 /* CLAUDE.md */,
 				494CC0442FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				49580C932FEE827300EFE953 /* TMDBUIKit */,
+				47C1561930339DF00081EEBC /* TMDBSwiftUIIntegrationTests */,
 				49580CC12FEE833600EFE953 /* Frameworks */,
 				47DDB7C52F0C1CC400946C49 /* Products */,
 			);
@@ -98,6 +124,7 @@
 			children = (
 				494CC0432FEE7BAA000C93C2 /* TMDBSwiftUI.app */,
 				49580C922FEE827300EFE953 /* TMDBUIKit.app */,
+				47C1561830339DF00081EEBC /* TMDBSwiftUIIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +139,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		47C1561730339DF00081EEBC /* TMDBSwiftUIIntegrationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47C1562030339DF00081EEBC /* Build configuration list for PBXNativeTarget "TMDBSwiftUIIntegrationTests" */;
+			buildPhases = (
+				47C1561430339DF00081EEBC /* Sources */,
+				47C1561530339DF00081EEBC /* Frameworks */,
+				47C1561630339DF00081EEBC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				47C1561D30339DF00081EEBC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				47C1561930339DF00081EEBC /* TMDBSwiftUIIntegrationTests */,
+			);
+			name = TMDBSwiftUIIntegrationTests;
+			packageProductDependencies = (
+			);
+			productName = TMDBSwiftUIIntegrationTests;
+			productReference = 47C1561830339DF00081EEBC /* TMDBSwiftUIIntegrationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 494CC0652FEE7BAB000C93C2 /* Build configuration list for PBXNativeTarget "TMDBSwiftUI" */;
@@ -168,6 +218,10 @@
 				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
+					47C1561730339DF00081EEBC = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 494CC0422FEE7BAA000C93C2;
+					};
 					494CC0422FEE7BAA000C93C2 = {
 						CreatedOnToolsVersion = 27.0;
 					};
@@ -193,11 +247,19 @@
 			targets = (
 				494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */,
 				49580C912FEE827300EFE953 /* TMDBUIKit */,
+				47C1561730339DF00081EEBC /* TMDBSwiftUIIntegrationTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		47C1561630339DF00081EEBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		494CC0412FEE7BAA000C93C2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,6 +277,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		47C1561430339DF00081EEBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		494CC03F2FEE7BAA000C93C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -231,7 +300,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		47C1561D30339DF00081EEBC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 494CC0422FEE7BAA000C93C2 /* TMDBSwiftUI */;
+			targetProxy = 47C1561C30339DF00081EEBC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		47C1561E30339DF00081EEBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUI.TMDBSwiftUIIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDBSwiftUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TMDBSwiftUI";
+				XROS_DEPLOYMENT_TARGET = 2.6;
+			};
+			name = Debug;
+		};
+		47C1561F30339DF00081EEBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanfernandez.TMDBSwiftUI.TMDBSwiftUIIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDBSwiftUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TMDBSwiftUI";
+				XROS_DEPLOYMENT_TARGET = 2.6;
+			};
+			name = Release;
+		};
 		47DDB7F02F0C1CC700946C49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -498,6 +625,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		47C1562030339DF00081EEBC /* Build configuration list for PBXNativeTarget "TMDBSwiftUIIntegrationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47C1561E30339DF00081EEBC /* Debug */,
+				47C1561F30339DF00081EEBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		47DDB7BF2F0C1CC400946C49 /* Build configuration list for PBXProject "tmdb-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

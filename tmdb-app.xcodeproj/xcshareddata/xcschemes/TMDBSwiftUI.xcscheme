@@ -35,18 +35,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "494CC04E2FEE7BAB000C93C2"
-               BuildableName = "TMDBSwiftUITests.xctest"
-               ReferencedContainer = "container:tmdb-app.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "494CC0582FEE7BAB000C93C2"
-               BuildableName = "TMDBSwiftUIUITests.xctest"
+               BlueprintIdentifier = "47C1561730339DF00081EEBC"
+               BuildableName = "TMDBSwiftUIIntegrationTests.xctest"
+               BlueprintName = "TMDBSwiftUIIntegrationTests"
                ReferencedContainer = "container:tmdb-app.xcodeproj">
             </BuildableReference>
          </TestableReference>

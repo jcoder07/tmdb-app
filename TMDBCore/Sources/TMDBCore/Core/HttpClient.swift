@@ -87,7 +87,22 @@ private extension Data {
 
 public struct HttpClient: HttpClientProtocol {
 
-    public init() {}
+    private let makeSession: @Sendable () -> URLSession
+
+    public init() {
+        let headers = ["Content-Type": "application/json"]
+        self.makeSession = {
+            let configuration = URLSessionConfiguration.default
+            configuration.httpAdditionalHeaders = headers
+            return URLSession(configuration: configuration)
+        }
+    }
+
+    /// Testing seam: lets integration tests supply a session whose configuration
+    /// installs a stub `URLProtocol`, so no request leaves the process.
+    public init(sessionProvider: @escaping @Sendable () -> URLSession) {
+        self.makeSession = sessionProvider
+    }
 
     private var defaultHeaders: [String: String] {
         ["Content-Type": "application/json"]
@@ -118,9 +133,7 @@ public struct HttpClient: HttpClientProtocol {
             request.httpMethod = HTTPMethod.delete.name
         }
 
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = defaultHeaders
-        let session = URLSession(configuration: configuration)
+        let session = makeSession()
 
         let (data, response) = try await session.data(for: request)
 

@@ -1,0 +1,18 @@
+{
+  "configurations" : [
+    {
+      "id" : "76B55D46-C825-45EF-B545-243DCD41F50E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}
