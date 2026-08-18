@@ -9,31 +9,27 @@ import SwiftUI
 
 struct DetailsView: View {
     
-    let detailsViewModel: DetailsViewModel
-    
-    @State var numberOne: String = ""
-    @State var numberTwo: String = ""
-    @State var result: Int = 0
+    @StateObject var detailsViewModel: DetailsViewModel
     
     var body: some View {
         VStack {
-            TextField("Primer Numero", text: $numberOne)
+            TextField("Primer Numero", text: $detailsViewModel.numberOne)
                 .textFieldStyle(.roundedBorder)
                 .frame(height: 40)
             
-            TextField("Segundo Numero", text: $numberTwo)
+            TextField("Segundo Numero", text: $detailsViewModel.numberTwo)
                 .textFieldStyle(.roundedBorder)
                 .frame(height: 40)
             
             Button("Sumar") {
-               sumar()
+                detailsViewModel.sum()
             }
             .frame(maxWidth: .infinity)
             .buttonStyle(.borderedProminent)
     
             
-            if result > 0 {
-                Text("El resultado es: \(result, specifier: "%ld")")
+            if detailsViewModel.result > 0 {
+                Text("El resultado es: \(detailsViewModel.result, specifier: "%ld")")
                     .font(.title2)
                     .bold()
             }
@@ -42,12 +38,7 @@ struct DetailsView: View {
         .padding()
     }
     
-    func sumar() {
-        let firstNumber = Int(numberOne) ?? 0
-        let secondNumber = Int(numberTwo) ?? 0
-        
-        result = firstNumber + secondNumber
-    }
+ 
     
     
 }
