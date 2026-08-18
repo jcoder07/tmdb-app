@@ -26,6 +26,6 @@ class DetailsViewModel: ObservableObject {
     }
     
     var formattedResult: String {
-        "\(result, default: "%ld")"
+        "\(result)"
     }
 }
