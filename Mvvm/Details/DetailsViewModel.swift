@@ -20,4 +20,12 @@ class DetailsViewModel: ObservableObject {
         
         result = firstNumber + secondNumber
     }
+    
+    var resultIsValid: Bool {
+        result > 0
+    }
+    
+    var formattedResult: String {
+        "\(result, default: "%ld")"
+    }
 }

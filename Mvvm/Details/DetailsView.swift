@@ -26,10 +26,9 @@ struct DetailsView: View {
             }
             .frame(maxWidth: .infinity)
             .buttonStyle(.borderedProminent)
-    
             
-            if detailsViewModel.result > 0 {
-                Text("El resultado es: \(detailsViewModel.result, specifier: "%ld")")
+            if detailsViewModel.resultIsValid {
+                Text("El resultado es: \(detailsViewModel.formattedResult)")
                     .font(.title2)
                     .bold()
             }
@@ -37,10 +36,6 @@ struct DetailsView: View {
         }
         .padding()
     }
-    
- 
-    
-    
 }
 
 
