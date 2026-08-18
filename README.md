@@ -30,7 +30,7 @@
 
 ## Overview
 
-`tmdb-app` is a full-featured [TMDB](https://www.themoviedb.org/) client — browse popular movies and series, view detail pages with cast and reviews, log in with a real TMDB account, and manage a watchlist and favorites — shipped as **two separate app targets that share one business-logic package**. The same `TMDBCore` package, the same services, and the same `@Observable` ViewModels power a SwiftUI app and a UIKit app side by side. It exists as a deliberate demonstration of clean layering: swap the UI framework and nothing below the View layer has to change.
+`tmdb-app` is a full-featured [TMDB](https://www.themoviedb.org/) client — browse popular movies and series, view detail pages with cast and reviews, and optionally log in with a real TMDB account to manage a watchlist and favorites — shipped as **two separate app targets that share one business-logic package**. The same `TMDBCore` package, the same services, and the same `@Observable` ViewModels power a SwiftUI app and a UIKit app side by side. It exists as a deliberate demonstration of clean layering: swap the UI framework and nothing below the View layer has to change.
 
 ## Skills demonstrated
 
@@ -41,6 +41,8 @@
 - **Structured concurrency** — concurrent fetches with `async let` (movie detail + credits + reviews load in parallel; watchlist movies + TV shows load in parallel).
 - **A real multi-step auth flow** — TMDB's three-call login sequence (request token → validate → create session) implemented with `async`/`await` and persisted through a protocol-backed session store.
 - **Full test-double taxonomy** — the test suite doesn't just "use mocks"; it implements and documents all five classic test-double types (dummy, fake, stub, spy, mock) and picks the right one per test.
+- **A three-tier test pyramid** — fast unit tests against protocol doubles, app-hosted integration tests against a real `HttpClient` over a stubbed `URLProtocol`, and XCUITests driving the real UI against DEBUG-only fixtures — each tier exercising a different seam, none of them ever touching the live TMDB API.
+- **UI tests without network flakiness** — a `#if DEBUG`-gated launch-argument harness swaps in a fixture-backed `URLProtocol` and skips the splash screen, so `XCUITest` runs are deterministic and offline while the shipping binary carries none of that code.
 - **Localization done correctly** — `LocalizedStringKey` (not `String`) threaded through custom view parameters so nothing silently bypasses `Localizable.xcstrings` (English + `es-419`).
 - **Zero third-party dependencies** — networking, DI, and persistence all built on Foundation/SwiftUI/UIKit/Observation alone.
 
@@ -108,25 +110,24 @@ sequenceDiagram
 
 ### App navigation
 
-`AppRootView` (SwiftUI) and `SceneDelegate` (UIKit) both switch on the same `isLoggedIn` state.
+Browsing never requires an account — `MainTabView`'s five tabs (Home, Movies, Series, My Stuff, Search) are always reachable. Login is presented on demand, from Home's profile button, and only unlocks account-scoped content (favorites, watchlist, ratings) inside My Stuff and Profile. `AppRootView` (SwiftUI) and `SceneDelegate` (UIKit) both drive this off the same `isLoggedIn` state.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> LoggedOut
-    LoggedOut --> LoggedIn: successful login
-    LoggedIn --> LoggedOut: logout
+    [*] --> MainTabView
 
-    state LoggedOut {
-        [*] --> LoginView
+    state MainTabView {
+        [*] --> Home
+        Home --> Movies
+        Home --> Series
+        Home --> MyStuff
+        Home --> Search
     }
-    state LoggedIn {
-        [*] --> MainTabView
-        MainTabView --> Home
-        MainTabView --> Movies
-        MainTabView --> Series
-        MainTabView --> Watchlist
-        MainTabView --> Search
-    }
+
+    MainTabView --> LoginSheet: tap profile icon (logged out)
+    MainTabView --> ProfileSheet: tap profile icon (logged in)
+    LoginSheet --> MainTabView: successful login
+    ProfileSheet --> MainTabView: log out
 ```
 
 ## Tech stack
@@ -138,7 +139,7 @@ stateDiagram-v2
 | State | Observation framework (`@Observable`, `withObservationTracking`) — no Combine |
 | Concurrency | `async`/`await`, `async let` for concurrent fan-out |
 | Networking | Single generic `HttpClient.load(_:)` over `URLSession`, typed `Resource<T: Decodable>` |
-| Testing | Swift Testing (`@Test`, `#expect`) with a full dummy/fake/stub/spy/mock test-double suite |
+| Testing | Swift Testing (unit + integration) and `XCUIAutomation` (UI) — three tiers, full dummy/fake/stub/spy/mock taxonomy at the unit layer |
 | Persistence | `SessionManager` for auth session; SwiftData folder present in `TMDBSwiftUI` |
 | Localization | `Localizable.xcstrings` — English source, `es-419` translation |
 | Dependencies | None — Foundation, SwiftUI, UIKit, Observation only |
@@ -156,7 +157,10 @@ tmdb-app/
 │   └── Tests/TMDBCoreTests/      # Swift Testing suites + full test-double toolkit
 ├── TMDBSwiftUI/                  # Primary SwiftUI app target
 │   ├── Composition/               # App entry, AppRootView, ViewModel factories
+│   ├── UITestSupport/             # #if DEBUG-only stub URLProtocol + fixtures for XCUITest
 │   └── Home/ Login/ Movies/ Detail/ Profile/ Watchlist/ Search/ Series/
+├── TMDBSwiftUIIntegrationTests/   # Swift Testing — real ViewModel→Service→HttpClient over a stub
+├── TMDBSwiftUIUITests/            # XCUITest — drives the real UI against DEBUG fixtures
 ├── TMDBUIKit/                     # UIKit app target — same TMDBCore, same ViewModels
 │   ├── Composition/               # SceneDelegate, tab bar, feature controllers
 │   └── Home/ Login/ Movies/ Detail/ Profile/ Watchlist/ Search/ Series/
@@ -165,7 +169,11 @@ tmdb-app/
 
 ## Testing
 
-`TMDBCore/Tests/TMDBCoreTests/` uses the Swift Testing framework. Rather than reaching for one all-purpose "mock" everywhere, `TestDoubles.swift` implements and documents all five classic test-double kinds, and each test suite picks the one that matches what it's actually verifying:
+Three tiers, each exercising a different seam, none of them ever touching the live TMDB API.
+
+### Unit — `TMDBCore/Tests/TMDBCoreTests/` (93 tests)
+
+Swift Testing against protocol doubles. Rather than reaching for one all-purpose "mock" everywhere, `TestDoubles.swift` implements and documents all five classic test-double kinds, and each test suite picks the one that matches what it's actually verifying:
 
 | Type | Purpose | Example |
 |---|---|---|
@@ -177,12 +185,23 @@ tmdb-app/
 
 Coverage spans the auth flow, movies/watchlist pagination, and ViewModel state transitions (loading, loaded, error, empty, re-entry guards) across Login, Home, Movies, Search, Watchlist, and Movie Detail.
 
+### Integration — `TMDBSwiftUIIntegrationTests/` (18 tests)
+
+Swift Testing again, but nothing here is a double. Every test drives a real `ViewModel → Service → HttpClient`, with only the network layer intercepted by a stub `URLProtocol` serving local JSON fixtures — so real `Resource` URL construction and real JSON→DTO→domain decoding both get exercised. Covers Login's three-step auth flow, Movies pagination, Watchlist's account-fan-out-and-cache behavior, and Home's four-section concurrent load.
+
+### UI — `TMDBSwiftUIUITests/` (19 tests)
+
+XCUITest driving the actual rendered UI — tab navigation, Movies/Series grid → detail, and Search (idle state, typed queries, suggestion navigation, empty results, Discover/Category browsing) — all while logged out. A `#if DEBUG`-only harness in `TMDBSwiftUI/UITestSupport/` detects a `-uitest` launch argument, swaps in a fixture-backed `URLProtocol`, and skips the splash screen, so runs are deterministic and never touch the network. None of that code exists in a Release build.
+
 ```bash
 # Xcode MCP tools (preferred)
 RunAllTests
 
 # or plain xcodebuild
 xcodebuild -project tmdb-app.xcodeproj -scheme TMDBCore \
+  -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
+
+xcodebuild -project tmdb-app.xcodeproj -scheme TMDBSwiftUI \
   -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
 
