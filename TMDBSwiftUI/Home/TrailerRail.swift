@@ -6,6 +6,7 @@ struct TrailerRail: View {
     let trailerKeys: [String: String]
     let onPlayTap: (String) -> Void
     let onCardAppear: (SearchResult) -> Void
+    var identifier: String? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -21,6 +22,7 @@ struct TrailerRail: View {
             }
             .padding(.horizontal, 16)
         }
+        .accessibilityIdentifier(identifier ?? "")
     }
 }
 

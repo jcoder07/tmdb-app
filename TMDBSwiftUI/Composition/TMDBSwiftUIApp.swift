@@ -8,9 +8,26 @@ import TMDBCore
 
 @main
 struct TMDBSwiftUIApp: App {
-    private let sessionManager: SessionManagerProtocol = SessionManager()
-    private let httpClient: HttpClientProtocol = HttpClient()
+    private let sessionManager: SessionManagerProtocol
+    private let httpClient: HttpClientProtocol
     @AppStorage("appColorScheme") private var storedScheme: Int = 0
+
+    init() {
+        let sessionManager = SessionManager()
+        var httpClient: HttpClientProtocol = HttpClient()
+        #if DEBUG
+        // UI tests launch with `-uitest` to get deterministic, offline data. Everything this
+        // branch touches (UITestEnvironment, UITestStubURLProtocol) is itself DEBUG-only, so
+        // none of it exists in a Release build.
+        if UITestEnvironment.isActive {
+            UITestEnvironment.installStubs()
+            sessionManager.clearSession()
+            httpClient = HttpClient(sessionProvider: UITestStubURLProtocol.makeSession)
+        }
+        #endif
+        self.sessionManager = sessionManager
+        self.httpClient = httpClient
+    }
 
     private var preferredScheme: ColorScheme? {
         switch storedScheme {
@@ -60,7 +77,7 @@ private struct AppRootView: View {
     @State private var myStuffViewModel: MyStuffViewModel
     @State private var profileViewModel: ProfileViewModel
     @State private var searchViewModel: SearchViewModel
-    @State private var showSplash = true
+    @State private var showSplash: Bool
 
     init(
         sessionManager: any SessionManagerProtocol,
@@ -116,6 +133,12 @@ private struct AppRootView: View {
             searchService: SearchService(httpClient: httpClient),
             genreService: GenreService(httpClient: httpClient)
         ))
+
+        #if DEBUG
+        self._showSplash = State(initialValue: !UITestEnvironment.isActive)
+        #else
+        self._showSplash = State(initialValue: true)
+        #endif
     }
 
     var body: some View {

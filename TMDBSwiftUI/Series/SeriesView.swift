@@ -37,6 +37,7 @@ struct SeriesView: View {
                                 )
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("series.card.\(show.id)")
                             .onAppear {
                                 if show.id == viewModel.series.last?.id {
                                     Task { await viewModel.loadNextPage() }
@@ -46,6 +47,7 @@ struct SeriesView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
+                    .accessibilityIdentifier("series.grid")
 
                     if viewModel.isLoadingMore {
                         ProgressView().padding(.vertical, 20)

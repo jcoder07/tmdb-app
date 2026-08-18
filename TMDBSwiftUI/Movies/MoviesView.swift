@@ -37,6 +37,7 @@ struct MoviesView: View {
                                 )
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("movies.card.\(movie.id)")
                             .onAppear {
                                 if movie.id == viewModel.movies.last?.id {
                                     Task { await viewModel.loadNextPage() }
@@ -46,6 +47,7 @@ struct MoviesView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
+                    .accessibilityIdentifier("movies.grid")
 
                     if viewModel.isLoadingMore {
                         ProgressView().padding(.vertical, 20)

@@ -3,6 +3,7 @@ import TMDBCore
 
 struct PosterRail: View {
     let items: [SearchResult]
+    var identifier: String? = nil
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -18,11 +19,18 @@ struct PosterRail: View {
                             .frame(width: 120)
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier(cardIdentifier(for: result))
                     }
                 }
             }
             .padding(.horizontal, 16)
         }
+        .accessibilityIdentifier(identifier ?? "")
+    }
+
+    private func cardIdentifier(for result: SearchResult) -> String {
+        guard let identifier else { return "" }
+        return "\(identifier).card.\(result.id)"
     }
 
     private struct Config {

@@ -38,6 +38,7 @@ struct HomeView: View {
                         .imageScale(.large)
                         .foregroundStyle(Color(hex: "C5A55A"))
                 }
+                .accessibilityIdentifier("home.themeToggle")
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -101,7 +102,7 @@ struct HomeView: View {
             if viewModel.trendingItems.isEmpty {
                 sectionPlaceholder
             } else {
-                PosterRail(items: viewModel.trendingItems)
+                PosterRail(items: viewModel.trendingItems, identifier: "home.rail.trending")
             }
         }
     }
@@ -125,7 +126,8 @@ struct HomeView: View {
                     },
                     onCardAppear: { result in
                         Task { await viewModel.loadTrailerKey(for: result) }
-                    }
+                    },
+                    identifier: "home.rail.trailers"
                 )
             }
         }
@@ -140,7 +142,7 @@ struct HomeView: View {
             if viewModel.popularItems.isEmpty {
                 sectionPlaceholder
             } else {
-                PosterRail(items: viewModel.popularItems)
+                PosterRail(items: viewModel.popularItems, identifier: "home.rail.popular")
             }
         }
     }
@@ -154,7 +156,7 @@ struct HomeView: View {
             if viewModel.freeItems.isEmpty {
                 sectionPlaceholder
             } else {
-                PosterRail(items: viewModel.freeItems)
+                PosterRail(items: viewModel.freeItems, identifier: "home.rail.free")
             }
         }
     }

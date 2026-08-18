@@ -83,6 +83,7 @@ struct SearchView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("search.discover.movies")
 
                         NavigationLink(value: SearchRoute.browse(.tv)) {
                             DiscoverCard(
@@ -92,6 +93,7 @@ struct SearchView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("search.discover.tv")
 
                         NavigationLink(value: SearchRoute.browse(.people)) {
                             DiscoverCard(
@@ -101,6 +103,7 @@ struct SearchView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("search.discover.people")
                     }
                     .padding(.horizontal, 16)
                 }
@@ -122,6 +125,7 @@ struct SearchView: View {
                                     )
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityIdentifier("search.category.\(genre.id)")
                             }
                         }
                         .padding(.horizontal, 16)
@@ -143,6 +147,7 @@ struct SearchView: View {
             NavigationLink(value: searchRoute(for: result)) {
                 SuggestionRow(result: result)
             }
+            .accessibilityIdentifier("search.suggestion.\(result.id)")
         }
         .listStyle(.plain)
     }
@@ -161,6 +166,7 @@ struct SearchView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityIdentifier("search.emptyResults")
     }
 
     private func searchRoute(for result: SearchResult) -> SearchRoute {

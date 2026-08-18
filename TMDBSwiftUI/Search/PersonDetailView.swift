@@ -72,6 +72,7 @@ struct PersonDetailView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .lineLimit(3)
+                            .accessibilityIdentifier("personDetail.name")
 
                         if let dept = detail.knownForDepartment {
                             Label(dept, systemImage: "star")

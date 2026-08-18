@@ -80,6 +80,7 @@ struct SeriesDetailView: View {
                         .background(.black.opacity(0.35))
                         .clipShape(Circle())
                 }
+                .accessibilityIdentifier("seriesDetail.back")
             }
         }
         .task { await viewModel.load() }
@@ -154,6 +155,7 @@ private struct SeriesDetailHeaderSection: View {
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
+                        .accessibilityIdentifier("seriesDetail.title")
 
                     HStack(spacing: 6) {
                         if let year = detail.firstAirDate?.prefix(4) {

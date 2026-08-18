@@ -33,6 +33,7 @@ struct GenreResultsView: View {
                                         )
                                     }
                                     .buttonStyle(.plain)
+                                    .accessibilityIdentifier("genreResults.card.movie-\(movie.id)")
                                 }
                             }
                         }
@@ -48,6 +49,7 @@ struct GenreResultsView: View {
                                         )
                                     }
                                     .buttonStyle(.plain)
+                                    .accessibilityIdentifier("genreResults.card.series-\(item.id)")
                                 }
                             }
                         }
@@ -57,6 +59,7 @@ struct GenreResultsView: View {
                 }
             }
         }
+        .accessibilityIdentifier("genreResults.root")
         .navigationTitle(viewModel.genre.name)
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: SearchRoute.self) { route in

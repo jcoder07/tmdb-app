@@ -80,6 +80,7 @@ struct MovieDetailView: View {
                         .background(.black.opacity(0.35))
                         .clipShape(Circle())
                 }
+                .accessibilityIdentifier("movieDetail.back")
             }
         }
         .task { await viewModel.load() }
@@ -156,6 +157,7 @@ private struct MovieDetailHeaderSection: View {
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
+                        .accessibilityIdentifier("movieDetail.title")
 
                     HStack(spacing: 6) {
                         if let year = detail.releaseDate?.prefix(4) {

@@ -30,6 +30,7 @@ struct BrowseResultsView: View {
                 }
             }
         }
+        .accessibilityIdentifier("browseResults.root")
         .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: SearchRoute.self) { route in
@@ -55,6 +56,7 @@ struct BrowseResultsView: View {
                         MediaPosterCard(title: movie.title, posterURL: movie.posterURL, voteAverage: movie.voteAverage)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("browseResults.card.movie-\(movie.id)")
                 }
             }
             .padding(16)
@@ -69,6 +71,7 @@ struct BrowseResultsView: View {
                         MediaPosterCard(title: item.name, posterURL: item.posterURL, voteAverage: item.voteAverage)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("browseResults.card.series-\(item.id)")
                 }
             }
             .padding(16)
@@ -83,6 +86,7 @@ struct BrowseResultsView: View {
                         PersonCard(person: person)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("browseResults.card.person-\(person.id)")
                 }
             }
             .padding(16)
