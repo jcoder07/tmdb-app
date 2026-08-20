@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie {
+struct Movie: Decodable {
     let originalTitle: String
     let overview: String
     let popularity: Double

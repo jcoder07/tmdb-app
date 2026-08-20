@@ -17,9 +17,14 @@ struct DetailsView: View {
                 Text(movie.originalTitle)
                 Text(movie.overview)
                 Text(movie.popularity, format: .number)
+            } else {
+                Text("No Data")
             }
         }
         .padding()
+        .task {
+            detailsViewModel.getDetails()
+        }
     }
 }
 
