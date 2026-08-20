@@ -9,23 +9,8 @@ import SwiftUI
 import Combine
 
 class DetailsViewModel: ObservableObject {
+
+    @Published var movie: Movie?
     
-    @Published var numberOne: String = ""
-    @Published var numberTwo: String = ""
-    @Published var result: Int = 0
     
-    func sum() {
-        let firstNumber = Int(numberOne) ?? 0
-        let secondNumber = Int(numberTwo) ?? 0
-        
-        result = firstNumber + secondNumber
-    }
-    
-    var resultIsValid: Bool {
-        result > 0
-    }
-    
-    var formattedResult: String {
-        "\(result)"
-    }
 }
