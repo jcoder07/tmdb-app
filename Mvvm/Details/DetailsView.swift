@@ -13,39 +13,30 @@ struct DetailsView: View {
     
     var body: some View {
         VStack {
-            TextField("Primer Numero", text: $detailsViewModel.numberOne)
-                .textFieldStyle(.roundedBorder)
-                .frame(height: 40)
-            
-            TextField("Segundo Numero", text: $detailsViewModel.numberTwo)
-                .textFieldStyle(.roundedBorder)
-                .frame(height: 40)
-            
-            Button("Sumar") {
-                detailsViewModel.sum()
+            if let movie = detailsViewModel.movie {
+                Text(movie.originalTitle)
+                Text(movie.overview)
+                Text(movie.popularity, format: .number)
             }
-            .frame(maxWidth: .infinity)
-            .buttonStyle(.borderedProminent)
-            
-            if detailsViewModel.resultIsValid {
-                Text("El resultado es: \(detailsViewModel.formattedResult)")
-                    .font(.title2)
-                    .bold()
-            }
-
         }
         .padding()
     }
 }
 
+class MockDetails {
+    
+     static func makeDetailsViewModel() -> DetailsViewModel {
+        let viewModel = DetailsViewModel()
+        viewModel.movie = .init(originalTitle: "Test", overview: "Test", popularity: 10)
+        return viewModel
+    }
+}
+
 
 #Preview("Details-View") {
+    
     NavigationStack {
-        let detailsViewModel = DetailsViewModel() // Here I create the object.
-        
-        DetailsView(
-            detailsViewModel: detailsViewModel // Here i pass the object as a parameter.
-        )
+        DetailsView(detailsViewModel: MockDetails.makeDetailsViewModel())
     }
 }
 
