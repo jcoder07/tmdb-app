@@ -9,11 +9,11 @@ import Foundation
 
 struct URLSessionHTTPClient: HTTPClientProtocol {
 
-    private let session: URLSession
+    private let session: URLSessionProtocol
     private let decoder: JSONDecoder
 
     init(
-        session: URLSession,
+        session: URLSessionProtocol,
         decoder: JSONDecoder
     ) {
         self.session = session
