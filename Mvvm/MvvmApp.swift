@@ -17,6 +17,11 @@ struct MvvmApp: App {
         return decoder
     }
     
+    var session: URLSessionProtocol {
+        let configuration = URLSessionConfiguration.default
+        let session = URLSession(configuration: configuration)
+        return session
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -24,10 +29,18 @@ struct MvvmApp: App {
                 
                 detailsViewModel: DetailsViewModel(
                     
-                    repository: RemoteMovieDetailRepository(httpClient: URLSessionHTTPClient(session: .shared, decoder: decoder))
+                    repository: RemoteMovieDetailRepository(
+                        httpClient: URLSessionHTTPClient(
+                            session: session,
+                            decoder: decoder
+                        )
+                    )
                 )
-                
             )
         }
     }
+}
+
+extension URLSession: URLSessionProtocol {
+    
 }
