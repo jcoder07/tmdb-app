@@ -13,15 +13,17 @@ class DetailsViewModel: ObservableObject {
     
     @Published var movie: Movie?
     
+    private let repository: MovieDetailRepository
+    
+    init(repository: MovieDetailRepository) {
+        self.repository = repository
+    }
+    
     public func getDetails() async {
-        let url = Constants.Urls.movieDetail(id: 18)
         
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let movieDTO = try decoder.decode(MovieDTO.self, from: data)
-            movie = Movie(movieDTO)
+            let movie = try await repository.getMovieDetails()
+            self.movie = movie
             
         } catch {
             print(error)
