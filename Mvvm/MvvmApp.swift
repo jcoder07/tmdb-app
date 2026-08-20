@@ -17,7 +17,7 @@ struct MvvmApp: App {
                 
                 detailsViewModel: DetailsViewModel(
                     
-                    repository: RemoteUserRepository()
+                    repository: RemoteUserRepository(httpClient: URLSessionHTTPClient())
                     
                 )
                 
