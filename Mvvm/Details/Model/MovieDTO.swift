@@ -1,15 +1,16 @@
 //
-//  MoviesDTO.swift
+//  MovieDTO.swift
 //  Mvvm
 //
-//  Created by Juan Fernandez on 18-08-26.
+//  Created by Juan Fernandez on 20-08-26.
 //
 
 import Foundation
 
-struct Movie: Decodable {
+struct MovieDTO: Decodable {
     let originalTitle: String
     let overview: String
     let popularity: Double
 }
+
 

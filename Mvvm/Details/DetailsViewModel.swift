@@ -20,7 +20,8 @@ class DetailsViewModel: ObservableObject {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            movie = try decoder.decode(Movie.self, from: data)
+            let movieDTO = try decoder.decode(MovieDTO.self, from: data)
+            movie = Movie(movieDTO)
             
         } catch {
             print(error)
