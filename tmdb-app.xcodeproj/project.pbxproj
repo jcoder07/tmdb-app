@@ -49,6 +49,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4798E4403037771B000ADC03 /* Exceptions for "Mvvm" folder in "Mvvm" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Details/Config.xcconfig,
+				Info.plist,
+			);
+			target = 47CEC31E3034D892007C19E4 /* Mvvm */;
+		};
 		4939C9272FEF1C74000B5CF1 /* Exceptions for "TMDBSwiftUI" folder in "TMDBSwiftUI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -83,6 +91,9 @@
 		};
 		47CEC3203034D892007C19E4 /* Mvvm */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4798E4403037771B000ADC03 /* Exceptions for "Mvvm" folder in "Mvvm" target */,
+			);
 			path = Mvvm;
 			sourceTree = "<group>";
 		};
@@ -610,6 +621,7 @@
 				DEVELOPMENT_TEAM = 86MCF46AK2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Mvvm/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -643,6 +655,7 @@
 				DEVELOPMENT_TEAM = 86MCF46AK2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Mvvm/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
