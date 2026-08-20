@@ -23,7 +23,7 @@ struct DetailsView: View {
         }
         .padding()
         .task {
-            detailsViewModel.getDetails()
+            await detailsViewModel.getDetails()
         }
     }
 }
