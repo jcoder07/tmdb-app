@@ -7,28 +7,20 @@
 
 import Foundation
 
-final class RemoteUserRepository: MovieDetailRepository {
+final class RemoteMovieDetailRepository: MovieDetailRepository {
     
-    private let httpClient: HttpClientProtocol
+    private let httpClient: HTTPClientProtocol
     
-    public init(httpClient: HttpClientProtocol) {
+    public init(httpClient: HTTPClientProtocol) {
         self.httpClient = httpClient
     }
 
-    func getMovieDetails() async throws -> Movie? {
+    func getMovieDetails() async throws -> Movie {
 
         let url = Constants.Urls.movieDetail(id: 18)
 
-        let data = try await httpClient.get(url: url)
+        let data = try await httpClient.get(url: url, as: MovieDTO.self)
         
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-        let dto = try decoder.decode(
-            MovieDTO.self,
-            from: data
-        )
-        
-        return Movie(dto)
+        return Movie(data)
     }
 }

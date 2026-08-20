@@ -11,7 +11,7 @@ class MockDetails {
     
     class MockMovieDetaolRepository: MovieDetailRepository {
         
-        func getMovieDetails() async throws -> Movie? {
+        func getMovieDetails() async throws -> Movie {
             
             let movie = Movie(originalTitle: "Test2", overview: "Test2", popularity: 20)
             
