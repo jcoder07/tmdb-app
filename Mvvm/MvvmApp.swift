@@ -13,7 +13,15 @@ struct MvvmApp: App {
     
     var body: some Scene {
         WindowGroup {
-            DetailsView(detailsViewModel: DetailsViewModel())
+            DetailsView(
+                
+                detailsViewModel: DetailsViewModel(
+                    
+                    repository: RemoteUserRepository()
+                    
+                )
+                
+            )
         }
     }
 }

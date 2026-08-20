@@ -28,7 +28,7 @@ struct DetailsView: View {
     }
 }
 
-class MockDetails {
+/*class MockDetails {
     
      static func makeDetailsViewModel() -> DetailsViewModel {
         let viewModel = DetailsViewModel()
@@ -45,4 +45,4 @@ class MockDetails {
     }
 }
 
-
+*/
