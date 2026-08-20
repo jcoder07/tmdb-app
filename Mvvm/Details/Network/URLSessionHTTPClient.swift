@@ -7,16 +7,35 @@
 
 import Foundation
 
-final class URLSessionHTTPClient: HttpClientProtocol {
+struct URLSessionHTTPClient: HTTPClientProtocol {
 
-    func get(url: URL) async throws -> Data {
-        let (data, response) = try await URLSession.shared.data(from: url)
+    private let session: URLSession
+    private let decoder: JSONDecoder
+
+    init(
+        session: URLSession,
+        decoder: JSONDecoder
+    ) {
+        self.session = session
+        self.decoder = decoder
+    }
+
+    func get<T: Decodable & Sendable>(
+        url: URL,
+        as type: T.Type
+    ) async throws -> T {
+
+        let (data, response) = try await session.data(from: url)
 
         guard let httpResponse = response as? HTTPURLResponse,
               200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
 
-        return data
+        return try decoder.decode(
+            T.self,
+            from: data
+        )
     }
 }
+

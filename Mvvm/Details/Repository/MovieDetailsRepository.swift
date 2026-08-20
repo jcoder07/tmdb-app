@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol MovieDetailRepository {
+protocol MovieDetailRepository: Sendable {
     
-    func getMovieDetails() async throws -> Movie?
+    func getMovieDetails() async throws -> Movie
     
 }

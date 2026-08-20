@@ -11,14 +11,20 @@ import SwiftData
 @main
 struct MvvmApp: App {
     
+    var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }
+    
+    
     var body: some Scene {
         WindowGroup {
             DetailsView(
                 
                 detailsViewModel: DetailsViewModel(
                     
-                    repository: RemoteUserRepository(httpClient: URLSessionHTTPClient())
-                    
+                    repository: RemoteMovieDetailRepository(httpClient: URLSessionHTTPClient(session: .shared, decoder: decoder))
                 )
                 
             )
