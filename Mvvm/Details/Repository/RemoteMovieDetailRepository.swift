@@ -8,17 +8,18 @@
 import Foundation
 
 final class RemoteUserRepository: MovieDetailRepository {
+    
+    private let httpClient: HttpClientProtocol
+    
+    public init(httpClient: HttpClientProtocol) {
+        self.httpClient = httpClient
+    }
 
     func getMovieDetails() async throws -> Movie? {
 
         let url = Constants.Urls.movieDetail(id: 18)
 
-        let (data, response) = try await URLSession.shared.data(from: url)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
+        let data = try await httpClient.get(url: url)
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
