@@ -13,40 +13,17 @@ class DetailsViewModel: ObservableObject {
     
     @Published var movie: Movie?
     
-    public func getDetails() {
+    public func getDetails() async {
         let url = Constants.Urls.movieDetail(id: 18)
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            
-            if let error {
-                print(error)
-                return
-            }
-            
-            guard let data else {
-                return
-            }
-            
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
+            movie = try decoder.decode(Movie.self, from: data)
             
-            do {
-                
-                let movie = try decoder.decode(
-                    Movie.self,
-                    from: data
-                )
-                
-                DispatchQueue.main.async {
-                    self?.movie = movie
-                }
-                
-            } catch {
-                print(error)
-            }
-            
-        }.resume()
-        
-        
+        } catch {
+            print(error)
+        }
     }
 }
