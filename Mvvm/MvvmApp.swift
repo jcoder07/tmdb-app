@@ -11,7 +11,7 @@ import SwiftData
 @main
 struct MvvmApp: App {
     
-    var decoder: JSONDecoder {
+    var decoder: JSONDecoderProtocol {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
@@ -42,5 +42,9 @@ struct MvvmApp: App {
 }
 
 extension URLSession: URLSessionProtocol {
+    
+}
+
+extension JSONDecoder: JSONDecoderProtocol {
     
 }
