@@ -11,7 +11,7 @@ import Combine
 @MainActor
 class DetailsViewModel: ObservableObject {
     
-    @Published private(set) var state: ViewState = .idle
+    @Published private(set) var state: ViewState<Movie> = .idle
     
     private let repository: MovieDetailRepository
     

@@ -7,10 +7,10 @@
 
 import Foundation
 
-enum ViewState {
+enum ViewState<T> {
     case idle
     case loading
-    case loaded(Movie)
+    case loaded(T)
     case error(String)
 }
 
