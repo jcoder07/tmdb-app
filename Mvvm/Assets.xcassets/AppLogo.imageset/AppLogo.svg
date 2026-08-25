@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="innerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="black" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="black" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="black" stroke-width="3"/>
+
+  <!-- 8 film-reel holes evenly spaced at radius 74 -->
+  <circle cx="100" cy="26"  r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="152" cy="48"  r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="174" cy="100" r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="152" cy="152" r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="100" cy="174" r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="48"  cy="152" r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="26"  cy="100" r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+  <circle cx="48"  cy="48"  r="9" fill="black" fill-opacity="0.18" stroke="black" stroke-width="2"/>
+
+  <!-- Inner ring with subtle glow fill -->
+  <circle cx="100" cy="100" r="55" fill="url(#innerGlow)" stroke="black" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- 5-pointed star: outer R=32, inner r=14, first tip pointing up -->
+  <polygon
+    points="100,68 108,89 130,90 113,104 119,126 100,114 81,126 87,104 70,90 92,89"
+    fill="black"/>
+</svg>

@@ -11,9 +11,7 @@ import Combine
 @MainActor
 class DetailsViewModel: ObservableObject {
     
-    @Published private(set) var isLoading: Bool = false
-    @Published private(set) var movie: Movie?
-    @Published private(set) var errorMessage: String?
+    @Published private(set) var state: ViewState = .idle
     
     private let repository: MovieDetailRepository
     
@@ -23,18 +21,16 @@ class DetailsViewModel: ObservableObject {
     
     public func getDetails() async {
         
-        isLoading = true
-        
-        defer {
-            isLoading = false
-        }
+        state = .loading
         
         do {
-            self.movie = try await repository.getMovieDetails()
+            let movie = try await repository.getMovieDetails()
+            state = .loaded(movie)
             
         } catch {
             debugPrint(error)
-            errorMessage = error.localizedDescription
+            let errorMessage = error.localizedDescription
+            state = .error(errorMessage)
         }
     }
 }
