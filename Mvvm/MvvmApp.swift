@@ -27,7 +27,7 @@ struct MvvmApp: App {
         WindowGroup {
             DetailsView(
                 
-                detailsViewModel: DetailsViewModel(
+                viewModel: DetailsViewModel(
                     
                     repository: RemoteMovieDetailRepository(
                         httpClient: URLSessionHTTPClient(

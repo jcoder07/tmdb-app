@@ -9,21 +9,23 @@ import SwiftUI
 
 struct DetailsView: View {
     
-    @StateObject var detailsViewModel: DetailsViewModel
+    @StateObject var viewModel: DetailsViewModel
     
     var body: some View {
         VStack {
-            if let movie = detailsViewModel.movie {
-                Text(movie.originalTitle)
-                Text(movie.overview)
-                Text(movie.popularity, format: .number)
+            if viewModel.isLoading {
+                ProgressView("Loading")
             } else {
-                Text("No Data")
+                if let movie = viewModel.movie {
+                    Text(movie.originalTitle)
+                    Text(movie.overview)
+                    Text(movie.popularity, format: .number)
+                }
             }
         }
         .padding()
         .task {
-            await detailsViewModel.getDetails()
+            await viewModel.getDetails()
         }
     }
 }
@@ -32,7 +34,7 @@ struct DetailsView: View {
 #Preview("Details-View") {
     
     NavigationStack {
-        DetailsView(detailsViewModel: MockDetails.makeDetailsViewModel())
+        DetailsView(viewModel: MockDetails.makeDetailsViewModel())
     }
 }
 
