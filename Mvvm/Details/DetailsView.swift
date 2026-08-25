@@ -13,19 +13,25 @@ struct DetailsView: View {
     
     var body: some View {
         VStack {
-            if viewModel.isLoading {
+            switch viewModel.state {
+            case .loading:
                 ProgressView("Loading")
-            } else if let errorMessage = viewModel.errorMessage {
+                
+            case .error(let errorMessage):
                 Text(errorMessage)
                 Button("Retry") {
                     Task {
                         await viewModel.getDetails()
                     }
                 }
-            } else if let movie = viewModel.movie {
+                
+            case .loaded(let movie):
                 Text(movie.originalTitle)
                 Text(movie.overview)
                 Text(movie.popularity, format: .number)
+                
+            case .idle:
+                EmptyView()
             }
         }
         .padding()
