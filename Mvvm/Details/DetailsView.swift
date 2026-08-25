@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailsView: View {
     
-    @StateObject var viewModel: DetailsViewModel
+    let viewModel: DetailsViewModel
     
     var body: some View {
         VStack {

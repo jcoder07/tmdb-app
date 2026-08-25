@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MovieDetailRepository: Sendable {
+public protocol MovieDetailRepository: Sendable {
     
     func getMovieDetails() async throws -> Movie
     

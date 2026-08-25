@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
-import Combine
+
 
 @MainActor
-class DetailsViewModel: ObservableObject {
+@Observable
+public final class DetailsViewModel {
     
-    @Published private(set) var state: ViewState<Movie> = .idle
+    private(set) var state: ViewState<Movie> = .idle
     
     private let repository: MovieDetailRepository
     
-    init(repository: MovieDetailRepository) {
+    public init(repository: MovieDetailRepository) {
         self.repository = repository
     }
     
