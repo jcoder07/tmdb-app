@@ -23,7 +23,6 @@ class MockDetails {
     static func makeDetailsViewModel() -> DetailsViewModel {
         let viewModel = DetailsViewModel(repository: MockMovieDetaolRepository())
         
-        viewModel.movie = .init(originalTitle: "Test", overview: "Test", popularity: 10)
         return viewModel
     }
     

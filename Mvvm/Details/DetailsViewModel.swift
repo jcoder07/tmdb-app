@@ -12,7 +12,8 @@ import Combine
 class DetailsViewModel: ObservableObject {
     
     @Published private(set) var isLoading: Bool = false
-    @Published var movie: Movie?
+    @Published private(set) var movie: Movie?
+    @Published private(set) var errorMessage: String?
     
     private let repository: MovieDetailRepository
     
@@ -32,7 +33,8 @@ class DetailsViewModel: ObservableObject {
             self.movie = try await repository.getMovieDetails()
             
         } catch {
-            print(error)
+            debugPrint(error)
+            errorMessage = error.localizedDescription
         }
     }
 }
