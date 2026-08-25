@@ -15,12 +15,17 @@ struct DetailsView: View {
         VStack {
             if viewModel.isLoading {
                 ProgressView("Loading")
-            } else {
-                if let movie = viewModel.movie {
-                    Text(movie.originalTitle)
-                    Text(movie.overview)
-                    Text(movie.popularity, format: .number)
+            } else if let errorMessage = viewModel.errorMessage {
+                Text(errorMessage)
+                Button("Retry") {
+                    Task {
+                        await viewModel.getDetails()
+                    }
                 }
+            } else if let movie = viewModel.movie {
+                Text(movie.originalTitle)
+                Text(movie.overview)
+                Text(movie.popularity, format: .number)
             }
         }
         .padding()
