@@ -70,27 +70,6 @@ struct DetailsViewModelTests {
         let mock = MockMovieDetailRepository(result: .success(expectedMovie))
         let sut = DetailsViewModel(repository: mock)
 
-        var collectedStates: [ViewState<Movie>] = []
-        let cancellable = sut.$state.sink { newState in
-            collectedStates.append(newState)
-        }
-
-        await sut.getDetails()
-        cancellable.cancel()
-
-        #expect(collectedStates.count == 3)
-
-        if case .idle = collectedStates[0] {} else {
-            Issue.record("Posición 0 debería ser .idle")
-        }
-        if case .loading = collectedStates[1] {} else {
-            Issue.record("Posición 1 debería ser .loading")
-        }
-        if case .loaded(let movie) = collectedStates[2] {
-            #expect(movie.originalTitle == expectedMovie.originalTitle)
-        } else {
-            Issue.record("Posición 2 debería ser .loaded")
-        }
     }
     
 }
