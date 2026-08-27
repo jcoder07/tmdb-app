@@ -9,7 +9,7 @@ import Foundation
 
 class MockDetails {
     
-    class MockMovieDetaolRepository: MovieDetailRepository {
+    class MockMovieDetaolRepository: MovieDetailRepositoryProtocol {
         
         func getMovieDetails() async throws -> Movie {
             

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class RemoteMovieDetailRepository: MovieDetailRepository {
+final class RemoteMovieDetailRepository: MovieDetailRepositoryProtocol {
     
     private let httpClient: HTTPClientProtocol
     
