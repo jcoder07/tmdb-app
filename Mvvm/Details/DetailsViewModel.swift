@@ -14,9 +14,9 @@ public final class DetailsViewModel {
     
     private(set) var state: ViewState<Movie> = .idle
     
-    private let repository: MovieDetailRepository
+    private let repository: MovieDetailRepositoryProtocol
     
-    public init(repository: MovieDetailRepository) {
+    public init(repository: MovieDetailRepositoryProtocol) {
         self.repository = repository
     }
     

@@ -101,7 +101,7 @@ struct DetailsViewModelTests {
 
 
 
-final class MockMovieDetailRepository: MovieDetailRepository {
+final class MockMovieDetailRepository: MovieDetailRepositoryProtocol {
     enum Result {
         case success(Movie)
         case failure(Error)
