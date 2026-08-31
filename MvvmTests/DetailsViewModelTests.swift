@@ -68,7 +68,7 @@ struct DetailsViewModelTests {
     func getDetailsPublishesLoadingBeforeLoaded() async {
         let expectedMovie = Movie(originalTitle: "Dune", overview: "...", popularity: 80.0)
         let mock = MockMovieDetailRepository(result: .success(expectedMovie))
-        let sut = DetailsViewModel(repository: mock)
+        _ = DetailsViewModel(repository: mock)
 
     }
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Movie: Identifiable {
+public struct Movie: Identifiable, Sendable {
     public let id: UUID = UUID()
     let originalTitle: String
     let overview: String

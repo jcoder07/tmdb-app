@@ -5,11 +5,12 @@
 //  Created by Juan Fernandez on 20-08-26.
 //
 
+#if DEBUG
 import Foundation
 
-class MockDetails {
+struct MockDetails {
     
-    class MockMovieDetaolRepository: MovieDetailRepositoryProtocol {
+   final class MockMovieDetaolRepository: MovieDetailRepositoryProtocol {
         
         func getMovieDetails() async throws -> Movie {
             
@@ -20,10 +21,11 @@ class MockDetails {
 
     }
     
-    static func makeDetailsViewModel() -> DetailsViewModel {
+    @MainActor static func makeDetailsViewModel() -> DetailsViewModel {
         let viewModel = DetailsViewModel(repository: MockMovieDetaolRepository())
         
         return viewModel
     }
     
 }
+#endif
