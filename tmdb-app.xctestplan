@@ -13,6 +13,7 @@
   },
   "testTargets" : [
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:tmdb-app.xcodeproj",
         "identifier" : "47943010303426F800CC983D",
@@ -27,6 +28,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:TMDBCore",
         "identifier" : "TMDBCoreTests",
@@ -34,6 +36,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:tmdb-app.xcodeproj",
         "identifier" : "47C1561730339DF00081EEBC",

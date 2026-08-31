@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol HTTPClientProtocol {
+protocol HTTPClientProtocol: Sendable {
     func get<T: Decodable>(
         url: URL,
         as type: T.Type

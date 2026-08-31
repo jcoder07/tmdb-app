@@ -20,7 +20,7 @@ struct URLSessionHTTPClient: HTTPClientProtocol {
         self.decoder = decoder
     }
 
-    func get<T: Decodable & Sendable>(
+    func get<T: Decodable>(
         url: URL,
         as type: T.Type
     ) async throws -> T {
