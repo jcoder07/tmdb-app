@@ -28,7 +28,7 @@ final class ProfileViewController: UIViewController {
 
     private let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = .systemFont(ofSize: 30, weight: .heavy)
         label.textColor = .white
         return label
     }()
