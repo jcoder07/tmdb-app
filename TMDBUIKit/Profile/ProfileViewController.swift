@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
         imageView.backgroundColor = UIColor(red: 0.024, green: 0.408, blue: 0.882, alpha: 1)
         imageView.layer.cornerRadius = 40
         imageView.image = UIImage(systemName: "person.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = .gray
         return imageView
     }()
 
